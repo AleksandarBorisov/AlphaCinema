@@ -7,9 +7,6 @@
 
   <ItemGroup>
     <Folder Include="Core\UserInterface\" />
-    <Folder Include="Core\Commands\" />
-    <Folder Include="Core\Contracts\" />
-    <Folder Include="Core\Utilities\" />
   </ItemGroup>
 
   <ItemGroup>
