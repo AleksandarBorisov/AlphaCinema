@@ -38,19 +38,27 @@ namespace AlphaCinemaData.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //MoviesGenres
-            //modelBuilder
-            //    .Entity<MovieGenre>()
-            //    .HasKey(mg => new
-            //    {
-            //        mg.MovieId,
-            //        mg.GenreId
-            //    });
+            modelBuilder
+                .Entity<MovieGenre>()
+                .HasKey(movieGenres => new
+                {
+                    movieGenres.MovieId,
+                    movieGenres.GenreId
+                });
+
+            modelBuilder
+               .Entity<WatchedMovie>()
+               .HasKey(watchedMovie => new
+               {
+                   watchedMovie.ProjectionId,
+                   watchedMovie.UserId
+               });
 
             //Projections
             //modelBuilder
             //    .Entity<Projection>()
             //    .HasKey(pr => pr.Id);
-            
+
             base.OnModelCreating(modelBuilder);
         }
 
