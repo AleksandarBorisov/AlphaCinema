@@ -9,11 +9,13 @@ namespace AlphaCinema.Core.DisplayMenus.Abstract
 	public abstract class DisplayBaseCommand : ICommand
 	{
 		protected readonly ICommandProcessor commandProcessor;
-		protected readonly IItemSelector selector;
+        protected readonly ICityServices cityServices;
+        protected readonly IItemSelector selector;
 
-		public DisplayBaseCommand(ICommandProcessor commandProcessor, IItemSelector selector)
+		public DisplayBaseCommand(ICommandProcessor commandProcessor, IItemSelector selector, ICityServices cityServices)
 		{
 			this.commandProcessor = commandProcessor;
+            this.cityServices = cityServices;
 			this.selector = selector;
 		}
 

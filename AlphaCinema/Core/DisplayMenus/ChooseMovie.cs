@@ -1,5 +1,6 @@
 ﻿using AlphaCinema.Core.Contracts;
 using AlphaCinema.Core.DisplayMenus.Abstract;
+using AlphaCinemaServices.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace AlphaCinema.Core.DisplayMenus
 {
     public class ChooseMovie : DisplayBaseCommand
     {
-        public ChooseMovie(ICommandProcessor commandProcessor, IItemSelector selector)
-			: base(commandProcessor, selector)
+        public ChooseMovie(ICommandProcessor commandProcessor, IItemSelector selector, ICityServices cityServices)
+			: base(commandProcessor, selector, cityServices)
         {
 			// Add ChooseMovie service dependency
         }
@@ -27,12 +28,17 @@ namespace AlphaCinema.Core.DisplayMenus
             List<string> displayItems = new List<string>() { "ChooseMovie"};
             displayItems.AddRange(movies);
             displayItems.Add("Back");
+            displayItems.Add("Home");
             displayItems.Add(offSetFromTop);
             displayItems.Add(startingRow);
             string result = selector.DisplayItems(displayItems);
-            if (displayItems.IndexOf(result) == displayItems.Count - 3)
+            if (result == "Back")
             {
                 commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
+            }
+            else if (result == "Home")
+            {
+                commandProcessor.ExecuteCommand(parameters.Skip(4).ToList());
             }
             else
             {

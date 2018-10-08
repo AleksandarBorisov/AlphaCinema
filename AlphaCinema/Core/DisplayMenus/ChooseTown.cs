@@ -2,19 +2,15 @@
 using System.Linq;
 using AlphaCinema.Core.Contracts;
 using AlphaCinema.Core.DisplayMenus.Abstract;
-using AlphaCinemaData.Context;
 using AlphaCinemaServices.Contracts;
 
 namespace AlphaCinema.Core.DisplayMenus
 {
     class ChooseTown : DisplayBaseCommand
     {
-		private readonly ICityServices cityServices;
-
 		public ChooseTown(ICommandProcessor commandProcessor, IItemSelector selector, ICityServices cityServices)
-			: base(commandProcessor, selector)
+			: base(commandProcessor, selector, cityServices)
         {
-			this.cityServices = cityServices;
 		}
 
 		public override void Execute(List<string> parameters)
@@ -28,13 +24,18 @@ namespace AlphaCinema.Core.DisplayMenus
             List<string> displayItems = new List<string>() { "ChooseTown"};
             displayItems.AddRange(towns);
             displayItems.Add("Back");
+            displayItems.Add("Home");
             displayItems.Add(offSetFromTop);
             displayItems.Add(startingRow);
             string result = selector.DisplayItems(displayItems);
-            if (displayItems.IndexOf(result) == displayItems.Count - 3)
+            if (result == "Back")
             {
                 commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
             }//Изтриваме командата ChoooseMovie и извикваме отново предното menu
+            else if (result == "Home")
+            {
+                commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
+            }
             else
             {
                 parameters.Insert(0, guids[towns.IndexOf(result)].ToString());
