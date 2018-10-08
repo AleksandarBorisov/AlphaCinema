@@ -1,0 +1,20 @@
+[
+    {
+        "Name": "Marvels Avenger's",
+        "Description": "It's a movie about superheroes",
+        "ReleaseYear": 2018,
+        "Duration": 200
+    },
+    {
+        "Name": "Two girls One cup",
+        "Description": "It's about two girls which drink from the same cup",
+        "ReleaseYear": 2005,
+        "Duration": 150
+    },
+    {
+        "Name": "Titanic",
+        "Description": "It's a movie about sinking ship",
+        "ReleaseYear": 2000,
+        "Duration": 250
+    }
+]
