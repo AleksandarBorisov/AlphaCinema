@@ -24,11 +24,11 @@ namespace AlphaCinemaData.Context
             {
                 optionsBuilder
                     //Angel
-                    .UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
+                    //.UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
                     //Krasi
                     //.UseSqlServer("Server =.\\-------; Database = AlphaCinema; Trusted_Connection = True;");
                     //Sasho
-                    //.UseSqlServer("Server =.\\-------; Database = AlphaCinema; Trusted_Connection = True;");
+                    .UseSqlServer("Server =FURY; Database = AlphaCinema; Trusted_Connection = True;");
 
             }
 
