@@ -25,9 +25,9 @@ namespace AlphaCinemaData.Context
             {
                 optionsBuilder
                     //Angel
-                    //.UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
+                    .UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
                     //Krasi
-                    .UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
+                    //.UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
                     //Sasho
                     //.UseSqlServer("Server =.\\-------; Database = AlphaCinema; Trusted_Connection = True;");
 
@@ -101,6 +101,47 @@ namespace AlphaCinemaData.Context
 					})
 					.IsUnique(true);
 				});
+
+
+            // Users
+            modelBuilder
+                .Entity<User>(user =>
+                {
+                    user.HasKey(us => us.Id);
+
+                    user.Property(us => us.Name)
+                    .HasMaxLength(50);
+
+                    user.Property(us => us.Age);
+
+                });
+
+            // OpenHours
+            modelBuilder
+                .Entity<OpenHour>(openHour =>
+                {
+                    openHour.HasKey(opHour => opHour.Id);
+
+                    openHour.Property(opHour => opHour.StartHour);
+
+                });
+
+            // Movies
+            modelBuilder
+                .Entity<Movie>(movie =>
+                {
+                    movie.HasKey(mov => mov.Id);
+
+                    movie.Property(mov => mov.Name)
+                    .HasMaxLength(50);
+
+                    movie.Property(mov => mov.Description)
+                    .HasMaxLength(60);
+
+                    movie.Property(mov => mov.ReleaseYear);
+
+                    movie.Property(mov => mov.Duration);
+                });
 
             base.OnModelCreating(modelBuilder);
         }
