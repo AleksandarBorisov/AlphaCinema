@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using System.Reflection;
+using System.Linq;
 
 namespace AlphaCinemaData.Context
 {
@@ -16,65 +18,65 @@ namespace AlphaCinemaData.Context
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Projection> Projections { get; set; }
         public DbSet<User> Users { get; set; }
-		public DbSet<OpenHour> OpenHours { get; set; }
-		public DbSet<WatchedMovie> WatchedMovies { get; set; }
+        public DbSet<OpenHour> OpenHours { get; set; }
+        public DbSet<WatchedMovie> WatchedMovies { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder
-                    //Angel
-                    //.UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
-                    //Krasi
-                    //.UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
-                    //Sasho
-                    .UseSqlServer("Server =FURY; Database = AlphaCinema; Trusted_Connection = True;");
+            //if (!optionsBuilder.IsConfigured)
+            //{
+            //    optionsBuilder
+            //        //Angel
+            //        //.UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
+            //        //Krasi
+            //        //.UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
+            //        //Sasho
+            //        .UseSqlServer("Server =FURY; Database = AlphaCinema; Trusted_Connection = True;");
 
-            }
+            //}
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-			// Cities
-			modelBuilder
-				.Entity<City>(city =>
-				{
-					city.HasKey(g => g.Id);
+            // Cities
+            modelBuilder
+                .Entity<City>(city =>
+                {
+                    city.HasKey(g => g.Id);
 
-					city.Property(c => c.Id)
-					.ValueGeneratedOnAdd();
+                    city.Property(c => c.Id)
+                    .ValueGeneratedOnAdd();
 
-					city.Property(c => c.Name)
-					.IsRequired()
-					.HasMaxLength(50);
-				});
+                    city.Property(c => c.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+                });
 
-			// Genres
-			modelBuilder
-				.Entity<Genre>(genre =>
-				{
-					genre.HasKey(g => g.Id);
+            // Genres
+            modelBuilder
+                .Entity<Genre>(genre =>
+                {
+                    genre.HasKey(g => g.Id);
 
-					genre.Property(g => g.Id)
-					.ValueGeneratedOnAdd();
+                    genre.Property(g => g.Id)
+                    .ValueGeneratedOnAdd();
 
-					genre.Property(g => g.Name)
-					.IsRequired()
-					.HasMaxLength(50);
+                    genre.Property(g => g.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
-				});
+                });
 
-			// MoviesGenres
-			modelBuilder
+            // MoviesGenres
+            modelBuilder
                 .Entity<MovieGenre>()
-				.HasKey(movieGenres => new
-				{
-					movieGenres.MovieId,
-					movieGenres.GenreId
-				});
+                .HasKey(movieGenres => new
+                {
+                    movieGenres.MovieId,
+                    movieGenres.GenreId
+                });
 
-			// WatchedMovies
+            // WatchedMovies
             modelBuilder
                .Entity<WatchedMovie>()
                .HasKey(watchedMovie => new
@@ -83,22 +85,24 @@ namespace AlphaCinemaData.Context
                    watchedMovie.UserId
                });
 
-			// Projections
-			modelBuilder
-				.Entity<Projection>(projection =>
-				{
-					projection.HasKey(proj => proj.Id);
+            // Projections
+            modelBuilder
+                .Entity<Projection>(projection =>
+                {
+                    projection.HasKey(proj => proj.Id);
 
-					projection.Property(proj => proj.Id)
-					.ValueGeneratedOnAdd();
+                    projection.Property(proj => proj.Id)
+                    .ValueGeneratedOnAdd();
 
-					projection
-					.HasIndex(p => new
-					{
-						p.MovieId, p.CityId, p.OpenHourId
-					})
-					.IsUnique(true);
-				});
+                    projection
+                    .HasIndex(p => new
+                    {
+                        p.MovieId,
+                        p.CityId,
+                        p.OpenHourId
+                    })
+                    .IsUnique(true);
+                });
 
 
             // Users
@@ -120,7 +124,7 @@ namespace AlphaCinemaData.Context
                 {
                     openHour.HasKey(opHour => opHour.Id);
                     openHour.Property(opHour => opHour.StartHour)
-					.HasMaxLength(6);
+                    .HasMaxLength(6);
 
                 });
 
@@ -144,6 +148,17 @@ namespace AlphaCinemaData.Context
             base.OnModelCreating(modelBuilder);
         }
 
-        
+        public void Clear()
+        {
+            Users.RemoveRange(Users);
+            Cities.RemoveRange(Cities);
+            WatchedMovies.RemoveRange(WatchedMovies);
+            Projections.RemoveRange(Projections);
+            OpenHours.RemoveRange(OpenHours);
+            Movies.RemoveRange(Movies);
+            MoviesGenres.RemoveRange(MoviesGenres);
+            Genres.RemoveRange(Genres);
+            SaveChanges();
+        }
     }
 }

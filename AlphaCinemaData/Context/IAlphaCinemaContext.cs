@@ -15,5 +15,6 @@ namespace AlphaCinemaData.Context
         DbSet<WatchedMovie> WatchedMovies { get; set; }
 
         int SaveChanges();
+        void Clear();
     }
 }
