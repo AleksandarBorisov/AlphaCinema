@@ -48,8 +48,8 @@ namespace AlphaCinema.Config
             builder.RegisterType<CommandFactory>().As<ICommandFactory>().SingleInstance();
             builder.RegisterType<ItemSelector>().As<IItemSelector>().SingleInstance();
 			builder.RegisterType<AlphaCinemaContext>().As<IAlphaCinemaContext>();
-			builder.RegisterType<Data>().As<IData>().SingleInstance();
-			builder.RegisterType<CityServices>().As<ICityServices>().SingleInstance();
+			builder.RegisterType<Data>().As<IData>();
+			builder.RegisterType<CityServices>().As<ICityServices>();
             // Пичове тука ще регистрираме нещата от Core
         }
     }

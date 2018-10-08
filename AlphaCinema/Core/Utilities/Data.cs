@@ -28,7 +28,23 @@ namespace AlphaCinema.Core.Utilities
             alphaCinemaContext.Users.AddRange(users);
             alphaCinemaContext.SaveChanges();
 
+            //Fill Movies Table
+            var moviesAsString = File.ReadAllText("../../../../AlphaCinemaData/Files/Movies.json");
+            var movies = JsonConvert.DeserializeObject<List<Movie>>(moviesAsString);
+            alphaCinemaContext.Movies.AddRange(movies);
+            alphaCinemaContext.SaveChanges();
 
+            //Fill Genres Table
+            var genresAsString = File.ReadAllText("../../../../AlphaCinemaData/Files/Genres.json");
+            var genres = JsonConvert.DeserializeObject<List<Genre>>(genresAsString);
+            alphaCinemaContext.Genres.AddRange(genres);
+            alphaCinemaContext.SaveChanges();
+
+            //Fill OpenHours Table
+            var openHoursAsString = File.ReadAllText("../../../../AlphaCinemaData/Files/OpenHours.json");
+            var openHours = JsonConvert.DeserializeObject<List<OpenHour>>(openHoursAsString);
+            alphaCinemaContext.OpenHours.AddRange(openHours);
+            alphaCinemaContext.SaveChanges();
 
             //Random rnd = new Random();
             //foreach (var user in users)
