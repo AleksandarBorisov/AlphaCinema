@@ -31,7 +31,7 @@ namespace AlphaCinemaData.Context
                     //Krasi
                     //.UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
                     //Sasho
-                    //.UseSqlServer("Server =FURY; Database = AlphaCinema; Trusted_Connection = True;");
+                    .UseSqlServer("Server =FURY; Database = AlphaCinema; Trusted_Connection = True;");
             }
         }
 
