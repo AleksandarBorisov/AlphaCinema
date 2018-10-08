@@ -7,10 +7,10 @@ namespace AlphaCinemaData.Models.Associative
 {
     public class WatchedMovie
     {
-        [ForeignKey("User")]
+        //[ForeignKey("User")]
         public Guid UserId { get; set; }
 
-        [ForeignKey("Projection")]
+       // [ForeignKey("Projection")]
         public Guid ProjectionId { get; set; }
 
         public User User { get; set; }

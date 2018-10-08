@@ -8,16 +8,16 @@ namespace AlphaCinemaData.Models.Associative
 {
     public class Projection
     {
-        [Key]
+      //  [Key]
         public Guid Id { get; set; }
 
-        [ForeignKey("Movie")]
+      //  [ForeignKey("Movie")]
         public Guid MovieId { get; set; }
 
-        [ForeignKey("City")]
+       // [ForeignKey("City")]
         public Guid CityId { get; set; }
 
-        [ForeignKey("OpenHour")]
+      //  [ForeignKey("OpenHour")]
         public Guid OpenHourId { get; set; }
 
         public DateTime Date { get; set; }

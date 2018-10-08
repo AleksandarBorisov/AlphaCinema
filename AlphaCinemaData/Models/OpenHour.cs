@@ -8,8 +8,8 @@ namespace AlphaCinemaData.Models
 {
     public class OpenHour
     {
-        [Key]
-        public Guid Id { get; set; }
+		// [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public Guid Id { get; set; }
         public string StartHour { get; set; }
         public ICollection<Projection> Projections { get; set; }
 

@@ -9,7 +9,6 @@ namespace AlphaCinemaData.Context
         DbSet<City> Cities { get; set; }
         DbSet<Genre> Genres { get; set; }
         DbSet<MovieGenre> MoviesGenres { get; set; }
-        DbSet<Projection> MoviesProjections { get; set; }
         DbSet<Movie> Movies { get; set; }
         DbSet<Projection> Projections { get; set; }
         DbSet<User> Users { get; set; }

@@ -3,6 +3,7 @@ using AlphaCinemaData.Models.Associative;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace AlphaCinemaData.Context
@@ -12,11 +13,11 @@ namespace AlphaCinemaData.Context
         public DbSet<City> Cities { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<MovieGenre> MoviesGenres { get; set; }
-        public DbSet<Projection> MoviesProjections { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Projection> Projections { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<WatchedMovie> WatchedMovies { get; set; }
+		public DbSet<OpenHour> OpenHours { get; set; }
+		public DbSet<WatchedMovie> WatchedMovies { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,9 +25,9 @@ namespace AlphaCinemaData.Context
             {
                 optionsBuilder
                     //Angel
-                    .UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
+                    //.UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
                     //Krasi
-                    //.UseSqlServer("Server =.\\-------; Database = AlphaCinema; Trusted_Connection = True;");
+                    .UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
                     //Sasho
                     //.UseSqlServer("Server =.\\-------; Database = AlphaCinema; Trusted_Connection = True;");
 
@@ -37,15 +38,45 @@ namespace AlphaCinemaData.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //MoviesGenres
-            modelBuilder
-                .Entity<MovieGenre>()
-                .HasKey(movieGenres => new
-                {
-                    movieGenres.MovieId,
-                    movieGenres.GenreId
-                });
+			// Cities
+			modelBuilder
+				.Entity<City>(city =>
+				{
+					city.HasKey(g => g.Id);
 
+					city.Property(c => c.Id)
+					.ValueGeneratedOnAdd();
+
+					city.Property(c => c.Name)
+					.IsRequired()
+					.HasMaxLength(50);
+				});
+
+			// Genres
+			modelBuilder
+				.Entity<Genre>(genre =>
+				{
+					genre.HasKey(g => g.Id);
+
+					genre.Property(g => g.Id)
+					.ValueGeneratedOnAdd();
+
+					genre.Property(g => g.Name)
+					.IsRequired()
+					.HasMaxLength(50);
+
+				});
+
+			// MoviesGenres
+			modelBuilder
+                .Entity<MovieGenre>()
+				.HasKey(movieGenres => new
+				{
+					movieGenres.MovieId,
+					movieGenres.GenreId
+				});
+
+			// WatchedMovies
             modelBuilder
                .Entity<WatchedMovie>()
                .HasKey(watchedMovie => new
@@ -54,10 +85,22 @@ namespace AlphaCinemaData.Context
                    watchedMovie.UserId
                });
 
-            //Projections
-            //modelBuilder
-            //    .Entity<Projection>()
-            //    .HasKey(pr => pr.Id);
+			// Projections
+			modelBuilder
+				.Entity<Projection>(projection =>
+				{
+					projection.HasKey(proj => proj.Id);
+
+					projection.Property(proj => proj.Id)
+					.ValueGeneratedOnAdd();
+
+					projection
+					.HasIndex(p => new
+					{
+						p.MovieId, p.CityId, p.OpenHourId
+					})
+					.IsUnique(true);
+				});
 
             base.OnModelCreating(modelBuilder);
         }

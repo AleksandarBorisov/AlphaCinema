@@ -8,8 +8,8 @@ namespace AlphaCinemaData.Models
 {
     public class Movie
     {
-        [Key]
-        public Guid Id { get; set; }
+		// [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int ReleaseYear { get; set; }
