@@ -1,4 +1,5 @@
 ﻿using AlphaCinema.Core.Contracts;
+using AlphaCinema.Core.DisplayMenus.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,19 +7,16 @@ using System.Text;
 
 namespace AlphaCinema.Core.DisplayMenus
 {
-    public class ChooseHour : ICommand
-    {
-        private ICommandProcessor commandProcessor;
-        private IItemSelector selector;
-
+    public class ChooseHour : DisplayBaseCommand
+	{ 
         public ChooseHour(ICommandProcessor commandProcessor, IItemSelector selector)
-        {
-            this.commandProcessor = commandProcessor;
-            this.selector = selector;
+			: base(commandProcessor, selector)
+		{
+			// Add choose hour service dependency
         }
 
-        public void Execute(List<string> parameters)
-        {
+		public override void Execute(List<string> parameters)
+		{
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
             string townGuid = parameters[3];

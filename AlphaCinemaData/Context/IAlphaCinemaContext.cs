@@ -13,7 +13,8 @@ namespace AlphaCinemaData.Context
         DbSet<Projection> Projections { get; set; }
         DbSet<User> Users { get; set; }
         DbSet<WatchedMovie> WatchedMovies { get; set; }
-
+        DbSet<OpenHour> OpenHours { get; set; }
+        
         int SaveChanges();
         void Clear();
     }
