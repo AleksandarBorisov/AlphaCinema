@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Core\UserInterface\" />
+    <Compile Remove="Core\UserInterface\**" />
+    <EmbeddedResource Remove="Core\UserInterface\**" />
+    <None Remove="Core\UserInterface\**" />
   </ItemGroup>
 
   <ItemGroup>

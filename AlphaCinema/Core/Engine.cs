@@ -10,13 +10,11 @@ namespace AlphaCinema.Core
     class Engine : IEngine
     {
         private ICommandProcessor commandProcessor;
-		private IAlphaCinemaContext context;
 		private List<string> menus = new List<string>() { "MainMenu", "BuyTickets", "Exit", "7", "2" };//, "AddMovie", "AddProjection"
         //Първото е името на командата, второто са стойностите, а това накрая са просто координати за принтиране
-        public Engine(ICommandProcessor commandProcessor, IAlphaCinemaContext context)//, IAlphaConsole alphaConsole)
+        public Engine(ICommandProcessor commandProcessor)//, IAlphaConsole alphaConsole)
         {
             this.commandProcessor = commandProcessor;
-			this.context = context;
         }
 
         public void Run()

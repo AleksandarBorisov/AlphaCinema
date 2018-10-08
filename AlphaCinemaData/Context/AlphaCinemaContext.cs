@@ -25,15 +25,13 @@ namespace AlphaCinemaData.Context
             {
                 optionsBuilder
                     //Angel
-                    .UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
+                   // .UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
                     //Krasi
-                    //.UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
+                    .UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
                     //Sasho
                     //.UseSqlServer("Server =.\\-------; Database = AlphaCinema; Trusted_Connection = True;");
 
             }
-
-            //base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -121,8 +119,8 @@ namespace AlphaCinemaData.Context
                 .Entity<OpenHour>(openHour =>
                 {
                     openHour.HasKey(opHour => opHour.Id);
-
-                    openHour.Property(opHour => opHour.StartHour);
+                    openHour.Property(opHour => opHour.StartHour)
+					.HasMaxLength(6);
 
                 });
 
