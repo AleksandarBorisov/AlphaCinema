@@ -29,7 +29,7 @@ namespace AlphaCinemaData.Context
                     //Angel
                     //.UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
                     //Krasi
-                    //.UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
+                    .UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
                     //Sasho
                     //.UseSqlServer("Server =FURY; Database = AlphaCinema; Trusted_Connection = True;");
             }
