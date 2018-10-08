@@ -30,12 +30,17 @@ namespace AlphaCinema.Core.DisplayMenus
             List<string> displayItems = new List<string>() { "ChooseMovie"};
             displayItems.AddRange(movieNames);
             displayItems.Add("Back");
+            displayItems.Add("Home");
             displayItems.Add(offSetFromTop);
             displayItems.Add(startingRow);
             string result = selector.DisplayItems(displayItems);
-            if (displayItems.IndexOf(result) == displayItems.Count - 3)
+            if (result == "Back")
             {
                 commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
+            }
+            else if (result == "Home")
+            {
+                commandProcessor.ExecuteCommand(parameters.Skip(4).ToList());
             }
             else
             {

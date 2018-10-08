@@ -2,11 +2,6 @@
 using AlphaCinemaData.Models.Associative;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-using System.Reflection;
-using System.Linq;
 
 namespace AlphaCinemaData.Context
 {
@@ -23,16 +18,20 @@ namespace AlphaCinemaData.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+			string machineName = Environment.MachineName;
+			if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                    //Angel
-                    //.UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
-                    //Krasi
-                    .UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
-                    //Sasho
-                    //.UseSqlServer("Server =FURY; Database = AlphaCinema; Trusted_Connection = True;");
-            }
+				// UNIFIED
+				.UseSqlServer($"Server ={machineName}; Database = AlphaCinema; Trusted_Connection = True;");
+
+				//Angel
+				//.UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
+				//Krasi
+				//.UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
+				//Sasho
+				//.UseSqlServer("Server =FURY; Database = AlphaCinema; Trusted_Connection = True;");
+			}
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

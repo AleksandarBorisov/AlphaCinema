@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AlphaCinema.Core.Contracts;
 using AlphaCinema.Core.DisplayMenus.Abstract;
+using AlphaCinemaServices.Contracts;
 
 namespace AlphaCinema.Core.DisplayMenus
 {
@@ -19,9 +20,9 @@ namespace AlphaCinema.Core.DisplayMenus
         {
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
-            var displayItems = new List<string>() { parameters[0], "ChooseTown", "Back", offSetFromTop, startingRow };
+            var displayItems = new List<string>() { parameters[0], "ChooseTown", "Back", "Home", offSetFromTop, startingRow };
             string result = selector.DisplayItems(displayItems);
-            if (displayItems.IndexOf(result) == displayItems.Count - 3)
+            if (result == "Back" || result == "Home")
             {
                 commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
             }

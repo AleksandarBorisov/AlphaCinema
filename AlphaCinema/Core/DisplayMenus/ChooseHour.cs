@@ -1,9 +1,8 @@
 ﻿using AlphaCinema.Core.Contracts;
 using AlphaCinema.Core.DisplayMenus.Abstract;
-using System;
+using AlphaCinemaServices.Contracts;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AlphaCinema.Core.DisplayMenus
 {
@@ -28,18 +27,25 @@ namespace AlphaCinema.Core.DisplayMenus
             List<string> displayItems = new List<string>() { "ChooseHour"};
             displayItems.AddRange(hours);
             displayItems.Add("Back");
+            displayItems.Add("Home");
             displayItems.Add(offSetFromTop);
             displayItems.Add(startingRow);
             string result = selector.DisplayItems(displayItems);
-            while (result != "Back")
+            while (result != "Back" && result != "Home")
             {
                 //Database.Add(guids[hours.IndexOf(result)].ToString(), townGuid, movieGuid)
                 //Тук ще направим заявка към базата и ще добавим билета
-                displayItems.Insert(displayItems.Count - 2,$"Your Reservation for {result} has been Added");
+                selector.PrintAtPosition($"Your Reservation for {result} has been Added", (displayItems.Count - 2) * int.Parse(startingRow) + int.Parse(offSetFromTop), false);
                 result = selector.DisplayItems(displayItems);
-                displayItems.RemoveAt(displayItems.Count - 3);
             }
-            commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
+            if (result == "Back")
+            {
+                commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
+            }
+            else if (result == "Home")
+            {
+                commandProcessor.ExecuteCommand(parameters.Skip(6).ToList());
+            }
         }
     }
 }

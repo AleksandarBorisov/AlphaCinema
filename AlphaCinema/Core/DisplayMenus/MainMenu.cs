@@ -1,5 +1,6 @@
 ﻿using AlphaCinema.Core.Contracts;
 using AlphaCinema.Core.DisplayMenus.Abstract;
+using AlphaCinemaServices.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace AlphaCinema.Core.DisplayMenus
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
             string result = selector.DisplayItems(parameters);
-            if (parameters.IndexOf(result) == parameters.Count - 3)
+            if (result == "Exit")
             {//Ако сме избрали Exit, просто с индекси е по-безопасно ако сменим името на стринга
                 Environment.Exit(0);
             }
