@@ -21,17 +21,16 @@ namespace AlphaCinemaData.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder
-                    //Angel
-                   // .UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
-                    //Krasi
-                    .UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
-                    //Sasho
-                    //.UseSqlServer("Server =.\\-------; Database = AlphaCinema; Trusted_Connection = True;");
-
-            }
+            //if (!optionsBuilder.IsConfigured)
+            //{
+            //    optionsBuilder
+            //        //Angel
+            //       // .UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
+            //        //Krasi
+            //        .UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
+            //        //Sasho
+            //        //.UseSqlServer("Server =.\\-------; Database = AlphaCinema; Trusted_Connection = True;");
+            //}
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

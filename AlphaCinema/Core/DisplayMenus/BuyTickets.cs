@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AlphaCinema.Core.Contracts;
+using AlphaCinema.Core.DisplayMenus.Abstract;
 
 namespace AlphaCinema.Core.DisplayMenus
 {
-    public class BuyTickets : ICommand
-    {
-        private ICommandProcessor commandProcessor;
-        private IItemSelector selector;
-
+    public class BuyTickets : DisplayBaseCommand
+	{
         public BuyTickets(ICommandProcessor commandProcessor, IItemSelector selector)
+			: base (commandProcessor, selector)
         {
-            this.commandProcessor = commandProcessor;
-            this.selector = selector;
+			// Add Buy tickets services in depedency (if needed)
         }
 
-        public void Execute(List<string> parameters)
+        public override void Execute(List<string> parameters)
         {
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];

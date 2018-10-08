@@ -8,6 +8,8 @@ using AlphaCinema.Core.Commands.Factory;
 using AlphaCinema.Core.Contracts;
 using AlphaCinema.Core.Utilities;
 using AlphaCinemaData.Context;
+using AlphaCinemaServices;
+using AlphaCinemaServices.Contracts;
 using Autofac;
 
 namespace AlphaCinema.Config
@@ -46,6 +48,7 @@ namespace AlphaCinema.Config
             builder.RegisterType<CommandFactory>().As<ICommandFactory>().SingleInstance();
             builder.RegisterType<ItemSelector>().As<IItemSelector>().SingleInstance();
 			builder.RegisterType<AlphaCinemaContext>().As<IAlphaCinemaContext>();
+			builder.RegisterType<CityServices>().As<ICityServices>().SingleInstance();
             // Пичове тука ще регистрираме нещата от Core
         }
     }
