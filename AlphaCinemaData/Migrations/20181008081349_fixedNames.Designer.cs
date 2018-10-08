@@ -4,14 +4,16 @@ using AlphaCinemaData.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AlphaCinemaData.Migrations
 {
     [DbContext(typeof(AlphaCinemaContext))]
-    partial class AlphaCinemaContextModelSnapshot : ModelSnapshot
+    [Migration("20181008081349_fixedNames")]
+    partial class fixedNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,13 +105,11 @@ namespace AlphaCinemaData.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(60);
+                    b.Property<string>("Description");
 
                     b.Property<int>("Duration");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(50);
+                    b.Property<string>("Name");
 
                     b.Property<int>("ReleaseYear");
 
@@ -123,8 +123,7 @@ namespace AlphaCinemaData.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("StartHour")
-                        .HasMaxLength(6);
+                    b.Property<string>("StartHour");
 
                     b.HasKey("Id");
 
@@ -138,8 +137,7 @@ namespace AlphaCinemaData.Migrations
 
                     b.Property<int>("Age");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(50);
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 

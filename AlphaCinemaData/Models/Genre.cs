@@ -8,8 +8,8 @@ namespace AlphaCinemaData.Models
 {
     public class Genre
     {
-        [Key]
-        public Guid Id { get; set; }
+		// [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public Guid Id { get; set; }
         public string Name { get; set; }
         public ICollection<MovieGenre> MoviesGenres { get; set; }
     }

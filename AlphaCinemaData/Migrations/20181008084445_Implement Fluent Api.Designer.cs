@@ -4,14 +4,16 @@ using AlphaCinemaData.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AlphaCinemaData.Migrations
 {
     [DbContext(typeof(AlphaCinemaContext))]
-    partial class AlphaCinemaContextModelSnapshot : ModelSnapshot
+    [Migration("20181008084445_Implement Fluent Api")]
+    partial class ImplementFluentApi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,8 +125,7 @@ namespace AlphaCinemaData.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("StartHour")
-                        .HasMaxLength(6);
+                    b.Property<string>("StartHour");
 
                     b.HasKey("Id");
 
