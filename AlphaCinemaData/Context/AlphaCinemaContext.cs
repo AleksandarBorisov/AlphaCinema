@@ -29,9 +29,9 @@ namespace AlphaCinemaData.Context
                     //Angel
                     //.UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
                     //Krasi
-                    //.UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
+                    .UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
                     //Sasho
-                    .UseSqlServer("Server =FURY; Database = AlphaCinema; Trusted_Connection = True;");
+                    //.UseSqlServer("Server =FURY; Database = AlphaCinema; Trusted_Connection = True;");
             }
         }
 
@@ -145,19 +145,6 @@ namespace AlphaCinemaData.Context
                 });
 
             base.OnModelCreating(modelBuilder);
-        }
-
-        public void Clear()
-        {
-            Users.RemoveRange(Users);
-            Cities.RemoveRange(Cities);
-            WatchedMovies.RemoveRange(WatchedMovies);
-            Projections.RemoveRange(Projections);
-            OpenHours.RemoveRange(OpenHours);
-            Movies.RemoveRange(Movies);
-            MoviesGenres.RemoveRange(MoviesGenres);
-            Genres.RemoveRange(Genres);
-            SaveChanges();
         }
     }
 }

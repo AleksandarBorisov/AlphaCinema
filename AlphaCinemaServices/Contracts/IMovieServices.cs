@@ -4,9 +4,9 @@ using System.Text;
 
 namespace AlphaCinemaServices.Contracts
 {
-	public interface ICityServices
+	public interface IMovieServices
 	{
 		List<Guid> GetIDs();
-		List<string> GetCityNames(List<Guid> cityIDs);
+		List<string> GetMovieNames(List<Guid> MovieIDs);
 	}
 }

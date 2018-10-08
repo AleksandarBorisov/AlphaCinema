@@ -1,5 +1,4 @@
 ﻿using AlphaCinemaData.Context;
-using AlphaCinemaData.Models;
 using AlphaCinemaServices.Contracts;
 using System;
 using System.Collections.Generic;
@@ -8,11 +7,11 @@ using System.Text;
 
 namespace AlphaCinemaServices
 {
-	public class CityServices : ICityServices
+	public class MovieServices : IMovieServices
 	{
 		private readonly IAlphaCinemaContext context;
 
-		public CityServices(IAlphaCinemaContext context)
+		public MovieServices(IAlphaCinemaContext context)
 		{
 			this.context = context;
 		}
@@ -20,28 +19,28 @@ namespace AlphaCinemaServices
 		public List<Guid> GetIDs()
 		{
 			var cityIDs = context
-				.Cities
-				.Select(c => c.Id)
+				.Movies
+				.Select(m => m.Id)
 				.ToList();
 
 			return cityIDs;
 		}
 
-		public List<string> GetCityNames(List<Guid> cityIDs)
+		public List<string> GetMovieNames(List<Guid> MovieIDs)
 		{
-			var cityNames = new List<string>();
+			var movieNames = new List<string>();
 
-			cityIDs.ForEach(id =>
+			MovieIDs.ForEach(id =>
 			{
-				var result = context.Cities
-				.Where(c => c.Id == id)
-				.Select(c => c.Name)
+				var result = context.Movies
+				.Where(m => m.Id == id)
+				.Select(m => m.Name)
 				.ToList();
 
-				cityNames.Add(result[0]);
+				movieNames.Add(result[0]);
 			});
 
-			return cityNames;
+			return movieNames;
 		}
 	}
 }

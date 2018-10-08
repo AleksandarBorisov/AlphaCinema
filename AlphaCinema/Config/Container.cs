@@ -50,7 +50,8 @@ namespace AlphaCinema.Config
 			builder.RegisterType<AlphaCinemaContext>().As<IAlphaCinemaContext>();
 			builder.RegisterType<Data>().As<IData>();
 			builder.RegisterType<CityServices>().As<ICityServices>();
-            // Пичове тука ще регистрираме нещата от Core
-        }
+			builder.RegisterType<MovieServices>().As<IMovieServices>();
+			// Пичове тука ще регистрираме нещата от Core
+		}
     }
 }

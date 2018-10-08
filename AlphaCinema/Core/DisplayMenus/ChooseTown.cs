@@ -22,11 +22,11 @@ namespace AlphaCinema.Core.DisplayMenus
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
 			//Тук ще направим заявка до базата от таблицата MovieProjections да ни даде GUID-овете на градовете за текущия ден
-			var guids = cityServices.GetId();
+			var cityIDs = this.cityServices.GetIDs();
 			//Тук ще направим заявка до базата от таблицата Towns за да ни мапне филмите на GUID-овете
-			List<string> towns = new List<string>() { "Vetren", "Pazardjik", "Dimitrovgrad" };
+			List<string> cityNames = this.cityServices.GetCityNames(cityIDs);
             List<string> displayItems = new List<string>() { "ChooseTown"};
-            displayItems.AddRange(towns);
+            displayItems.AddRange(cityNames);
             displayItems.Add("Back");
             displayItems.Add(offSetFromTop);
             displayItems.Add(startingRow);
@@ -37,7 +37,7 @@ namespace AlphaCinema.Core.DisplayMenus
             }//Изтриваме командата ChoooseMovie и извикваме отново предното menu
             else
             {
-                parameters.Insert(0, guids[towns.IndexOf(result)].ToString());
+                parameters.Insert(0, cityIDs[cityNames.IndexOf(result)].ToString());
                 parameters.Insert(0, "ChooseMovie");
                 commandProcessor.ExecuteCommand(parameters);
             }

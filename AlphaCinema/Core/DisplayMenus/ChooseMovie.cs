@@ -1,5 +1,6 @@
 ﻿using AlphaCinema.Core.Contracts;
 using AlphaCinema.Core.DisplayMenus.Abstract;
+using AlphaCinemaServices.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,23 +10,25 @@ namespace AlphaCinema.Core.DisplayMenus
 {
     public class ChooseMovie : DisplayBaseCommand
     {
-        public ChooseMovie(ICommandProcessor commandProcessor, IItemSelector selector)
+		private readonly IMovieServices movieServices;
+
+		public ChooseMovie(ICommandProcessor commandProcessor, IItemSelector selector, IMovieServices movieServices)
 			: base(commandProcessor, selector)
         {
-			// Add ChooseMovie service dependency
-        }
+			this.movieServices = movieServices;
+		}
 
 		public override void Execute(List<string> parameters)
 		{
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
             string townGuid = parameters[1];
-            //Тук ще направим заявка до базата от таблицата MovieProjections да ни даде GUID-овете на филмите за текущия ден в текущия град
-            List<int> guids = new List<int>() { 123, 456, 789 };
-            //Тук ще направим заявка до базата от таблицата Movies за да ни мапне филмите на GUID-овете
-            List<string> movies = new List<string>() { "Marvels Avenger's", "Two girls One cup", "Titanic" };
+			//Тук ще направим заявка до базата от таблицата MovieProjections да ни даде GUID-овете на филмите за текущия ден в текущия град
+			var movieIDs = this.movieServices.GetIDs();
+			//Тук ще направим заявка до базата от таблицата Movies за да ни мапне филмите на GUID-овете
+			var movieNames = this.movieServices.GetMovieNames(movieIDs);
             List<string> displayItems = new List<string>() { "ChooseMovie"};
-            displayItems.AddRange(movies);
+            displayItems.AddRange(movieNames);
             displayItems.Add("Back");
             displayItems.Add(offSetFromTop);
             displayItems.Add(startingRow);
@@ -36,7 +39,7 @@ namespace AlphaCinema.Core.DisplayMenus
             }
             else
             {
-                parameters.Insert(0, guids[movies.IndexOf(result)].ToString());
+                parameters.Insert(0, movieIDs[movieNames.IndexOf(result)].ToString());
                 parameters.Insert(0, "ChooseHour");//Тук се налага да напишем командата ръчно
                 commandProcessor.ExecuteCommand(parameters);
             }

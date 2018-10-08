@@ -16,6 +16,5 @@ namespace AlphaCinemaData.Context
         DbSet<OpenHour> OpenHours { get; set; }
         
         int SaveChanges();
-        void Clear();
     }
 }
