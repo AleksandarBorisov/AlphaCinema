@@ -21,7 +21,7 @@ namespace AlphaCinema.Core.Utilities
 
         public void Load()
         {
-            Clear(this.context);
+			Clear();
             //Fill Users Table
             var usersAsString = File.ReadAllText("../../../../AlphaCinemaData/Files/Users.json");
             var users = JsonConvert.DeserializeObject<List<User>>(usersAsString);
@@ -107,7 +107,7 @@ namespace AlphaCinema.Core.Utilities
             context.SaveChanges();
         }
 
-		public void Clear(AlphaCinemaContext context)
+		public void Clear()
 		{
 			context.Users.RemoveRange(context.Users);
 			context.Cities.RemoveRange(context.Cities);

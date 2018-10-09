@@ -1,4 +1,6 @@
 ﻿using AlphaCinemaData.Context;
+using AlphaCinemaData.Models;
+using AlphaCinemaData.Repository;
 using AlphaCinemaServices.Contracts;
 using System;
 using System.Collections.Generic;
@@ -8,36 +10,27 @@ namespace AlphaCinemaServices
 {
 	public class MovieServices : IMovieServices
 	{
-		private readonly AlphaCinemaContext context;
+		private readonly IRepository<Movie> repository;
 
-		public MovieServices(AlphaCinemaContext context)
+		public MovieServices(IRepository<Movie> repository)
 		{
-			this.context = context;
+			this.repository = repository;
 		}
 
-		public List<Guid> GetIDs()
+		public string GetID(string movieName)
 		{
-			var cityIDs = context
-				.Movies
-				.Select(m => m.Id)
-				.ToList();
+			var id = repository.All()
+				.Where(m => m.Name == movieName)
+				.Select(m => m.Id).FirstOrDefault();
 
-			return cityIDs;
+			return id.ToString();
 		}
 
-		public List<string> GetMovieNames(List<Guid> MovieIDs)
+		public List<string> GetMovieNames()
 		{
-			var movieNames = new List<string>();
-
-			MovieIDs.ForEach(id =>
-			{
-				var result = context.Movies
-				.Where(m => m.Id == id)
-				.Select(m => m.Name)
+			var movieNames = repository.All()
+				.Select(movie => movie.Name)
 				.ToList();
-
-				movieNames.Add(result[0]);
-			});
 
 			return movieNames;
 		}

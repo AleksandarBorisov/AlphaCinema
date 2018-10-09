@@ -22,13 +22,15 @@ namespace AlphaCinema.Core.DisplayMenus
             string startingRow = parameters[parameters.Count - 1];
 			//Тук ще направим заявка до базата от таблицата MovieProjections да ни даде GUID-овете на градовете за текущия ден
 			//Тук ще направим заявка до базата от таблицата Towns за да ни мапне филмите на GUID-овете
-			List<string> cityNames = this.cityServices.GetCityNames();
+
+			var cityNames = this.cityServices.GetCityNames();
             List<string> displayItems = new List<string>() { "ChooseTown"};
             displayItems.AddRange(cityNames);
             displayItems.Add("Back");
             displayItems.Add("Home");
             displayItems.Add(offSetFromTop);
             displayItems.Add(startingRow);
+
             string cityName = selector.DisplayItems(displayItems);
             if (cityName == "Back")
             {

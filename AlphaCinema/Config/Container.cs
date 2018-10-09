@@ -52,8 +52,9 @@ namespace AlphaCinema.Config
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>));
             builder.RegisterType<CityServices>().As<ICityServices>();
 			builder.RegisterType<MovieServices>().As<IMovieServices>();
-            
-            // Пичове тука ще регистрираме нещата от Core
+			builder.RegisterType<OpenHourServices>().As<IOpenHourServices>();
+			builder.RegisterType<ProjectionsServices>().As<IProjectionsServices>();
+
         }
     }
 }

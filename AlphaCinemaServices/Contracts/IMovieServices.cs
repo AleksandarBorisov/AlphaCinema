@@ -5,7 +5,7 @@ namespace AlphaCinemaServices.Contracts
 {
 	public interface IMovieServices
 	{
-		List<Guid> GetIDs();
-		List<string> GetMovieNames(List<Guid> MovieIDs);
+		string GetID(string movieName);
+		List<string> GetMovieNames();
 	}
 }

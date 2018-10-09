@@ -17,21 +17,20 @@ namespace AlphaCinemaServices
 
 		public string GetID(string cityName)
 		{
-            var cities = repository.All();
-            var id = cities
-                .Select(city => city.Name == cityName)
-                .ToString();
+			var id = repository.All()
+				.Where(c => c.Name == cityName)
+				.Select(c => c.Id).FirstOrDefault();
 
-			return id;
+			return id.ToString();
 		}
 
 		public List<string> GetCityNames()
 		{
-            var cities = repository.All()
-                .Select(select => select.Name)
+            var cityNames = repository.All()
+                .Select(city => city.Name)
                 .ToList();
             
-			return cities;
+			return cityNames;
 		}
 	}
 }
