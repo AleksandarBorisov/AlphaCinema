@@ -33,7 +33,7 @@ namespace AlphaCinemaServices
             var cities = repository.All()
                 .Select(select => select.Name)
                 .ToList();
-
+            
 			return cities;
 		}
 	}

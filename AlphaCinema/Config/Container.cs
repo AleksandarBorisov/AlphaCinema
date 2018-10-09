@@ -26,7 +26,7 @@ namespace AlphaCinema.Config
         {
             this.RegisterCoreComponents(builder);
             this.RegisterMenus(builder);
-            base.Load(builder);
+            //base.Load(builder);
         }
 
         private void RegisterMenus(ContainerBuilder builder)
