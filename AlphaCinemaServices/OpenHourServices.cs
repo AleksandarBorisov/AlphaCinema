@@ -11,7 +11,5 @@ namespace AlphaCinemaServices
 		{
 			this.context = context;
 		}
-
-
 	}
 }

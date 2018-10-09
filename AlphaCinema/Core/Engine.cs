@@ -1,9 +1,5 @@
 ﻿using AlphaCinema.Core.Contracts;
-using AlphaCinemaData.Context;
-using AlphaCinemaData.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AlphaCinema.Core
 {

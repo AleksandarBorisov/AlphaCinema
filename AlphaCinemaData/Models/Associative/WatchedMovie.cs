@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+﻿using AlphaCinemaData.Models.Contracts;
+using System;
 
 namespace AlphaCinemaData.Models.Associative
 {
-    public class WatchedMovie
-    {
-        //[ForeignKey("User")]
+    public class WatchedMovie : IDeletable
+	{
         public Guid UserId { get; set; }
 
-       // [ForeignKey("Projection")]
         public Guid ProjectionId { get; set; }
 
         public User User { get; set; }
         public Projection Projection { get; set; }
-    }
+
+		public bool IsDeleted { get; set; }
+
+		public DateTime? DeletedOn { get; set; }
+	}
 }

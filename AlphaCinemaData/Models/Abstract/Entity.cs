@@ -1,7 +1,5 @@
 ﻿using AlphaCinemaData.Models.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AlphaCinemaData.Models.Abstract
 {

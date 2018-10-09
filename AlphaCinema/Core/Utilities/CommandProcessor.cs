@@ -1,7 +1,6 @@
 ﻿using AlphaCinema.Core.Commands.Factory;
 using AlphaCinema.Core.Contracts;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace AlphaCinema.Core.Utilities
 {
