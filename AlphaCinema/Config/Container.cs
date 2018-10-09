@@ -8,14 +8,19 @@ using AlphaCinema.Core.Commands.Factory;
 using AlphaCinema.Core.Contracts;
 using AlphaCinema.Core.Utilities;
 using AlphaCinemaData.Context;
+using AlphaCinemaData.Repository;
 using AlphaCinemaServices;
 using AlphaCinemaServices.Contracts;
 using Autofac;
 
 namespace AlphaCinema.Config
 {
-    class Container : Autofac.Module
+   public class Container : Autofac.Module
     {
+        public Container()
+        {
+
+        }
         // Метода, който се изппълява когато модула се зареди
         protected override void Load(ContainerBuilder builder)
         {
@@ -47,11 +52,13 @@ namespace AlphaCinema.Config
             builder.RegisterType<CommandProcessor>().As<ICommandProcessor>().SingleInstance();
             builder.RegisterType<CommandFactory>().As<ICommandFactory>().SingleInstance();
             builder.RegisterType<ItemSelector>().As<IItemSelector>().SingleInstance();
-			builder.RegisterType<AlphaCinemaContext>().As<IAlphaCinemaContext>();
+			builder.RegisterType<AlphaCinemaContext>().AsSelf();
 			builder.RegisterType<Data>().As<IData>();
-			builder.RegisterType<CityServices>().As<ICityServices>();
+            builder.RegisterType(typeof(Repository<>)).As(typeof(IRepository<>));
+            builder.RegisterType<CityServices>().As<ICityServices>();
 			builder.RegisterType<MovieServices>().As<IMovieServices>();
-			// Пичове тука ще регистрираме нещата от Core
-		}
+            
+            // Пичове тука ще регистрираме нещата от Core
+        }
     }
 }

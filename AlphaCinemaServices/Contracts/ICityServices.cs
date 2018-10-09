@@ -6,7 +6,7 @@ namespace AlphaCinemaServices.Contracts
 {
 	public interface ICityServices
 	{
-		List<Guid> GetIDs();
-		List<string> GetCityNames(List<Guid> cityIDs);
+		string GetID(string cityName);
+		List<string> GetCityNames();
 	}
 }

@@ -9,9 +9,9 @@ namespace AlphaCinemaServices
 {
 	public class MovieServices : IMovieServices
 	{
-		private readonly IAlphaCinemaContext context;
+		private readonly AlphaCinemaContext context;
 
-		public MovieServices(IAlphaCinemaContext context)
+		public MovieServices(AlphaCinemaContext context)
 		{
 			this.context = context;
 		}

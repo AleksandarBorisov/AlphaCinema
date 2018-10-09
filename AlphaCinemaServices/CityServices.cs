@@ -1,5 +1,6 @@
 ﻿using AlphaCinemaData.Context;
 using AlphaCinemaData.Models;
+using AlphaCinemaData.Repository;
 using AlphaCinemaServices.Contracts;
 using System;
 using System.Collections.Generic;
@@ -10,38 +11,30 @@ namespace AlphaCinemaServices
 {
 	public class CityServices : ICityServices
 	{
-		private readonly IAlphaCinemaContext context;
+		private readonly IRepository<City> repository;
 
-		public CityServices(IAlphaCinemaContext context)
+		public CityServices(IRepository<City> repository)
 		{
-			this.context = context;
+			this.repository = repository;
 		}
 
-		public List<Guid> GetIDs()
+		public string GetID(string cityName)
 		{
-			var cityIDs = context
-				.Cities
-				.Select(c => c.Id)
-				.ToList();
+            var cities = repository.All();
+            var id = cities
+                .Select(city => city.Name == cityName)
+                .ToString();
 
-			return cityIDs;
+			return id;
 		}
 
-		public List<string> GetCityNames(List<Guid> cityIDs)
+		public List<string> GetCityNames()
 		{
-			var cityNames = new List<string>();
+            var cities = repository.All()
+                .Select(select => select.Name)
+                .ToList();
 
-			cityIDs.ForEach(id =>
-			{
-				var result = context.Cities
-				.Where(c => c.Id == id)
-				.Select(c => c.Name)
-				.ToList();
-
-				cityNames.Add(result[0]);
-			});
-
-			return cityNames;
+			return cities;
 		}
 	}
 }

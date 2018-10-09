@@ -5,7 +5,7 @@ using System;
 
 namespace AlphaCinemaData.Context
 {
-    public class AlphaCinemaContext : DbContext, IAlphaCinemaContext
+    public class AlphaCinemaContext : DbContext
     {
         public DbSet<City> Cities { get; set; }
         public DbSet<Genre> Genres { get; set; }
@@ -143,6 +143,7 @@ namespace AlphaCinemaData.Context
                     movie.Property(mov => mov.Duration);
                 });
 
+            // Add Entity Constraints 
             base.OnModelCreating(modelBuilder);
         }
     }

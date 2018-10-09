@@ -5,9 +5,9 @@ namespace AlphaCinemaServices
 {
 	public class OpenHourServices : IOpenHourServices
 	{
-		private readonly IAlphaCinemaContext context;
+		private readonly AlphaCinemaContext context;
 
-		public OpenHourServices(IAlphaCinemaContext context)
+		public OpenHourServices(AlphaCinemaContext context)
 		{
 			this.context = context;
 		}

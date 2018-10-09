@@ -12,9 +12,9 @@ namespace AlphaCinema.Core.Utilities
 {
     public class Data : IData
     {
-        private IAlphaCinemaContext context;
+        private AlphaCinemaContext context;
 
-        public Data(IAlphaCinemaContext context)
+        public Data(AlphaCinemaContext context)
         {
             this.context = context;
         }
@@ -107,7 +107,7 @@ namespace AlphaCinema.Core.Utilities
             context.SaveChanges();
         }
 
-		public void Clear(IAlphaCinemaContext context)
+		public void Clear(AlphaCinemaContext context)
 		{
 			context.Users.RemoveRange(context.Users);
 			context.Cities.RemoveRange(context.Cities);
