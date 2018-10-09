@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+﻿using AlphaCinemaData.Models.Contracts;
+using System;
 
 namespace AlphaCinemaData.Models.Associative
 {
-    public class MovieGenre
+    public class MovieGenre : IDeletable
     {
-       // [ForeignKey("Movie")]
         public Guid MovieId { get; set; }
         
-       // [ForeignKey("Genre")]
         public Guid GenreId { get; set; }
 
         public Movie Movie { get; set; }
 
         public Genre Genre { get; set; }
-    }
+
+		public bool IsDeleted { get; set; }
+
+		public DateTime? DeletedOn { get; set; }
+	}
 }

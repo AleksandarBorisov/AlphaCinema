@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using AlphaCinema.Core;
 using AlphaCinema.Core.Commands.Factory;
 using AlphaCinema.Core.Contracts;
@@ -17,16 +15,13 @@ namespace AlphaCinema.Config
 {
    public class Container : Autofac.Module
     {
-        public Container()
-        {
-
-        }
+		public Container() { }
         // Метода, който се изппълява когато модула се зареди
         protected override void Load(ContainerBuilder builder)
         {
             this.RegisterCoreComponents(builder);
             this.RegisterMenus(builder);
-            //base.Load(builder);
+            base.Load(builder);
         }
 
         private void RegisterMenus(ContainerBuilder builder)

@@ -1,8 +1,5 @@
 ﻿using AlphaCinema.Core.Contracts;
-using AlphaCinemaServices.Contracts;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AlphaCinema.Core.DisplayMenus.Abstract
 {

@@ -22,15 +22,7 @@ namespace AlphaCinemaData.Context
 			if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-				// UNIFIED
 				.UseSqlServer($"Server ={machineName}; Database = AlphaCinema; Trusted_Connection = True;");
-
-				//Angel
-				//.UseSqlServer("Server =.\\ANGELSQL; Database = AlphaCinema; Trusted_Connection = True;");
-				//Krasi
-				//.UseSqlServer("Server =DESKTOP-ETOV; Database = AlphaCinema; Trusted_Connection = True;");
-				//Sasho
-				//.UseSqlServer("Server =FURY; Database = AlphaCinema; Trusted_Connection = True;");
 			}
         }
 
