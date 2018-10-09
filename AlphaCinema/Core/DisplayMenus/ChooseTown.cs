@@ -20,20 +20,25 @@ namespace AlphaCinema.Core.DisplayMenus
 		{
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
-			//Тук ще направим заявка до базата от таблицата MovieProjections да ни даде GUID-овете на градовете за текущия ден
+			
+            //Тук ще направим заявка до базата от таблицата MovieProjections да ни даде GUID-овете на градовете за текущия ден
 			//Тук ще направим заявка до базата от таблицата Towns за да ни мапне филмите на GUID-овете
 			List<string> cityNames = this.cityServices.GetCityNames();
+
             List<string> displayItems = new List<string>() { "ChooseTown"};
+
             displayItems.AddRange(cityNames);
             displayItems.Add("Back");
             displayItems.Add("Home");
             displayItems.Add(offSetFromTop);
             displayItems.Add(startingRow);
+
             string cityName = selector.DisplayItems(displayItems);
             if (cityName == "Back")
             {
                 commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
-            }//Изтриваме командата ChoooseMovie и извикваме отново предното menu
+            }
+            //Изтриваме командата ChoooseMovie и извикваме отново предното menu
             else if (cityName == "Home")
             {
                 commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());

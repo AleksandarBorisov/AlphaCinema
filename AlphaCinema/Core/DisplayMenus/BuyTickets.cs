@@ -20,8 +20,10 @@ namespace AlphaCinema.Core.DisplayMenus
         {
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
+
             var displayItems = new List<string>() { parameters[0], "ChooseTown", "Back", "Home", offSetFromTop, startingRow };
             string result = selector.DisplayItems(displayItems);
+
             if (result == "Back" || result == "Home")
             {
                 commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());

@@ -17,8 +17,12 @@ namespace AlphaCinema.Core.Utilities
         public void ExecuteCommand(List<string> command)
         {
             var commandName = command[0];
-            var resolvedCommand = commnadFactory.GetCommand(commandName);//Тук Resolve-аме командата и разбираме коя е
-            resolvedCommand.Execute(command);//Тук вкарваме параметрите и изпълняваме командата 
+
+            //Тук Resolve-аме командата и разбираме коя е
+            var resolvedCommand = commnadFactory.GetCommand(commandName);
+
+            //Тук вкарваме параметрите и изпълняваме командата
+            resolvedCommand.Execute(command); 
         }
     }
 }

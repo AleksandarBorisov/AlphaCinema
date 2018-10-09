@@ -22,6 +22,7 @@ namespace AlphaCinema.Core.Utilities
         public void Load()
         {
             Clear(this.context);
+            
             //Fill Users Table
             var usersAsString = File.ReadAllText("../../../../AlphaCinemaData/Files/Users.json");
             var users = JsonConvert.DeserializeObject<List<User>>(usersAsString);
