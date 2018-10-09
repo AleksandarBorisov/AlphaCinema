@@ -26,7 +26,7 @@ namespace AlphaCinema.Config
         {
             this.RegisterCoreComponents(builder);
             this.RegisterMenus(builder);
-            base.Load(builder);
+            //base.Load(builder);
         }
 
         private void RegisterMenus(ContainerBuilder builder)
@@ -54,7 +54,10 @@ namespace AlphaCinema.Config
             builder.RegisterType<ItemSelector>().As<IItemSelector>().SingleInstance();
 			builder.RegisterType<AlphaCinemaContext>().AsSelf();
 			builder.RegisterType<Data>().As<IData>();
-            builder.RegisterType(typeof(Repository<>)).As(typeof(IRepository<>));
+
+            builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>));
+            //builder.RegisterType(typeof(Repository<>)).As(typeof(IRepository<>));
+
             builder.RegisterType<CityServices>().As<ICityServices>();
 			builder.RegisterType<MovieServices>().As<IMovieServices>();
             
