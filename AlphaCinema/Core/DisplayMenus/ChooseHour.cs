@@ -31,6 +31,7 @@ namespace AlphaCinema.Core.DisplayMenus
 			//Тук ще направим заявка до базата от таблицата Movies за да ни мапне Прожекциите на GUID-овете
 			var hours = this.openHourServices.GetOpenHours();
             List<string> displayItems = new List<string>() { "ChooseHour"};
+
             displayItems.AddRange(hours);
             displayItems.Add("Back");
             displayItems.Add("Home");
