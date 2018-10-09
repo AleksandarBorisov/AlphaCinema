@@ -54,7 +54,7 @@ namespace AlphaCinema.Config
             builder.RegisterType<ItemSelector>().As<IItemSelector>().SingleInstance();
 			builder.RegisterType<AlphaCinemaContext>().AsSelf();
 			builder.RegisterType<Data>().As<IData>();
-            builder.RegisterType(typeof(Repository<>)).As(typeof(IRepository<>));
+            builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>));
             builder.RegisterType<CityServices>().As<ICityServices>();
 			builder.RegisterType<MovieServices>().As<IMovieServices>();
             

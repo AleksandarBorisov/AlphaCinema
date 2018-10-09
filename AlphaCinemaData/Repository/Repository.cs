@@ -9,8 +9,7 @@ using AlphaCinemaData.Models.Contracts;
 
 namespace AlphaCinemaData.Repository
 {
-    public class Repository<T> : IRepository<T>
-        where T : class, IDeletable
+    public class Repository<T> : IRepository<T> where T : class, IDeletable
     {
         private readonly AlphaCinemaContext context;
 
