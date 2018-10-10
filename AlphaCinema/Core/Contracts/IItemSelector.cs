@@ -7,5 +7,9 @@ namespace AlphaCinema.Core.Contracts
         string DisplayItems(List<string> selection);
 
         void PrintAtPosition(string item, int currentRow, bool selected);
+
+        string ReadAtPosition(int currentRow, string caption);
+
+        string HideCharacters();
     }
 }

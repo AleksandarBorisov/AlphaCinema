@@ -74,5 +74,40 @@ namespace AlphaCinema.Core.Utilities
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
         }
+
+        public string ReadAtPosition(int currentRow, string caption)
+        {
+            Console.CursorVisible = true;
+            Console.SetCursorPosition(Console.WindowWidth / 2 - caption.Length / 2, currentRow);
+            string message = HideCharacters();
+            Console.SetCursorPosition(Console.WindowWidth / 2 - caption.Length / 2, currentRow);
+            Console.Write(new string(' ', message.Length));
+            Console.CursorVisible = false;
+            return message;
+        }
+
+        public string HideCharacters()
+        {
+            string password = "";
+            ConsoleKeyInfo key;
+            do
+            {
+                key = Console.ReadKey(true);
+                if (!char.IsControl(key.KeyChar))
+                {//(key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
+                    password += key.KeyChar;
+                    Console.Write('*');
+                }
+                else if (key.Key == ConsoleKey.Backspace && password.Length > 0)
+                {
+                    password = password.Substring(0, password.Length - 1);
+                    Console.Write("\b \b");//'\b' е backspace символът който ни връща назад, след това спейса ни изтрива от конзолата
+                    //предишната написана звездичка и ни мести напред, накрая второто '\b' пак ни мести едно назад върху спейса
+                    //Цялото това действие се извършва изцяло върху конзолата и няма нищо общо със стринга pass
+                }
+            } while (key.Key != ConsoleKey.Enter);
+
+            return password;
+        }
     }
 }
