@@ -6,11 +6,11 @@ using AlphaCinemaServices.Contracts;
 
 namespace AlphaCinema.Core.Commands.DisplayMenus
 {
-    class ChooseTown : DisplayBaseCommand
+	public class ChooseCity : DisplayBaseCommand
     {
 		private readonly ICityServices cityServices;
 
-		public ChooseTown(ICommandProcessor commandProcessor, IItemSelector selector, ICityServices cityServices)
+		public ChooseCity(ICommandProcessor commandProcessor, IItemSelector selector, ICityServices cityServices)
 			: base(commandProcessor, selector)
         {
 			this.cityServices = cityServices;
@@ -20,12 +20,9 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 		{
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
-			
-            //Тук ще направим заявка до базата от таблицата MovieProjections да ни даде GUID-овете на градовете за текущия ден
-			//Тук ще направим заявка до базата от таблицата Towns за да ни мапне филмите на GUID-овете
 
 			var cityNames = this.cityServices.GetCityNames();
-            List<string> displayItems = new List<string>() { "Choose Town"};
+            List<string> displayItems = new List<string>() { "Choose City"};
 
             displayItems.AddRange(cityNames);
             displayItems.Add("Back");
@@ -34,7 +31,8 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             displayItems.Add(startingRow);
 
             string cityName = selector.DisplayItems(displayItems);
-            if (cityName == "Back")
+
+			if (cityName == "Back")
             {
                 commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
             }

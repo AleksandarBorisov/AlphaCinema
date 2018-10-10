@@ -25,7 +25,5 @@ namespace AlphaCinemaData.Models.Associative
         public ICollection<WatchedMovie> WatchedMovies { get; set; }
 
 		public bool IsDeleted { get; set; }
-
-		public DateTime? DeletedOn { get; set; }
 	}
 }

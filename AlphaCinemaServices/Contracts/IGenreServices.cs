@@ -9,5 +9,9 @@ namespace AlphaCinemaServices.Contracts
         string GetID(string genreName);
 
         List<string> GetGenreNames();
-    }
+
+		void AddNewGenre(string genreName);
+		void DeleteGenre(string genreName);
+
+	}
 }

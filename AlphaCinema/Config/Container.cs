@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using AlphaCinema.Core;
+using AlphaCinema.Core.Commands;
 using AlphaCinema.Core.Commands.Factory;
 using AlphaCinema.Core.Contracts;
 using AlphaCinema.Core.Utilities;
@@ -59,7 +60,8 @@ namespace AlphaCinema.Config
             builder.RegisterType<MovieGenreServices>().As<IMovieGenreServices>();
             builder.RegisterType<UserServices>().As<IUserServices>();
             builder.RegisterType<WatchedMovieServices>().As<IWatchedMovieServices>();
-            
-        }
+			builder.RegisterType<CommandHandler>().As<ICommandHandler>();
+			builder.RegisterType<AlphaCinemaConsole>().As<IAlphaCinemaConsole>();
+		}
     }
 }
