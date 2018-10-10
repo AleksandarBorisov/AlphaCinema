@@ -9,12 +9,13 @@ namespace AlphaCinema.Core.DisplayMenus
     public class ChooseMovie : DisplayBaseCommand
     {
 		private readonly IMovieServices movieServices;
-
-		public ChooseMovie(ICommandProcessor commandProcessor, IItemSelector selector, IMovieServices movieServices)
+        
+		public ChooseMovie(ICommandProcessor commandProcessor, IItemSelector selector, 
+            IMovieServices movieServices)
 			: base(commandProcessor, selector)
         {
 			this.movieServices = movieServices;
-		}
+        }
 
 		public override void Execute(List<string> parameters)
 		{
@@ -25,7 +26,7 @@ namespace AlphaCinema.Core.DisplayMenus
 			//Тук ще направим заявка до базата от таблицата Movies за да ни мапне филмите на GUID-овете
 
 			var movieNames = this.movieServices.GetMovieNames();
-            List<string> displayItems = new List<string>() { "ChooseMovie"};
+            List<string> displayItems = new List<string>() { "Choose Movie"};
 
             displayItems.AddRange(movieNames);
             displayItems.Add("Back");
@@ -39,7 +40,7 @@ namespace AlphaCinema.Core.DisplayMenus
             }
             else if (movieName == "Home")
             {
-                commandProcessor.ExecuteCommand(parameters.Skip(4).ToList());
+                commandProcessor.ExecuteCommand(parameters.Skip(5).ToList());
             }
             else
             {

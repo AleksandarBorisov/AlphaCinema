@@ -6,6 +6,7 @@ using AlphaCinema.Core.Commands.Factory;
 using AlphaCinema.Core.Contracts;
 using AlphaCinema.Core.Utilities;
 using AlphaCinemaData.Context;
+using AlphaCinemaData.Models.Associative;
 using AlphaCinemaData.Repository;
 using AlphaCinemaServices;
 using AlphaCinemaServices.Contracts;
@@ -53,7 +54,9 @@ namespace AlphaCinema.Config
             builder.RegisterType<CityServices>().As<ICityServices>();
 			builder.RegisterType<MovieServices>().As<IMovieServices>();
 			builder.RegisterType<OpenHourServices>().As<IOpenHourServices>();
-			builder.RegisterType<ProjectionsServices>().As<IProjectionsServices>();
+			builder.RegisterType<ProjectionServices>().As<IProjectionsServices>();
+            builder.RegisterType<GenreServices>().As<IGenreServices>();
+            builder.RegisterType<MovieGenreServices>().As<IMovieGenreServices>();
 
         }
     }

@@ -30,7 +30,7 @@ namespace AlphaCinema.Core.DisplayMenus
 
 			//Тук ще направим заявка до базата от таблицата Movies за да ни мапне Прожекциите на GUID-овете
 			var hours = this.openHourServices.GetOpenHours();
-            List<string> displayItems = new List<string>() { "ChooseHour"};
+            List<string> displayItems = new List<string>() { "Choose Hour"};
 
             displayItems.AddRange(hours);
             displayItems.Add("Back");
@@ -54,7 +54,7 @@ namespace AlphaCinema.Core.DisplayMenus
             }
             else if (startHour == "Home")
             {
-                commandProcessor.ExecuteCommand(parameters.Skip(6).ToList());
+                commandProcessor.ExecuteCommand(parameters.Skip(7).ToList());
             }
         }
     }
