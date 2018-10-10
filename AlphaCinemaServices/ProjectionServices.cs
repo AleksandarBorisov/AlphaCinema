@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace AlphaCinemaServices
 {
-	public class ProjectionsServices : IProjectionsServices
+	public class ProjectionServices : IProjectionsServices
 	{
 		private readonly IRepository<Projection> repository;
 
-		public ProjectionsServices(IRepository<Projection> repository)
+		public ProjectionServices(IRepository<Projection> repository)
 		{
 			this.repository = repository;
 		}
