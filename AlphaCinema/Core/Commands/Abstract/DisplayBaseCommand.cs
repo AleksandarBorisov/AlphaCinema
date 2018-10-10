@@ -1,7 +1,7 @@
 ﻿using AlphaCinema.Core.Contracts;
 using System.Collections.Generic;
 
-namespace AlphaCinema.Core.DisplayMenus.Abstract
+namespace AlphaCinema.Core.Commands.DisplayMenus.Abstract
 {
 	public abstract class DisplayBaseCommand : ICommand
 	{
