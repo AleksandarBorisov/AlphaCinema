@@ -25,7 +25,7 @@ namespace AlphaCinema.Core.DisplayMenus
 			//Тук ще направим заявка до базата от таблицата Towns за да ни мапне филмите на GUID-овете
 
 			var cityNames = this.cityServices.GetCityNames();
-            List<string> displayItems = new List<string>() { "ChooseTown"};
+            List<string> displayItems = new List<string>() { "Choose Town"};
 
             displayItems.AddRange(cityNames);
             displayItems.Add("Back");
@@ -36,12 +36,12 @@ namespace AlphaCinema.Core.DisplayMenus
             string cityName = selector.DisplayItems(displayItems);
             if (cityName == "Back")
             {
-                commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
+                commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
             }
             //Изтриваме командата ChoooseMovie и извикваме отново предното menu
             else if (cityName == "Home")
             {
-                commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
+                commandProcessor.ExecuteCommand(parameters.Skip(3).ToList());
             }
             else
             {
