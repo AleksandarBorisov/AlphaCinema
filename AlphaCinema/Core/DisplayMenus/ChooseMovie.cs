@@ -9,12 +9,13 @@ namespace AlphaCinema.Core.DisplayMenus
     public class ChooseMovie : DisplayBaseCommand
     {
 		private readonly IMovieServices movieServices;
-
-		public ChooseMovie(ICommandProcessor commandProcessor, IItemSelector selector, IMovieServices movieServices)
+        
+		public ChooseMovie(ICommandProcessor commandProcessor, IItemSelector selector, 
+            IMovieServices movieServices)
 			: base(commandProcessor, selector)
         {
 			this.movieServices = movieServices;
-		}
+        }
 
 		public override void Execute(List<string> parameters)
 		{
