@@ -11,15 +11,26 @@ namespace AlphaCinema.Core.DisplayMenus
 	public class ChooseGenre : DisplayBaseCommand
 	{
 		private readonly IGenreServices genreServices;
+        private readonly IMovieGenreServices movieGenreServices;
+        private readonly IWatchedMovieServices watchedMovieServices;
 
-		public ChooseGenre(ICommandProcessor commandProcessor, IItemSelector selector, IGenreServices genreServices)
+        public ChooseGenre(ICommandProcessor commandProcessor, IItemSelector selector, 
+            IGenreServices genreServices, IMovieGenreServices movieGenreServices,
+            IWatchedMovieServices watchedMovieServices)
 			: base(commandProcessor, selector)
 		{
 			this.genreServices = genreServices;
+            this.movieGenreServices = movieGenreServices;
+            this.watchedMovieServices = watchedMovieServices;
 		}
 
 		public override void Execute(List<string> parameters)
 		{
+            //
+            var genres = movieGenreServices.GetGenreIDsByMovie("Titanic");
+            //
+            
+
 			string offSetFromTop = parameters[parameters.Count - 2];
 			string startingRow = parameters[parameters.Count - 1];
 

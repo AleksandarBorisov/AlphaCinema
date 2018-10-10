@@ -57,7 +57,9 @@ namespace AlphaCinema.Config
 			builder.RegisterType<ProjectionServices>().As<IProjectionsServices>();
             builder.RegisterType<GenreServices>().As<IGenreServices>();
             builder.RegisterType<MovieGenreServices>().As<IMovieGenreServices>();
-
+            builder.RegisterType<UserServices>().As<IUserServices>();
+            builder.RegisterType<WatchedMovieServices>().As<IWatchedMovieServices>();
+            
         }
     }
 }
