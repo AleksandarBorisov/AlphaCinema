@@ -26,7 +26,10 @@ namespace AlphaCinema.Core.DisplayMenus
                 //Ако сме избрали Exit, просто с индекси е по-безопасно ако сменим името на стринга
                 Environment.Exit(0);
             }
-
+            if (result == "LogAsAdmin")
+            {
+                result = "Login";
+            }
             parameters.Insert(0, result);
             commandProcessor.ExecuteCommand(parameters);
         }
