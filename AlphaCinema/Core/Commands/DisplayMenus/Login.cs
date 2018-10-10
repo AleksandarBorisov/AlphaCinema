@@ -19,19 +19,22 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
         {
             int offSetFromTop = int.Parse(parameters[parameters.Count - 2]);
             int startingRow = int.Parse(parameters[parameters.Count - 1]);
-            List<string> displayItems = new List<string>();
-            displayItems.Add(parameters[0]);
-            displayItems.Add("Retry");
-            displayItems.Add("Back");
-            displayItems.Add("Home");
-            string enterPassword = "Enter password:";
+			List<string> displayItems = new List<string>
+			{
+				parameters[0],
+				"Retry",
+				"Back",
+				"Home"
+			};
+			string enterPassword = "Enter password:";
             string wrongPasswordMessage = "Incorrect passowrd, consider using 'TelerikAcademyFTW' instead";
             selector.PrintAtPosition(displayItems[0].ToUpper(), startingRow * 0 + offSetFromTop, false);
             selector.PrintAtPosition(enterPassword, startingRow * 1 + offSetFromTop, false);
             string password = selector.ReadAtPosition(startingRow * 2 + offSetFromTop, "Enter password:");
             displayItems.Add(offSetFromTop.ToString());
             displayItems.Add(startingRow.ToString());
-            while (password != "TelerikAcademyFTW".ToLower())
+			// смених паролата временно на telerik за по-лесно тестване, защото другото отнемаше много време за писане
+            while (password != "telerik".ToLower())
             {
                 selector.PrintAtPosition(new string(' ', enterPassword.Length), startingRow * 1 + offSetFromTop, false);
                 selector.PrintAtPosition(wrongPasswordMessage, startingRow * 4 + offSetFromTop, false);

@@ -22,9 +22,6 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
 
-            string townGuid = parameters[1];
-			//Тук ще направим заявка до базата от таблицата Movies за да ни мапне филмите на GUID-овете
-
 			var movieNames = this.movieServices.GetMovieNames();
             List<string> displayItems = new List<string>() { "Choose Movie"};
 

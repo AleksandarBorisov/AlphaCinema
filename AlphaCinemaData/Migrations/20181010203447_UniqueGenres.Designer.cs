@@ -4,14 +4,16 @@ using AlphaCinemaData.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AlphaCinemaData.Migrations
 {
     [DbContext(typeof(AlphaCinemaContext))]
-    partial class AlphaCinemaContextModelSnapshot : ModelSnapshot
+    [Migration("20181010203447_UniqueGenres")]
+    partial class UniqueGenres
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,6 +26,8 @@ namespace AlphaCinemaData.Migrations
                     b.Property<Guid>("MovieId");
 
                     b.Property<Guid>("GenreId");
+
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<bool>("IsDeleted");
 
@@ -42,6 +46,8 @@ namespace AlphaCinemaData.Migrations
                     b.Property<Guid>("CityId");
 
                     b.Property<DateTime>("Date");
+
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<bool>("IsDeleted");
 
@@ -63,15 +69,17 @@ namespace AlphaCinemaData.Migrations
 
             modelBuilder.Entity("AlphaCinemaData.Models.Associative.WatchedMovie", b =>
                 {
+                    b.Property<Guid>("ProjectionId");
+
                     b.Property<Guid>("UserId");
 
-                    b.Property<Guid>("ProjectionId");
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<bool>("IsDeleted");
 
-                    b.HasKey("UserId", "ProjectionId");
+                    b.HasKey("ProjectionId", "UserId");
 
-                    b.HasIndex("ProjectionId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("WatchedMovies");
                 });
@@ -81,16 +89,19 @@ namespace AlphaCinemaData.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Cities");
                 });
@@ -100,7 +111,13 @@ namespace AlphaCinemaData.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -119,12 +136,18 @@ namespace AlphaCinemaData.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
                     b.Property<string>("Description")
-                        .HasMaxLength(150);
+                        .HasMaxLength(60);
 
                     b.Property<int>("Duration");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50);
@@ -132,10 +155,6 @@ namespace AlphaCinemaData.Migrations
                     b.Property<int>("ReleaseYear");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Movies");
                 });
@@ -145,16 +164,18 @@ namespace AlphaCinemaData.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("StartHour")
                         .HasMaxLength(6);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StartHour")
-                        .IsUnique()
-                        .HasFilter("[StartHour] IS NOT NULL");
 
                     b.ToTable("OpenHours");
                 });
@@ -166,16 +187,18 @@ namespace AlphaCinemaData.Migrations
 
                     b.Property<int>("Age");
 
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Users");
                 });

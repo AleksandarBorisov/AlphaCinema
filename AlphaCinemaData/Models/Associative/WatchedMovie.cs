@@ -14,6 +14,5 @@ namespace AlphaCinemaData.Models.Associative
 
 		public bool IsDeleted { get; set; }
 
-		public DateTime? DeletedOn { get; set; }
 	}
 }

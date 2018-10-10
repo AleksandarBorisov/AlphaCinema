@@ -6,6 +6,5 @@ namespace AlphaCinemaData.Models.Contracts
     {
         bool IsDeleted { get; set; }
 
-        DateTime? DeletedOn { get; set; }
     }
 }

@@ -6,22 +6,22 @@ namespace AlphaCinema.Core.Utilities
 {
     class CommandProcessor : ICommandProcessor
     {
-        private ICommandFactory commnadFactory;
+        private ICommandFactory commandFactory;
 
-        public CommandProcessor(ICommandFactory commnadFactory)
+        public CommandProcessor(ICommandFactory commandFactory)
         {
-            this.commnadFactory = commnadFactory;
+            this.commandFactory = commandFactory;
         }
 
-        public void ExecuteCommand(List<string> command)
+        public void ExecuteCommand(List<string> parameters)
         {
-            var commandName = command[0];
+            var commandName = parameters[0];
 
             //Тук Resolve-аме командата и разбираме коя е
-            var resolvedCommand = commnadFactory.GetCommand(commandName);
+            var resolvedCommand = commandFactory.GetCommand(commandName);
 
             //Тук вкарваме параметрите и изпълняваме командата
-            resolvedCommand.Execute(command); 
+            resolvedCommand.Execute(parameters); 
         }
     }
 }

@@ -12,13 +12,10 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 		private readonly IOpenHourServices openHourServices;
 		private readonly IProjectionsServices projectionsServices;
 
-		public ChooseHour(ICommandProcessor commandProcessor, IItemSelector selector, IOpenHourServices openHourServices,
-			IProjectionsServices projectionsServices)
+		public ChooseHour(ICommandProcessor commandProcessor, IItemSelector selector, IOpenHourServices openHourServices)
 			: base(commandProcessor, selector)
 		{
 			this.openHourServices = openHourServices;
-			// ТОВА ТРЯБВА ДА Е В ОТДЕЛЕН КЛАС
-			this.projectionsServices = projectionsServices;
 		}
 
 		public override void Execute(List<string> parameters)
@@ -42,9 +39,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             {
 				// ТОВА ТРЯБВА ДА Е В ОТДЕЛНА КОМАНДА ЗА РЕЗЕРВАЦИЯ
 				var openHourID = openHourServices.GetID(startHour);
-				var projectionID = projectionsServices.GetID(cityID, movieID, openHourID);
-				//Database.Add(guids[hours.IndexOf(result)].ToString(), townGuid, movieGuid)
-				//Тук ще направим заявка към базата и ще добавим билета
+
 				selector.PrintAtPosition($"Your Reservation for {startHour} has been Added", (displayItems.Count - 2) * int.Parse(startingRow) + int.Parse(offSetFromTop), false);
                 startHour = selector.DisplayItems(displayItems);
             }

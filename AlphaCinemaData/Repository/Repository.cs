@@ -1,6 +1,4 @@
 ﻿using AlphaCinemaData.Context;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
@@ -44,7 +42,6 @@ namespace AlphaCinemaData.Repository
         public void Delete(T entity)
         {
             entity.IsDeleted = true;
-            entity.DeletedOn = DateTime.Now;
 
             var entry = this.context.Entry(entity);
             entry.State = EntityState.Modified;

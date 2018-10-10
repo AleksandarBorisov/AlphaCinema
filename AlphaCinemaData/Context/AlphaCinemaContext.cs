@@ -1,4 +1,5 @@
-﻿using AlphaCinemaData.Models;
+﻿using AlphaCinemaData.Configurations;
+using AlphaCinemaData.Models;
 using AlphaCinemaData.Models.Associative;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,115 +29,15 @@ namespace AlphaCinemaData.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Cities
-            modelBuilder
-                .Entity<City>(city =>
-                {
-                    city.HasKey(g => g.Id);
-
-                    city.Property(c => c.Id)
-                    .ValueGeneratedOnAdd();
-
-                    city.Property(c => c.Name)
-                    .IsRequired()
-                    .HasMaxLength(50);
-                });
-
-            // Genres
-            modelBuilder
-                .Entity<Genre>(genre =>
-                {
-                    genre.HasKey(g => g.Id);
-
-                    genre.Property(g => g.Id)
-                    .ValueGeneratedOnAdd();
-
-                    genre.Property(g => g.Name)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                });
-
-            // MoviesGenres
-            modelBuilder
-                .Entity<MovieGenre>()
-                .HasKey(movieGenres => new
-                {
-                    movieGenres.MovieId,
-                    movieGenres.GenreId
-                });
-
-            // WatchedMovies
-            modelBuilder
-               .Entity<WatchedMovie>()
-               .HasKey(watchedMovie => new
-               {
-                   watchedMovie.ProjectionId,
-                   watchedMovie.UserId
-               });
-
-            // Projections
-            modelBuilder
-                .Entity<Projection>(projection =>
-                {
-                    projection.HasKey(proj => proj.Id);
-
-                    projection.Property(proj => proj.Id)
-                    .ValueGeneratedOnAdd();
-
-                    projection
-                    .HasIndex(p => new
-                    {
-                        p.MovieId,
-                        p.CityId,
-                        p.OpenHourId
-                    })
-                    .IsUnique(true);
-                });
-
-
-            // Users
-            modelBuilder
-                .Entity<User>(user =>
-                {
-                    user.HasKey(us => us.Id);
-
-                    user.Property(us => us.Name)
-                    .HasMaxLength(50);
-
-                    user.Property(us => us.Age);
-
-                });
-
-            // OpenHours
-            modelBuilder
-                .Entity<OpenHour>(openHour =>
-                {
-                    openHour.HasKey(opHour => opHour.Id);
-                    openHour.Property(opHour => opHour.StartHour)
-                    .HasMaxLength(6);
-
-                });
-
-            // Movies
-            modelBuilder
-                .Entity<Movie>(movie =>
-                {
-                    movie.HasKey(mov => mov.Id);
-
-                    movie.Property(mov => mov.Name)
-                    .HasMaxLength(50);
-
-                    movie.Property(mov => mov.Description)
-                    .HasMaxLength(60);
-
-                    movie.Property(mov => mov.ReleaseYear);
-
-                    movie.Property(mov => mov.Duration);
-                });
-
-            // Add Entity Constraints 
-            base.OnModelCreating(modelBuilder);
+			modelBuilder.ApplyConfiguration(new CityConfiguration());
+			modelBuilder.ApplyConfiguration(new GenreConfiguration());
+			modelBuilder.ApplyConfiguration(new MovieConfiguration());
+			modelBuilder.ApplyConfiguration(new MovieGenreConfiguration());
+			modelBuilder.ApplyConfiguration(new OpenHourConfiguration());
+			modelBuilder.ApplyConfiguration(new ProjectionConfiguration());
+			modelBuilder.ApplyConfiguration(new UserConfiguration());
+			modelBuilder.ApplyConfiguration(new WatchedMovieConfiguration());
+			//base.OnModelCreating(modelBuilder);
         }
     }
 }
