@@ -33,19 +33,19 @@ namespace AlphaCinemaServices
             //    //.Include()
             //    .ToList();
 
-            var movie = this.movieRepo.All()
-                .Where(m => m.Name == movieName)
-                .Select(m => m.MovieGenres)
+            //var movie = this.movieRepo.All()
+            //    .Where(m => m.Name == movieName)
+            //    .Select(m => m.MovieGenres)
+            //    .FirstOrDefault();
+
+
+            //var genres = movie
+            //    .Select(movieGenre => movieGenre.GenreId.ToString()).ToList();
+
+            var genres = this.movieRepo.All()
+                .Where(movie => movie.Name == movieName)
+                .Select(movie => movie.MovieGenres.Select(movieGenre => movieGenre.GenreId.ToString()).ToList())
                 .FirstOrDefault();
-
-
-            var genres = movie
-                .Select(movieGenre => movieGenre.GenreId.ToString()).ToList();
-
-            //var genres = this.movieRepo.All()
-            //    .Where(movie => movie.Name == movieName)
-            //    .Select(movie => movie.MovieGenres
-            //    .Select(movieGenre => movieGenre.GenreId.ToString())).ToList();
 
             //var movie = this.movieRepo.All()
             //    .Where(mov => mov.Name == movieName)

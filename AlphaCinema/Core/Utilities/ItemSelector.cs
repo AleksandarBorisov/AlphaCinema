@@ -6,6 +6,8 @@ namespace AlphaCinema.Core.Utilities
 {
     public class ItemSelector : IItemSelector
     {
+        private int maxPasswordLength = 20;
+
         public string DisplayItems(List<string> selection) //, IAlphaConsole alphaConsole
         {
             int currentIndex = 1;
@@ -93,7 +95,7 @@ namespace AlphaCinema.Core.Utilities
             do
             {
                 key = Console.ReadKey(true);
-                if (!char.IsControl(key.KeyChar))
+                if (!char.IsControl(key.KeyChar) && password.Length < maxPasswordLength)
                 {//(key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
                     password += key.KeyChar;
                     Console.Write('*');

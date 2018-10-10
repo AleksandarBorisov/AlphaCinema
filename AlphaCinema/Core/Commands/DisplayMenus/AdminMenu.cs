@@ -2,9 +2,10 @@
 using AlphaCinema.Core.DisplayMenus.Abstract;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace AlphaCinema.Core.DisplayMenus
+namespace AlphaCinema.Core.Commands.DisplayMenus
 {
     public class AdminMenu : DisplayBaseCommand
     {
@@ -23,7 +24,8 @@ namespace AlphaCinema.Core.DisplayMenus
             displayItems.Add("RemoveMovie");
             displayItems.Add("AddGenre");
             displayItems.Add("RemoveGenre");
-            displayItems.Add("AddCity");
+            displayItems.Add("AddTown");
+            displayItems.Add("RemoveTown");
             displayItems.Add("AddProjection");
             displayItems.Add("RemoveProjection");
             displayItems.Add("FindUser");
@@ -32,7 +34,17 @@ namespace AlphaCinema.Core.DisplayMenus
             displayItems.Add(offSetFromTop);
             displayItems.Add(startingRow);
 
-            string cityName = selector.DisplayItems(displayItems);
+            string commandName = selector.DisplayItems(displayItems);
+
+            if (commandName == "Back" || commandName == "Home")
+            {
+                commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
+            }
+            else
+            {
+                parameters.Insert(0, commandName);
+                commandProcessor.ExecuteCommand(parameters);
+            }
         }
     }
 }

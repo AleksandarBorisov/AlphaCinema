@@ -4,7 +4,7 @@ using AlphaCinema.Core.Contracts;
 using AlphaCinema.Core.DisplayMenus.Abstract;
 using AlphaCinemaServices.Contracts;
 
-namespace AlphaCinema.Core.DisplayMenus
+namespace AlphaCinema.Core.Commands.DisplayMenus
 {
     class ChooseTown : DisplayBaseCommand
     {

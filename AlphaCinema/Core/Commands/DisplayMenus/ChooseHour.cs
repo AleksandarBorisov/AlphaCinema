@@ -5,7 +5,7 @@ using AlphaCinemaServices.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AlphaCinema.Core.DisplayMenus
+namespace AlphaCinema.Core.Commands.DisplayMenus
 {
     public class ChooseHour : DisplayBaseCommand
 	{

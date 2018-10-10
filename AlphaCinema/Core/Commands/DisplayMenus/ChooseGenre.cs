@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AlphaCinema.Core.DisplayMenus
+namespace AlphaCinema.Core.Commands.DisplayMenus
 {
 	public class ChooseGenre : DisplayBaseCommand
 	{

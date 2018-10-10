@@ -3,7 +3,7 @@ using AlphaCinema.Core.DisplayMenus.Abstract;
 using System;
 using System.Collections.Generic;
 
-namespace AlphaCinema.Core.DisplayMenus
+namespace AlphaCinema.Core.Commands.DisplayMenus
 {
     public class Menu : DisplayBaseCommand
     {
