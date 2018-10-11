@@ -4,7 +4,6 @@ using AlphaCinemaServices.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace AlphaCinema.Core.Commands.BasicCommands
@@ -49,8 +48,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 selector.PrintAtPosition(successfullyAdded, startingRow * 1 + offSetFromTop, false);
                 Thread.Sleep(2000);
                 selector.PrintAtPosition(new string(' ', successfullyAdded.Length), startingRow * 1 + offSetFromTop, false);
-                parameters[0] = "AdminMenu";
-                commandProcessor.ExecuteCommand(parameters);
+                commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
             }
             catch (Exception ex)
             {
