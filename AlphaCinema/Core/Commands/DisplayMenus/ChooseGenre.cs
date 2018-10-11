@@ -48,7 +48,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 			{
 				var genreID = this.genreServices.GetID(genreName);
 				parameters.Insert(0, genreID);
-				parameters.Insert(0, "ChooseCity");
+				parameters.Insert(0, "ChooseMovie");
 				commandProcessor.ExecuteCommand(parameters);
 			}
 		}

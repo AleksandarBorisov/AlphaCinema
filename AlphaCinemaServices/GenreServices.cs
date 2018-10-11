@@ -37,6 +37,20 @@ namespace AlphaCinemaServices
             return genreNames;
         }
 
+		public List<string> GetGenreNames(string cityID)
+		{
+			var genreNames = this.unitOfWork.Genres.All()
+				.Where(genre => genre.IsDeleted == false)
+				.Select(genre => genre.Name)
+				.ToList();
+
+			var genreNames = this.unitOfWork.Projections
+
+			return genreNames;
+		}
+
+
+
 		public void AddNewGenre(string genreName)
 		{
 			if (IfExist(genreName) && IsDeleted(genreName))

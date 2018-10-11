@@ -9,6 +9,7 @@ namespace AlphaCinemaServices.Contracts
         string GetID(string genreName);
 
         List<string> GetGenreNames();
+        List<string> GetGenreNames(string cityID);
 
 		void AddNewGenre(string genreName);
 		void DeleteGenre(string genreName);

@@ -41,11 +41,11 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             {
                 commandProcessor.ExecuteCommand(parameters.Skip(3).ToList());
             }
-            else
+			else
             {
                 var cityID = this.cityServices.GetID(cityName);
                 parameters.Insert(0, cityID);
-                parameters.Insert(0, "ChooseMovie");
+                parameters.Insert(0, "ChooseGenre");
                 commandProcessor.ExecuteCommand(parameters);
             }
         }

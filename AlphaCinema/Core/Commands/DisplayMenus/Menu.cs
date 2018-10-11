@@ -21,7 +21,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 			string result = selector.DisplayItems(parameters);
 			if (result == "BuyTickets") // sorry for this
 			{
-				result = "ChooseGenre"; // sorry for this
+				result = "ChooseCity"; // sorry for this
 			}
 			if (result == "Exit")
             {
