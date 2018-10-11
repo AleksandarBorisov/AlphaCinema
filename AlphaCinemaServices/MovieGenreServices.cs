@@ -69,7 +69,7 @@ namespace AlphaCinemaServices
             return genresNames;
         }
 
-        public List<string> GetMovieIDsByGenre(string genreName)
+        public List<string> GetMovieIDsByGenreName(string genreName)
         {
 			var movieIDs = this.unitOfWork.Genres.All()
 				.Where(g => g.Name == genreName)
@@ -81,7 +81,7 @@ namespace AlphaCinemaServices
             return movieIDs;
         }
 
-        public List<string> GetMovieNamesByGenre(string genreName)
+        public List<string> GetMovieNamesByGenreName(string genreName)
         {
             var moviesNames = this.unitOfWork.Genres.All()
                 .Where(g => g.Name == genreName)

@@ -62,7 +62,7 @@ namespace AlphaCinemaServices
 			}
 			else if (IfExist(genreName) && !IsDeleted(genreName))
 			{
-				throw new EntityAlreadyExistsException("\nGenre is already present in the database.");
+				throw new EntityAlreadyExistsException($"Genre {genreName} is already present in the database.");
 			}
 			else
 			{
@@ -83,7 +83,7 @@ namespace AlphaCinemaServices
 			}
 			else if (IfExist(genreName) && IsDeleted(genreName))
 			{
-				throw new EntityDoesntExistException("\nGenre is not present in the database.");
+				throw new EntityDoesntExistException($"Genre {genreName} is not present in the database.");
 			}
 			var entity = this.unitOfWork.Genres.All()
 				.Where(g => g.Name == genreName)

@@ -34,8 +34,6 @@ namespace AlphaCinemaServices
                 .Select(watchedMovie => watchedMovie.UserId.ToString())
                 .ToList();
 
-
-
             return usersIDs;
         }
 

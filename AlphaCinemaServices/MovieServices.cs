@@ -19,9 +19,14 @@ namespace AlphaCinemaServices
 			this.unitOfWork = unitOfWork;
 		}
 
-		public string GetID(string movieName)
+        public string GetID(string movieName)
 		{
-			var id = this.unitOfWork.Movies.All()
+            if(!IfExist(movieName))
+            {
+                throw new EntityDoesntExistException($"Movie {movieName} is not present in the database.");
+            }
+
+            var id = this.unitOfWork.Movies.All()
 				.Where(m => m.Name == movieName)
 				.Select(m => m.Id).FirstOrDefault();
 
@@ -49,6 +54,7 @@ namespace AlphaCinemaServices
                 throw new ArgumentException("Movie Description can't be more than 150 characters");
             }
   
+            //Check if exist and if is deleted
             if (IfExist(name) && IsDeleted(name))
             {
                 var genre = this.unitOfWork.Genres.All()
@@ -86,8 +92,8 @@ namespace AlphaCinemaServices
         private bool IfExist(string movieName)
         {
             return this.unitOfWork.Movies.AllAndDeleted()
-                .Where(movie => movie.Name == movieName)
-                .FirstOrDefault() == null ? false : true;
+			    .Where(m => m.Name == movieName)
+			    .FirstOrDefault() == null ? false : true;
         }
 
         private bool IsDeleted(string movieName)
