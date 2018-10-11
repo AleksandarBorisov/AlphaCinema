@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlphaCinemaData.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,6 +12,7 @@ namespace AlphaCinemaServices.Contracts
         List<string> GetMovieNamesByGenre(string genreName);
         List<string> GetGenreNamesByMovie(string movieName);
 		List<string> GetMovieNamesByGenreID(string genreID);
+		void AddNew(Movie movie, Genre genre);
 
 
 	}

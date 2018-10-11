@@ -75,6 +75,14 @@ namespace AlphaCinemaServices
 			}
         }
 
+		public Movie GetMovieByName(string movieName)
+		{
+			var movie = unitOfWork.Movies.All()
+				.Where(m => m.Name == movieName)
+				.FirstOrDefault();
+			return movie;
+		}
+
         private bool IfExist(string movieName)
         {
             return this.unitOfWork.Movies.AllAndDeleted()

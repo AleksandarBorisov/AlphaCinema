@@ -29,5 +29,21 @@ namespace AlphaCinema.Core.Utilities
 		{
 			Console.ReadKey();
 		}
+
+		public void HandleException(string message)
+		{
+			Console.WriteLine(message);
+			Console.Write("\nPress any key to go back...");
+			Console.ReadKey();
+			Console.Clear();
+		}
+
+		public void HandleOperation(string message)
+		{
+			Console.WriteLine(message);
+			Console.Write("\nPress any key to go back...");
+			Console.ReadKey();
+			Console.Clear();
+		}
 	}
 }

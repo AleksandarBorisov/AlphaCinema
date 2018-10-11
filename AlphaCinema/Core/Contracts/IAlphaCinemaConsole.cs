@@ -7,5 +7,7 @@
 		void WriteLine(string message);
 		void Clear();
 		void ReadKey();
+		void HandleException(string message);
+		void HandleOperation(string message);
 	}
 }
