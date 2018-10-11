@@ -12,9 +12,6 @@ namespace AlphaCinemaData.Configurations
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
 			builder
-				.HasKey(u => u.Id);
-
-			builder
 				.Property(u => u.Name)
 				.HasMaxLength(50);
 

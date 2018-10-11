@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlphaCinemaData.Migrations
 {
     [DbContext(typeof(AlphaCinemaContext))]
-    [Migration("20181009184154_List_to_ICollection")]
-    partial class List_to_ICollection
+    [Migration("20181011142217_IdentityFix")]
+    partial class IdentityFix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,11 +23,9 @@ namespace AlphaCinemaData.Migrations
 
             modelBuilder.Entity("AlphaCinemaData.Models.Associative.MovieGenre", b =>
                 {
-                    b.Property<Guid>("MovieId");
+                    b.Property<int>("MovieId");
 
-                    b.Property<Guid>("GenreId");
-
-                    b.Property<DateTime?>("DeletedOn");
+                    b.Property<int>("GenreId");
 
                     b.Property<bool>("IsDeleted");
 
@@ -40,20 +38,19 @@ namespace AlphaCinemaData.Migrations
 
             modelBuilder.Entity("AlphaCinemaData.Models.Associative.Projection", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("CityId");
+                    b.Property<int>("CityId");
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<DateTime?>("DeletedOn");
-
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<Guid>("MovieId");
+                    b.Property<int>("MovieId");
 
-                    b.Property<Guid>("OpenHourId");
+                    b.Property<int>("OpenHourId");
 
                     b.HasKey("Id");
 
@@ -69,55 +66,46 @@ namespace AlphaCinemaData.Migrations
 
             modelBuilder.Entity("AlphaCinemaData.Models.Associative.WatchedMovie", b =>
                 {
-                    b.Property<Guid>("ProjectionId");
+                    b.Property<int>("UserId");
 
-                    b.Property<Guid>("UserId");
-
-                    b.Property<DateTime?>("DeletedOn");
+                    b.Property<int>("ProjectionId");
 
                     b.Property<bool>("IsDeleted");
 
-                    b.HasKey("ProjectionId", "UserId");
+                    b.HasKey("UserId", "ProjectionId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ProjectionId");
 
                     b.ToTable("WatchedMovies");
                 });
 
             modelBuilder.Entity("AlphaCinemaData.Models.City", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("CreatedOn");
-
-                    b.Property<DateTime?>("DeletedOn");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("AlphaCinemaData.Models.Genre", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("CreatedOn");
-
-                    b.Property<DateTime?>("DeletedOn");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -125,26 +113,24 @@ namespace AlphaCinemaData.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("AlphaCinemaData.Models.Movie", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("CreatedOn");
-
-                    b.Property<DateTime?>("DeletedOn");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .HasMaxLength(60);
+                        .HasMaxLength(150);
 
                     b.Property<int>("Duration");
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50);
@@ -153,49 +139,51 @@ namespace AlphaCinemaData.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
+
                     b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("AlphaCinemaData.Models.OpenHour", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("CreatedOn");
-
-                    b.Property<DateTime?>("DeletedOn");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("StartHour")
                         .HasMaxLength(6);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("StartHour")
+                        .IsUnique()
+                        .HasFilter("[StartHour] IS NOT NULL");
+
                     b.ToTable("OpenHours");
                 });
 
             modelBuilder.Entity("AlphaCinemaData.Models.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Age");
 
-                    b.Property<DateTime?>("CreatedOn");
-
-                    b.Property<DateTime?>("DeletedOn");
-
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Users");
                 });

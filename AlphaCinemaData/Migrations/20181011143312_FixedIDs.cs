@@ -2,7 +2,7 @@
 
 namespace AlphaCinemaData.Migrations
 {
-    public partial class Not_SureIf_Something_Changed : Migration
+    public partial class FixedIDs : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -5,9 +5,10 @@ namespace AlphaCinemaData.Models.Associative
 {
     public class MovieGenre : IDeletable
     {
-        public Guid MovieId { get; set; }
+		public int Id { get; set; }
+		public int MovieId { get; set; }
         
-        public Guid GenreId { get; set; }
+        public int GenreId { get; set; }
 
         public Movie Movie { get; set; }
 

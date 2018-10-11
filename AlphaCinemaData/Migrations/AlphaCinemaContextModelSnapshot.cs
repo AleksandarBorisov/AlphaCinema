@@ -21,9 +21,11 @@ namespace AlphaCinemaData.Migrations
 
             modelBuilder.Entity("AlphaCinemaData.Models.Associative.MovieGenre", b =>
                 {
-                    b.Property<Guid>("MovieId");
+                    b.Property<int>("MovieId");
 
-                    b.Property<Guid>("GenreId");
+                    b.Property<int>("GenreId");
+
+                    b.Property<int>("Id");
 
                     b.Property<bool>("IsDeleted");
 
@@ -36,18 +38,19 @@ namespace AlphaCinemaData.Migrations
 
             modelBuilder.Entity("AlphaCinemaData.Models.Associative.Projection", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<Guid>("CityId");
+                    b.Property<int>("CityId");
 
                     b.Property<DateTime>("Date");
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<Guid>("MovieId");
+                    b.Property<int>("MovieId");
 
-                    b.Property<Guid>("OpenHourId");
+                    b.Property<int>("OpenHourId");
 
                     b.HasKey("Id");
 
@@ -63,9 +66,9 @@ namespace AlphaCinemaData.Migrations
 
             modelBuilder.Entity("AlphaCinemaData.Models.Associative.WatchedMovie", b =>
                 {
-                    b.Property<Guid>("UserId");
+                    b.Property<int>("UserId");
 
-                    b.Property<Guid>("ProjectionId");
+                    b.Property<int>("ProjectionId");
 
                     b.Property<bool>("IsDeleted");
 
@@ -78,8 +81,9 @@ namespace AlphaCinemaData.Migrations
 
             modelBuilder.Entity("AlphaCinemaData.Models.City", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsDeleted");
 
@@ -97,8 +101,9 @@ namespace AlphaCinemaData.Migrations
 
             modelBuilder.Entity("AlphaCinemaData.Models.Genre", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsDeleted");
 
@@ -116,8 +121,9 @@ namespace AlphaCinemaData.Migrations
 
             modelBuilder.Entity("AlphaCinemaData.Models.Movie", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .HasMaxLength(150);
@@ -142,8 +148,9 @@ namespace AlphaCinemaData.Migrations
 
             modelBuilder.Entity("AlphaCinemaData.Models.OpenHour", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsDeleted");
 
@@ -161,8 +168,9 @@ namespace AlphaCinemaData.Migrations
 
             modelBuilder.Entity("AlphaCinemaData.Models.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Age");
 

@@ -2,7 +2,7 @@
 
 namespace AlphaCinemaData.Migrations
 {
-    public partial class List_to_ICollection : Migration
+    public partial class IdentityFix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
