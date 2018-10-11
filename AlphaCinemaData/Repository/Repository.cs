@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
 using AlphaCinemaData.Models.Contracts;
+using System.Collections.Generic;
 
 namespace AlphaCinemaData.Repository
 {
@@ -15,12 +16,12 @@ namespace AlphaCinemaData.Repository
             this.context = context;
         }
 
-        public IQueryable<T> All()
+        public IEnumerable<T> All()
         {
             return this.context.Set<T>().Where(x => !x.IsDeleted);
         }
 
-        public IQueryable<T> AllAndDeleted()
+        public IEnumerable<T> AllAndDeleted()
         {
             return this.context.Set<T>();
         }

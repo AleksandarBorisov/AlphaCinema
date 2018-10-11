@@ -9,6 +9,7 @@ using AlphaCinema.Core.Utilities;
 using AlphaCinemaData.Context;
 using AlphaCinemaData.Models.Associative;
 using AlphaCinemaData.Repository;
+using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices;
 using AlphaCinemaServices.Contracts;
 using Autofac;
@@ -62,6 +63,8 @@ namespace AlphaCinema.Config
             builder.RegisterType<WatchedMovieServices>().As<IWatchedMovieServices>();
 			builder.RegisterType<CommandHandler>().As<ICommandHandler>();
 			builder.RegisterType<AlphaCinemaConsole>().As<IAlphaCinemaConsole>();
+			builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+
 		}
     }
 }

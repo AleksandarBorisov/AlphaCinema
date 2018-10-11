@@ -1,5 +1,4 @@
-﻿using AlphaCinemaData.Models;
-using AlphaCinemaData.Repository;
+﻿using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +7,16 @@ namespace AlphaCinemaServices
 {
     public class UserServices : IUserServices
     {
-        private readonly IRepository<User> repository;
+		private readonly IUnitOfWork unitOfWork;
 
-        public UserServices(IRepository<User> repository)
-        {
-            this.repository = repository;
-        }
+		public UserServices(IUnitOfWork unitOfWork)
+		{
+			this.unitOfWork = unitOfWork;
+		}
 
-        public string GetID(string userName)
+		public string GetID(string userName)
         {
-            var id = this.repository.All()
+            var id = this.unitOfWork.Users.All()
                 .Where(user => user.Name == userName)
                 .Select(user => user.Id)
                 .FirstOrDefault();
@@ -27,7 +26,7 @@ namespace AlphaCinemaServices
 
         public List<string> GetUsersNames()
         {
-            var users = this.repository.All()
+            var users = this.unitOfWork.Users.All()
                 .Select(user => user.Name)
                 .ToList();
 
