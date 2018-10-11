@@ -7,5 +7,7 @@ namespace AlphaCinemaServices.Contracts
 	{
 		string GetID(string movieName);
 		List<string> GetMovieNames();
-	}
+        void AddNewMovie(string[] movieDetails);
+
+    }
 }

@@ -8,8 +8,8 @@ namespace AlphaCinema.Core.Contracts
 
         void PrintAtPosition(string item, int currentRow, bool selected);
 
-        string ReadAtPosition(int currentRow, string caption);
+        string ReadAtPosition(int currentRow, string caption, bool hideCharacters, int maxLength);
 
-        string HideCharacters();
+        string HideCharacters(bool hideCharacters, int stringMaxLength);
     }
 }

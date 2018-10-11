@@ -6,8 +6,6 @@ namespace AlphaCinema.Core.Utilities
 {
     public class ItemSelector : IItemSelector
     {
-        private int maxPasswordLength = 20;
-
         public string DisplayItems(List<string> selection) //, IAlphaConsole alphaConsole
         {
             int currentIndex = 1;
@@ -33,7 +31,7 @@ namespace AlphaCinema.Core.Utilities
                     PrintAtPosition(selection[currentIndex]
                         , currentIndex * startingRow + offSetFromTop, false);
 
-                    PrintAtPosition(selection[--currentIndex], 
+                    PrintAtPosition(selection[--currentIndex],
                         currentIndex * startingRow + offSetFromTop, true);
                 }
                 else if (key.Key == ConsoleKey.DownArrow && currentIndex < selection.Count - 3)
@@ -41,7 +39,7 @@ namespace AlphaCinema.Core.Utilities
                     PrintAtPosition(selection[currentIndex],
                         currentIndex * startingRow + offSetFromTop, false);
 
-                    PrintAtPosition(selection[++currentIndex], 
+                    PrintAtPosition(selection[++currentIndex],
                         currentIndex * startingRow + offSetFromTop, true);
                 }
 
@@ -77,28 +75,35 @@ namespace AlphaCinema.Core.Utilities
             }
         }
 
-        public string ReadAtPosition(int currentRow, string caption)
+        public string ReadAtPosition(int currentRow, string caption, bool hideCharacters, int maxLength)
         {
             Console.CursorVisible = true;
             Console.SetCursorPosition(Console.WindowWidth / 2 - caption.Length / 2, currentRow);
-            string message = HideCharacters();
+            string message = HideCharacters(hideCharacters, maxLength);
             Console.SetCursorPosition(Console.WindowWidth / 2 - caption.Length / 2, currentRow);
             Console.Write(new string(' ', message.Length));
             Console.CursorVisible = false;
             return message;
         }
 
-        public string HideCharacters()
+        public string HideCharacters(bool hideCharacters, int stringMaxLength)
         {
             string password = "";
             ConsoleKeyInfo key;
             do
             {
                 key = Console.ReadKey(true);
-                if (!char.IsControl(key.KeyChar) && password.Length < maxPasswordLength)
+                if (!char.IsControl(key.KeyChar) && password.Length < stringMaxLength)
                 {//(key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
                     password += key.KeyChar;
-                    Console.Write('*');
+                    if (hideCharacters)
+                    {
+                        Console.Write('*');
+                    }
+                    else
+                    {
+                        Console.Write(key.KeyChar);
+                    }
                 }
                 else if (key.Key == ConsoleKey.Backspace && password.Length > 0)
                 {

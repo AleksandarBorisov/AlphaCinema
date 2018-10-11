@@ -3,6 +3,7 @@ using AlphaCinema.Core.Contracts;
 using AlphaCinemaServices.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -32,21 +33,22 @@ namespace AlphaCinema.Core.Commands.BasicCommands
             string enterМovie = "Format: MovieName(50), Description(150), RealeaseYear, Duration";
             selector.PrintAtPosition(displayItems[0].ToUpper(), startingRow * 0 + offSetFromTop, false);
             selector.PrintAtPosition(enterМovie, startingRow * 1 + offSetFromTop, false);
-            string movie = selector.ReadAtPosition(startingRow * 2 + offSetFromTop, enterМovie);
+            string movie = selector.ReadAtPosition(startingRow * 2 + offSetFromTop, enterМovie, false, 250);
             displayItems.Add(offSetFromTop.ToString());
             displayItems.Add(startingRow.ToString());
-            string[] movieDetals = movie.Split(',');
+            string[] movieDetails = movie.Split(new char[] { ',', ' ', }, StringSplitOptions.RemoveEmptyEntries);
             try
             {
                 selector.PrintAtPosition(new string(' ', enterМovie.Length), startingRow * 1 + offSetFromTop, false);
-                if (movieDetals.Length != 4)
+                if (movieDetails.Length != 4)
                 {
                     throw new ArgumentException("Please enter valid count of movie attributes");
                 }
-                //movieServices.AddNewMovie(movieDetals);
-                string successfullyAdded = $"Movie {movieDetals[0]} sucessfully added to the datavase";
+                movieServices.AddNewMovie(movieDetails);
+                string successfullyAdded = $"Movie {movieDetails[0]} sucessfully added to the database";
                 selector.PrintAtPosition(successfullyAdded, startingRow * 1 + offSetFromTop, false);
-                Thread.Sleep(300);
+                Thread.Sleep(2000);
+                selector.PrintAtPosition(new string(' ', successfullyAdded.Length), startingRow * 1 + offSetFromTop, false);
                 parameters[0] = "AdminMenu";
                 commandProcessor.ExecuteCommand(parameters);
             }
@@ -57,21 +59,20 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                     string wrongParametersDetals = ex.Message;
                     selector.PrintAtPosition(wrongParametersDetals, startingRow * 4 + offSetFromTop, false);
                     string selected = selector.DisplayItems(displayItems);
+                    selector.PrintAtPosition(new string(' ', wrongParametersDetals.Length), startingRow * 4 + offSetFromTop, false);
                     if (selected == "Retry")
                     {
-                        selector.PrintAtPosition(new string(' ', wrongParametersDetals.Length), startingRow * 4 + offSetFromTop, false);
                         commandProcessor.ExecuteCommand(parameters);
                     }
                     else if (selected == "Back")
                     {
-
+                        commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
                     }
                     else if (selected == "Home")
                     {
-
+                        commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
                     }
                 }
-                
             }
         }
     }
