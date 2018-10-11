@@ -16,12 +16,12 @@ namespace AlphaCinemaData.Repository
             this.context = context;
         }
 
-        public IEnumerable<T> All()
+        public IQueryable<T> All()
         {
             return this.context.Set<T>().Where(x => !x.IsDeleted);
         }
 
-        public IEnumerable<T> AllAndDeleted()
+        public IQueryable<T> AllAndDeleted()
         {
             return this.context.Set<T>();
         }
