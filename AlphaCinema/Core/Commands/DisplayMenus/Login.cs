@@ -27,10 +27,10 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 				"Home"
 			};
 			string enterPassword = "Enter password:";
-            string wrongPasswordMessage = "Incorrect passowrd, consider using 'TelerikAcademyFTW' instead";
+            string wrongPasswordMessage = "Incorrect password, consider using 'TelerikAcademyFTW' instead";
             selector.PrintAtPosition(displayItems[0].ToUpper(), startingRow * 0 + offSetFromTop, false);
             selector.PrintAtPosition(enterPassword, startingRow * 1 + offSetFromTop, false);
-            string password = selector.ReadAtPosition(startingRow * 2 + offSetFromTop, "Enter password:");
+            string password = selector.ReadAtPosition(startingRow * 2 + offSetFromTop, enterPassword);
             displayItems.Add(offSetFromTop.ToString());
             displayItems.Add(startingRow.ToString());
 			// смених паролата временно на telerik за по-лесно тестване, защото другото отнемаше много време за писане
