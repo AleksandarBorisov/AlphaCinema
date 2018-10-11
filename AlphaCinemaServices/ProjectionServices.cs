@@ -1,5 +1,6 @@
 ﻿using AlphaCinemaData.Models.Associative;
 using AlphaCinemaData.Repository;
+using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +9,16 @@ namespace AlphaCinemaServices
 {
 	public class ProjectionServices : IProjectionsServices
 	{
-		private readonly IRepository<Projection> repository;
+		private readonly IUnitOfWork unitOfWork;
 
-		public ProjectionServices(IRepository<Projection> repository)
+		public ProjectionServices(IUnitOfWork unitOfWork)
 		{
-			this.repository = repository;
+			this.unitOfWork = unitOfWork;
 		}
 
 		public string GetID(string cityID, string movieID, string openHourID)
 		{
-			var id = repository.All()
+			var id = this.unitOfWork.Projections.All()
 				.Where(pr => pr.CityId.ToString() == cityID
 				&& pr.MovieId.ToString() == movieID
 				&& pr.OpenHourId.ToString() == openHourID)
@@ -28,7 +29,7 @@ namespace AlphaCinemaServices
 
 		public List<string> GetProjections()
 		{
-			var projections = repository.All()
+			var projections = this.unitOfWork.Projections.All()
 				.Select(pr => pr.Id.ToString())
 				.ToList();
 

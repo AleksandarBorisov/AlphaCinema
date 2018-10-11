@@ -1,5 +1,6 @@
 ﻿using AlphaCinemaData.Models;
 using AlphaCinemaData.Repository;
+using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
 using System.Collections.Generic;
@@ -9,16 +10,16 @@ namespace AlphaCinemaServices
 {
     public class GenreServices : IGenreServices
     {
-        private readonly IRepository<Genre> repository;
+		private readonly IUnitOfWork unitOfWork;
 
-        public GenreServices(IRepository<Genre> repository)
-        {
-            this.repository = repository;
-        }
+		public GenreServices(IUnitOfWork unitOfWork)
+		{
+			this.unitOfWork = unitOfWork;
+		}
 
-        public string GetID(string genreName)
+		public string GetID(string genreName)
         {
-            var id = this.repository.All()
+            var id = this.unitOfWork.Genres.All()
                 .Where(genre => genre.Name == genreName && genre.IsDeleted == false)
                 .Select(genre => genre.Id)
                 .FirstOrDefault();
@@ -28,7 +29,7 @@ namespace AlphaCinemaServices
         
         public List<string> GetGenreNames()
         {
-            var genreNames = this.repository.All()
+            var genreNames = this.unitOfWork.Genres.All()
 				.Where(genre => genre.IsDeleted == false)
                 .Select(genre => genre.Name)
                 .ToList();
@@ -40,10 +41,10 @@ namespace AlphaCinemaServices
 		{
 			if (IfExist(genreName) && IsDeleted(genreName))
 			{
-				var genre = repository.All()
+				var genre = this.unitOfWork.Genres.AllAndDeleted()
 					.FirstOrDefault(g => g.Name == genreName);
 				genre.IsDeleted = false;
-				repository.Save();
+				this.unitOfWork.Genres.Save();
 				return;
 			}
 			else if (IfExist(genreName) && !IsDeleted(genreName))
@@ -56,8 +57,8 @@ namespace AlphaCinemaServices
 				{
 					Name = genreName
 				};
-				repository.Add(genre);
-				repository.Save();
+				this.unitOfWork.Genres.Add(genre);
+				this.unitOfWork.Genres.Save();
 			}
 		}
 
@@ -67,27 +68,24 @@ namespace AlphaCinemaServices
 			{
 				throw new EntityDoesntExistException("Genre is not present in the database.");
 			}
-			var entity = repository.All()
+			var entity = this.unitOfWork.Genres.All()
 				.Where(g => g.Name == genreName)
 				.FirstOrDefault();
 
-			repository.Delete(entity);
-			repository.Save();
+			this.unitOfWork.Genres.Delete(entity);
+			this.unitOfWork.Genres.Save();
 		}
 
 		private bool IfExist(string name)
 		{
-			var result = repository.All()
+			return this.unitOfWork.Genres.AllAndDeleted()
 				.Where(g => g.Name == name)
-				.FirstOrDefault();
-			// трябва ми ламбда израз ама ми се спи много в момента :D
-			if (result == null) return false;
-			else return true;
+				.FirstOrDefault() == null ? false : true;
 		}
 
 		private bool IsDeleted(string genreName)
 		{
-			var result = repository.All()
+			var result = this.unitOfWork.Genres.AllAndDeleted()
 				.Where(g => g.Name == genreName)
 				.FirstOrDefault()
 				.IsDeleted;

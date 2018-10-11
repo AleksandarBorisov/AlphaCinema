@@ -1,23 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AlphaCinemaData.Models;
-using AlphaCinemaData.Repository;
+using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
 
 namespace AlphaCinemaServices
 {
 	public class OpenHourServices : IOpenHourServices
 	{
-		private readonly IRepository<OpenHour> repository;
+		private readonly IUnitOfWork unitOfWork;
 
-		public OpenHourServices(IRepository<OpenHour> repository)
+		public OpenHourServices(IUnitOfWork unitOfWork)
 		{
-			this.repository = repository;
+			this.unitOfWork = unitOfWork;
 		}
 
 		public string GetID(string startHour)
 		{
-			var id = repository.All()
+			var id = this.unitOfWork.OpenHours.All()
 				.Where(h => h.StartHour == startHour)
 				.Select(h => h.Id).FirstOrDefault();
 
@@ -26,7 +25,7 @@ namespace AlphaCinemaServices
 
 		public List<string> GetOpenHours()
 		{
-			var hours = repository.All()
+			var hours = this.unitOfWork.OpenHours.All()
 				.Select(hour => hour.StartHour)
 				.ToList();
 
