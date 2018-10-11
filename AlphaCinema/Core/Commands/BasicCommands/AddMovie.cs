@@ -4,7 +4,6 @@ using AlphaCinemaServices.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace AlphaCinema.Core.Commands.BasicCommands
@@ -64,14 +63,15 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 				Thread.Sleep(2000);
 				selector.PrintAtPosition(new string(' ', successfullyAdded.Length), startingRow * 1 + offSetFromTop, false);
 				parameters[0] = "AdminMenu";
-				commandProcessor.ExecuteCommand(parameters);
+				commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
 			}
 			catch (Exception ex)
 			{
 				if (ex is ArgumentException)
 				{
 					string wrongParametersDetals = ex.Message;
-					selector.PrintAtPosition(wrongParametersDetals, startingRow * 4 + offSetFromTop, false);
+                    selector.PrintAtPosition(new string(' ', enterМovie.Length), startingRow * 1 + offSetFromTop, false);
+                    selector.PrintAtPosition(wrongParametersDetals, startingRow * 4 + offSetFromTop, false);
 					string selected = selector.DisplayItems(displayItems);
 					selector.PrintAtPosition(new string(' ', wrongParametersDetals.Length), startingRow * 4 + offSetFromTop, false);
 					if (selected == "Retry")
