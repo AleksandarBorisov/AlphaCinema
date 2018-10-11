@@ -11,18 +11,18 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 	public class ChooseGenre : DisplayBaseCommand
 	{
 		private readonly IGenreServices genreServices;
-
+        
         public ChooseGenre(ICommandProcessor commandProcessor, IItemSelector selector, 
             IGenreServices genreServices)
 			: base(commandProcessor, selector)
 		{
 			this.genreServices = genreServices;
-
+            
 		}
 
 		public override void Execute(List<string> parameters)
 		{
-			string offSetFromTop = parameters[parameters.Count - 2];
+            string offSetFromTop = parameters[parameters.Count - 2];
 			string startingRow = parameters[parameters.Count - 1];
 
 			var genreNames = this.genreServices.GetGenreNames();
