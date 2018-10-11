@@ -9,9 +9,6 @@ namespace AlphaCinemaData.Configurations
 		public void Configure(EntityTypeBuilder<OpenHour> builder)
 		{
 			builder
-				.HasKey(opHour => opHour.Id);
-
-			builder
 				.Property(opHour => opHour.StartHour)
 				.HasMaxLength(6);
 

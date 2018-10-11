@@ -32,14 +32,9 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 
             string cityName = selector.DisplayItems(displayItems);
 
-			if (cityName == "Back")
+			if (cityName == "Back" || cityName == "Home")
             {
-                commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
-            }
-            //Изтриваме командата ChoooseMovie и извикваме отново предното menu
-            else if (cityName == "Home")
-            {
-                commandProcessor.ExecuteCommand(parameters.Skip(3).ToList());
+                commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
             }
 			else
             {

@@ -8,8 +8,6 @@ namespace AlphaCinemaData.Configurations
 	{
 		public void Configure(EntityTypeBuilder<Movie> builder)
 		{
-			builder
-				.HasKey(m => m.Id);
 
 			builder
 				.Property(m => m.Name)

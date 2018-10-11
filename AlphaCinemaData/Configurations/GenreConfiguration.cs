@@ -10,12 +10,6 @@ namespace AlphaCinemaData.Configurations
 		{
 			builder
 				.ToTable("Genres");
-			builder
-				.HasKey(g => g.Id);
-
-			builder
-				.Property(g => g.Id)
-				.ValueGeneratedOnAdd();
 
 			builder
 				.HasIndex(g => g.Name)

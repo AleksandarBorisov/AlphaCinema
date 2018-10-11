@@ -42,7 +42,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 			//Изтриваме командата ChoooseMovie и извикваме отново предното menu
 			else if (genreName == "Home")
 			{
-				commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
+				commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
 			}
 			else
 			{

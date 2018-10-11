@@ -10,6 +10,8 @@ namespace AlphaCinemaServices.Contracts
         List<string> GetGenreIDsByMovie(string movieName);
         List<string> GetMovieNamesByGenre(string genreName);
         List<string> GetGenreNamesByMovie(string movieName);
+		List<string> GetMovieNamesByGenreID(string genreID);
 
-    }
+
+	}
 }

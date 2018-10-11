@@ -6,13 +6,13 @@ namespace AlphaCinemaData.Models.Associative
 {
     public class Projection : IDeletable
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
-        public Guid MovieId { get; set; }
+        public int MovieId { get; set; }
 
-        public Guid CityId { get; set; }
+        public int CityId { get; set; }
 
-        public Guid OpenHourId { get; set; }
+        public int OpenHourId { get; set; }
 
         public DateTime Date { get; set; }
 

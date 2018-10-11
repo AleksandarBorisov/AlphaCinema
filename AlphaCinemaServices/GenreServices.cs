@@ -44,8 +44,6 @@ namespace AlphaCinemaServices
 				.Select(genre => genre.Name)
 				.ToList();
 
-			var genreNames = this.unitOfWork.Projections
-
 			return genreNames;
 		}
 
