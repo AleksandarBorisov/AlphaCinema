@@ -1,15 +1,12 @@
-﻿using AlphaCinema.Core.Contracts;
-using AlphaCinemaData.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AlphaCinema.Core.Contracts;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AlphaCinema.Core.Commands.BasicCommands
 {
-	public class AddMovieGenre : ICommand
+	public class RemoveMovieGenre : ICommand
 	{
 		private readonly ICommandProcessor commandProcessor;
 		private readonly IGenreServices genreServices;
@@ -17,7 +14,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		private readonly IMovieServices movieServices;
 		private readonly IMovieGenreServices movieGenreServices;
 
-		public AddMovieGenre(ICommandProcessor commandProcessor, IGenreServices genreServices,
+		public RemoveMovieGenre(ICommandProcessor commandProcessor, IGenreServices genreServices,
 			IAlphaCinemaConsole cinemaConsole, IMovieServices movieServices, IMovieGenreServices movieGenreServices)
 		{
 			this.commandProcessor = commandProcessor;
@@ -26,7 +23,6 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			this.movieServices = movieServices;
 			this.movieGenreServices = movieGenreServices;
 		}
-
 		public void Execute(List<string> parameters)
 		{
 			cinemaConsole.Clear();
@@ -40,8 +36,8 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 				var movieID = movieServices.GetID(input[0].TrimEnd().TrimStart());
 				var genreID = genreServices.GetID(input[1].TrimEnd().TrimStart());
 
-				movieGenreServices.AddNew(movieID, genreID);
-				cinemaConsole.HandleOperation("\nSuccessfully added to database");
+				movieGenreServices.Delete(movieID, genreID);
+				cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
 			}
 			catch (InvalidClientInputException e)
 			{

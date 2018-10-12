@@ -18,14 +18,14 @@ namespace AlphaCinemaServices
 			this.unitOfWork = unitOfWork;
 		}
 
-		public string GetID(string genreName)
+		public int GetID(string genreName)
 		{
 			var id = this.unitOfWork.Genres.All()
 				.Where(genre => genre.Name == genreName && genre.IsDeleted == false)
 				.Select(genre => genre.Id)
 				.FirstOrDefault();
 
-			return id.ToString();
+			return id;
 		}
 
 		public List<string> GetGenreNames()

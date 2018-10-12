@@ -6,7 +6,7 @@ namespace AlphaCinemaServices.Contracts
 {
     public interface IUserServices
     {
-        string GetID(string userName);
+		int GetID(string userName);
 
         List<string> GetUsersNames();
     }

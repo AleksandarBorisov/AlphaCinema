@@ -17,13 +17,13 @@ namespace AlphaCinemaServices
 			this.unitOfWork = unitOfWork;
 		}
 
-		public string GetID(string cityName)
+		public int GetID(string cityName)
 		{
 			var id = this.unitOfWork.Cities.All()
 				.Where(c => c.Name == cityName)
 				.Select(c => c.Id).FirstOrDefault();
 
-			return id.ToString();
+			return id;
 		}
 
 		public List<string> GetCityNames()
@@ -65,11 +65,11 @@ namespace AlphaCinemaServices
 		{
 			if (!IfExist(cityName))
 			{
-				throw new EntityDoesntExistException("\\nCity is not present in the database.");
+				throw new EntityDoesntExistException("\nCity is not present in the database.");
 			}
 			else if (IfExist(cityName) && IsDeleted(cityName))
 			{
-				throw new EntityDoesntExistException("\\nCity is not present in the database.");
+				throw new EntityDoesntExistException("\nCity is not present in the database.");
 			}
 			var entity = this.unitOfWork.Cities.All()
 				.Where(c => c.Name == cityName)

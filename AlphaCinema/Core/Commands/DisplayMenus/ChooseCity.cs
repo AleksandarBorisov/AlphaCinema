@@ -39,7 +39,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 			else
             {
                 var cityID = this.cityServices.GetID(cityName);
-                parameters.Insert(0, cityID);
+                parameters.Insert(0, cityID.ToString());
                 parameters.Insert(0, "ChooseGenre");
                 commandProcessor.ExecuteCommand(parameters);
             }

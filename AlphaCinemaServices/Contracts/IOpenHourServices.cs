@@ -4,7 +4,7 @@ namespace AlphaCinemaServices.Contracts
 {
 	public interface IOpenHourServices
 	{
-		string GetID(string startHour);
+		int GetID(string startHour);
 		List<string> GetOpenHours();
 
 	}

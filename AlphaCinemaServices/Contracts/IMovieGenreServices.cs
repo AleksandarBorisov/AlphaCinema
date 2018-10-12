@@ -12,7 +12,8 @@ namespace AlphaCinemaServices.Contracts
         List<string> GetMovieNamesByGenreName(string genreName);
         List<string> GetGenreNamesByMovie(string movieName);
 		List<string> GetMovieNamesByGenreID(string genreID);
-		void AddNew(Movie movie, Genre genre);
+		void AddNew(int movieID, int genreID);
+		void Delete(int movieID, int genreID);
 
 
 	}

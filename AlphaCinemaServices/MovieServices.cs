@@ -20,7 +20,7 @@ namespace AlphaCinemaServices
 			this.unitOfWork = unitOfWork;
 		}
 
-        public string GetID(string movieName)
+        public int GetID(string movieName)
 		{
             if(!IfExist(movieName))
             {
@@ -31,7 +31,7 @@ namespace AlphaCinemaServices
 				.Where(m => m.Name == movieName)
 				.Select(m => m.Id).FirstOrDefault();
 
-			return id.ToString();
+			return id;
 		}
 
 		public List<string> GetMovieNames()

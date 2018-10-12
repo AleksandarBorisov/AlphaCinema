@@ -6,7 +6,7 @@ namespace AlphaCinemaServices.Contracts
 {
 	public interface IMovieServices
 	{
-		string GetID(string movieName);
+		int GetID(string movieName);
 		List<string> GetMovieNames();
         void AddNewMovie(string name, string description, int releaseYear, int duration);
         void DeleteMovie(string movieName);
