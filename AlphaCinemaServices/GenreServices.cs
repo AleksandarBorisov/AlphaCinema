@@ -73,13 +73,6 @@ namespace AlphaCinemaServices
 			this.unitOfWork.Genres.Save();
 		}
 
-		public Genre GetGenreByName(string genreName)
-		{
-			var genre = unitOfWork.Genres.All()
-				.Where(g => g.Name == genreName)
-				.FirstOrDefault();
-			return genre;
-		}
 
 		private bool IfExist(string name)
 		{

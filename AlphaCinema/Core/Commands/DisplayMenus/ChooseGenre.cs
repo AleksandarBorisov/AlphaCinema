@@ -12,24 +12,24 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 	{
 		private readonly IGenreServices genreServices;
 		private readonly ICityServices cityServices;
-        
-        public ChooseGenre(ICommandProcessor commandProcessor, IItemSelector selector, 
-            IGenreServices genreServices, ICityServices cityServices)
+
+		public ChooseGenre(ICommandProcessor commandProcessor, IItemSelector selector,
+			IGenreServices genreServices, ICityServices cityServices)
 			: base(commandProcessor, selector)
 		{
 			this.genreServices = genreServices;
-            this.cityServices = cityServices;
-            
+			this.cityServices = cityServices;
+
 		}
 
 		public override void Execute(List<string> parameters)
 		{
-            string offSetFromTop = parameters[parameters.Count - 2];
+			string offSetFromTop = parameters[parameters.Count - 2];
 			string startingRow = parameters[parameters.Count - 1];
-            int cityId = int.Parse(parameters[1]);
-            // Избираме Жанр на база на града
-            var genreNames = this.cityServices.GetGenreNames(cityId);
-            List<string> displayItems = new List<string>() { "Choose Genre" };
+			int cityID = int.Parse(parameters[1]);
+			// Избираме Жанр на база на Града
+			var genreNames = this.cityServices.GetGenreNames(cityID);
+			List<string> displayItems = new List<string>() { "Choose Genre" };
 
 			displayItems.AddRange(genreNames);
 			displayItems.Add("Back");
