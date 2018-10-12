@@ -1,34 +1,38 @@
 ﻿using AlphaCinema.Core.Contracts;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace AlphaCinema.Core.Commands.BasicCommands
 {
-	public class AddGenre : ICommand
+	class AddCity : ICommand
 	{
 		private readonly ICommandProcessor commandProcessor;
-		private readonly IGenreServices genreServices;
+		private readonly ICityServices cityServices;
 		private readonly IAlphaCinemaConsole cinemaConsole;
 
-		public AddGenre(ICommandProcessor commandProcessor, IGenreServices genreServices, IAlphaCinemaConsole cinemaConsole)
+		public AddCity(ICommandProcessor commandProcessor, ICityServices cityServices, IAlphaCinemaConsole cinemaConsole)
 		{
 			this.commandProcessor = commandProcessor;
-			this.genreServices = genreServices;
+			this.cityServices = cityServices;
 			this.cinemaConsole = cinemaConsole;
 		}
 
 		public void Execute(List<string> parameters)
 		{
 			cinemaConsole.Clear();
-			cinemaConsole.WriteLine("Type a genre:\n");
-
+			Console.SetCursorPosition(Console.WindowWidth / 2, Console.WindowHeight / 2);
+			cinemaConsole.WriteLine("Type a city:\n");
+			
 			try
 			{
-				var genreName = cinemaConsole.ReadLine().Trim();
-				Validations(genreName);
-				genreServices.AddNewGenre(genreName);
+				Console.SetCursorPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 2);
+				var cityName = Console.ReadLine().Trim();
+				//var cityName = cinemaConsole.ReadLine().Trim();
+				Validations(cityName);
+				cityServices.AddNewCity(cityName);
 				cinemaConsole.HandleOperation("\nSuccessfully added to database");
 			}
 			catch (InvalidClientInputException e)
@@ -45,15 +49,15 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			}
 		}
 
-		private void Validations(string genreName)
+		private void Validations(string cityName)
 		{
-			if (string.IsNullOrWhiteSpace(genreName))
+			if (string.IsNullOrWhiteSpace(cityName))
 			{
-				throw new InvalidClientInputException("\nInvalid genre name");
+				throw new InvalidClientInputException("\nInvalid city name");
 			}
-			if (genreName.All(c => char.IsDigit(c)))
+			if (cityName.All(c => char.IsDigit(c)))
 			{
-				throw new InvalidClientInputException("\nGenre cannot be only digits");
+				throw new InvalidClientInputException("\nCity cannot be only digits");
 			}
 		}
 	}

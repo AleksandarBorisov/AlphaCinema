@@ -21,7 +21,9 @@ namespace AlphaCinema.Core.Utilities
 
         public void Load()
         {
-			Clear();
+            if (!IsEmpty()) return;
+
+            Clear();
             //Fill Users Table
             var usersAsString = File.ReadAllText("../../../../AlphaCinemaData/Files/Users.json");
             var users = JsonConvert.DeserializeObject<List<User>>(usersAsString);
@@ -41,16 +43,15 @@ namespace AlphaCinema.Core.Utilities
             context.SaveChanges();
 
             //Fill MovieGenres Table
-            var listOfMovies = context.Movies.Select(movie => movie).ToList();
-            var listOfGenres = context.Genres.Select(genre => genre).ToList();
-            var indexOfMovies = new List<int>() { 0, 0, 1, 1, 1, 2, 2, 2, 2, 2 };
-            var indexOfGenres = new List<int>() { 0, 1, 2, 3, 4, 0, 1, 2, 3, 4 };
-            for (int i = 0; i < 10; i++)
+
+            var indexOfMovies = new List<int>() { 0, 0, 1, 1, 2, 3, 3, };
+            var indexOfGenres = new List<int>() { 0, 1, 0, 1, 5, 4, 2, };
+            for (int i = 0; i < 7; i++)
             {
                 var movieGenre = new MovieGenre
                 {
-                    Movie = listOfMovies[indexOfMovies[i]],
-                    Genre = listOfGenres[indexOfGenres[i]]
+                    Movie = movies[indexOfMovies[i]],
+                    Genre = genres[indexOfGenres[i]]
                 };
                 context.MoviesGenres.Add(movieGenre);
             }
@@ -69,55 +70,49 @@ namespace AlphaCinema.Core.Utilities
             context.SaveChanges();
 
             //Fill Projections Table
-            listOfMovies = context.Movies.Select(movie => movie).ToList();
-            var listOfCities = context.Cities.Select(city => city).ToList();
-            var listOfOpenHours = context.OpenHours.Select(openHour => openHour).ToList();
-            indexOfMovies = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2 };
-            var indexOfCities = new List<int>() { 0, 1, 1, 1, 4, 1, 1, 2, 3, 4, 4, 4, 2, 2, 1, 0, 1, 2, 3, 4 };
-            var indexOfOpenHours = new List<int>() { 0, 1, 2, 3, 4, 0, 4, 2, 3, 4, 1, 2, 3, 0, 1, 2, 4, 3, 2, 0 };
+            indexOfMovies = new List<int>(){ 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3 };
+            var indexOfCities = new List<int>(){ 1, 2, 2, 2, 5, 2, 2, 1, 4, 5, 5, 5, 3, 3, 2, 1, 2, 3, 4, 5 };
+            var indexOfOpenHours = new List<int>(){ 1, 2, 3, 4, 5, 1, 5, 3, 4, 5, 2, 3, 4, 1, 2, 3, 5, 4, 3, 1 };
             Random rnd = new Random();
             for (int i = 0; i < 20; i++)
             {
                 var projection = new Projection
                 {
-                    Movie = listOfMovies[indexOfMovies[i]],
-                    City = listOfCities[indexOfCities[i]],
-                    OpenHour = listOfOpenHours[indexOfOpenHours[i]],
+                    MovieId = indexOfMovies[i],
+                    CityId = indexOfCities[i],
+                    OpenHourId = indexOfOpenHours[i],
                     Date = DateTime.Now.AddDays(-rnd.Next(2))
                 };
                 context.Projections.Add(projection);
                 context.SaveChanges();
             }
             context.SaveChanges();
+        }
 
-            //Fill WatchedMovies Table
-            var listOfProjections = context.Projections.Select(projection => projection).ToList();
-            var listOfUsers = context.Users.Select(user => user).ToList();
-            var indexOfPojections = new List<int>() { 0, 0, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 9, 10, 11, 12, 13, 14, 14, 15, 16, 17, 18, 19 };
-            var indexOfUsers = new List<int>() { 0, 1, 2, 0, 0, 1, 1, 2, 0, 1, 2, 0, 0, 1, 1, 2, 0, 1, 2, 0, 1, 0, 2, 2, 0 };
-            for (int i = 0; i < 20; i++)
-            {
-                var watchedMovie = new WatchedMovie
-                {
-                    Projection = listOfProjections[indexOfPojections[i]],
-                    User = listOfUsers[indexOfUsers[i]]
-                };
-                context.WatchedMovies.Add(watchedMovie);
-            }
+        private void Clear()
+        {
+            context.Users.RemoveRange(context.Users);
+            context.Cities.RemoveRange(context.Cities);
+            context.WatchedMovies.RemoveRange(context.WatchedMovies);
+            context.Projections.RemoveRange(context.Projections);
+            context.OpenHours.RemoveRange(context.OpenHours);
+            context.Movies.RemoveRange(context.Movies);
+            context.MoviesGenres.RemoveRange(context.MoviesGenres);
+            context.Genres.RemoveRange(context.Genres);
             context.SaveChanges();
         }
 
-		public void Clear()
-		{
-			context.Users.RemoveRange(context.Users);
-			context.Cities.RemoveRange(context.Cities);
-			context.WatchedMovies.RemoveRange(context.WatchedMovies);
-			context.Projections.RemoveRange(context.Projections);
-			context.OpenHours.RemoveRange(context.OpenHours);
-			context.Movies.RemoveRange(context.Movies);
-			context.MoviesGenres.RemoveRange(context.MoviesGenres);
-			context.Genres.RemoveRange(context.Genres);
-			context.SaveChanges();
-		}
-	}
+        private bool IsEmpty()
+        {
+            if (!context.Cities.Any()
+                && !context.Genres.Any()
+                && !context.Movies.Any()
+                && !context.OpenHours.Any()
+                && !context.Users.Any())
+            {
+                return true;
+            }
+            return false;
+        }
+    }
 }

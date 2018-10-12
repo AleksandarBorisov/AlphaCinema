@@ -1,4 +1,5 @@
-﻿using AlphaCinemaData.Context;
+﻿
+using AlphaCinemaData.Context;
 using AlphaCinemaData.Models;
 using AlphaCinemaData.Repository;
 using AlphaCinemaData.UnitOfWork;
@@ -19,23 +20,20 @@ namespace AlphaCinemaServices
             this.unitOfWork = unitOfWork;
         }
 
-        public string GetID(string movieName)
-        {
+        public int GetID(string movieName)
+		{
+            if(!IfExist(movieName) || IsDeleted(movieName))
+            {
+                throw new EntityDoesntExistException($"Movie {movieName} is not present in the database.");
+            }
+
             var id = this.unitOfWork.Movies.All()
-                .Where(m => m.Name == movieName)
-                .Select(m => m.Id).FirstOrDefault();
+				.Where(m => m.Name == movieName)
+				.Select(m => m.Id)
+                .FirstOrDefault();
 
-            return id.ToString();
-        }
-
-        public List<string> GetMovieNames()
-        {
-            var movieNames = this.unitOfWork.Movies.All()
-                .Select(movie => movie.Name)
-                .ToList();
-
-            return movieNames;
-        }
+			return id;
+		}
 
         public void AddNewMovie(string name, string description, int releaseYear, int duration)
         {
@@ -48,13 +46,14 @@ namespace AlphaCinemaServices
             {
                 throw new ArgumentException("Movie Description can't be more than 150 characters");
             }
-
+  
             if (IfExist(name) && IsDeleted(name))
             {
-                var genre = this.unitOfWork.Genres.All()
-                    .FirstOrDefault(g => g.Name == name);
-                genre.IsDeleted = false;
-                this.unitOfWork.SaveChanges();
+                var movie = this.unitOfWork.Movies.AllAndDeleted()
+                    .FirstOrDefault(m => m.Name == name);
+                movie.IsDeleted = false;
+
+				this.unitOfWork.SaveChanges();
             }
             else if (IfExist(name) && !IsDeleted(name))
             {
@@ -75,11 +74,37 @@ namespace AlphaCinemaServices
             }
         }
 
+        public void DeleteMovie(string movieName)
+        {
+            if (!IfExist(movieName))
+            {
+                throw new EntityDoesntExistException("\nMovie is not present in the database.");
+            }
+            else if (IfExist(movieName) && IsDeleted(movieName))
+            {
+                throw new EntityDoesntExistException($"Movie {movieName} is not present in the database.");
+            }
+            var entity = this.unitOfWork.Movies.All()
+                .Where(mov => mov.Name == movieName)
+                .FirstOrDefault();
+
+            this.unitOfWork.Movies.Delete(entity);
+            this.unitOfWork.Movies.Save();
+        }
+        
+        public Movie GetMovieByName(string movieName)
+		{
+			var movie = unitOfWork.Movies.All()
+				.Where(m => m.Name == movieName)
+				.FirstOrDefault();
+			return movie;
+		}
+
         private bool IfExist(string movieName)
         {
             return this.unitOfWork.Movies.AllAndDeleted()
-                .Where(movie => movie.Name == movieName)
-                .FirstOrDefault() == null ? false : true;
+			    .Where(m => m.Name == movieName)
+			    .FirstOrDefault() == null ? false : true;
         }
 
         private bool IsDeleted(string movieName)

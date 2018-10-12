@@ -19,34 +19,34 @@ namespace AlphaCinemaServices
             this.unitOfWork = unitOfWork;
         }
 
-        public List<string> GetProjectionsIDsByUser(string userName)
-        {
-            var projectionsIDs = this.unitOfWork.WatchedMovies.All()
-                .Where(watchedMovie => watchedMovie.User.Name == userName)
-                .Select(watchedMovie => watchedMovie.ProjectionId.ToString())
-                .ToList();
+        //public List<int> GetProjectionsIDsByUser(string userName)
+        //{
+        //    var projectionsIDs = this.unitOfWork.WatchedMovies.All()
+        //        .Where(watchedMovie => watchedMovie.User.Name == userName)
+        //        .Select(watchedMovie => watchedMovie.ProjectionId)
+        //        .ToList();
 
-            return projectionsIDs;
-        }
+        //    return projectionsIDs;
+        //}
 
-        public List<string> GetUsersIDsByMovie(string movieName)
-        {
-            var usersIDs = this.unitOfWork.WatchedMovies.All()
-                .Where(watchedMovie => watchedMovie.Projection.Movie.Name == movieName)
-                .Select(watchedMovie => watchedMovie.UserId.ToString())
-                .ToList();
+        //public List<int> GetUsersIDsByMovie(string movieName)
+        //{
+        //    var usersIDs = this.unitOfWork.WatchedMovies.All()
+        //        .Where(watchedMovie => watchedMovie.Projection.Movie.Name == movieName)
+        //        .Select(watchedMovie => watchedMovie.UserId)
+        //        .ToList();
 
-            return usersIDs;
-        }
+        //    return usersIDs;
+        //}
 
-        public List<string> GetUsersIDsByProjection(string cityID, string movieID, string openHourID)
+        public List<int> GetUsersIDsByProjection(int cityID, int movieID, int openHourID)
         {
             var usersIDs = this.unitOfWork.WatchedMovies.All()
                 .Where(watchedMovie => 
-                watchedMovie.Projection.CityId.ToString() == cityID &&
-                watchedMovie.Projection.MovieId.ToString() == movieID &&
-                watchedMovie.Projection.OpenHourId.ToString() == openHourID)
-                .Select(watchedMovie => watchedMovie.UserId.ToString())
+                watchedMovie.Projection.CityId == cityID &&
+                watchedMovie.Projection.MovieId == movieID &&
+                watchedMovie.Projection.OpenHourId == openHourID)
+                .Select(watchedMovie => watchedMovie.UserId)
                 .ToList();
 
             return usersIDs;

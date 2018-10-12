@@ -34,7 +34,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             displayItems.Add(offSetFromTop.ToString());
             displayItems.Add(startingRow.ToString());
 			// смених паролата временно на telerik за по-лесно тестване, защото другото отнемаше много време за писане
-            while (password != "telerik".ToLower())
+            while (password != "123".ToLower())
             {
                 selector.PrintAtPosition(new string(' ', enterPassword.Length), startingRow * 1 + offSetFromTop, false);
                 selector.PrintAtPosition(wrongPasswordMessage, startingRow * 4 + offSetFromTop, false);

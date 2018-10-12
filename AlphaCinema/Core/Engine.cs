@@ -19,7 +19,7 @@ namespace AlphaCinema.Core
 
         public void Run()
         {
-			data.Load(); // Ако сте попълнили базата го закоментирайте този метод
+            data.Load(); // Ако сте попълнили базата го закоментирайте този метод
             commandProcessor.ExecuteCommand(menus);  
             // Тук просто извикваме първата команда
         }

@@ -1,22 +1,23 @@
 ﻿using AlphaCinema.Core.Contracts;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using System.Text;
 
 namespace AlphaCinema.Core.Commands.BasicCommands
 {
-	public class RemoveGenre : ICommand
-	{
+    class RemoveCity : ICommand
+    {
 		private readonly ICommandProcessor commandProcessor;
-		private readonly IGenreServices genreServices;
+		private readonly ICityServices cityServices;
 		private readonly IAlphaCinemaConsole cinemaConsole;
 
-		public RemoveGenre(ICommandProcessor commandProcessor, IGenreServices genreServices, IAlphaCinemaConsole cinemaConsole)
+		public RemoveCity(ICommandProcessor commandProcessor, ICityServices cityServices, IAlphaCinemaConsole cinemaConsole)
 		{
 			this.commandProcessor = commandProcessor;
-			this.genreServices = genreServices;
+			this.cityServices = cityServices;
 			this.cinemaConsole = cinemaConsole;
 		}
 
@@ -24,12 +25,11 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		{
 			cinemaConsole.Clear();
 			cinemaConsole.WriteLine("Type a city:\n");
-
 			try
 			{
-			  	var genreName = cinemaConsole.ReadLine().Trim();
-				Validations(genreName);
-				genreServices.DeleteGenre(genreName);
+				var cityName = cinemaConsole.ReadLine().Trim();
+				Validations(cityName);
+				cityServices.DeleteCity(cityName);
 				cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
 			}
 			catch (InvalidClientInputException e)
@@ -46,15 +46,15 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			}
 		}
 
-		private void Validations(string genreName)
+		private void Validations(string cityName)
 		{
-			if (string.IsNullOrWhiteSpace(genreName))
+			if (string.IsNullOrWhiteSpace(cityName))
 			{
-				throw new InvalidClientInputException("\nInvalid genre name");
+				throw new InvalidClientInputException("\nInvalid city name");
 			}
-			if (genreName.Any(c => char.IsDigit(c)))
+			if (cityName.All(c => char.IsDigit(c)))
 			{
-				throw new InvalidClientInputException("\nGenre cannot be only digits");
+				throw new InvalidClientInputException("\nCity cannot be only digits");
 			}
 		}
 	}

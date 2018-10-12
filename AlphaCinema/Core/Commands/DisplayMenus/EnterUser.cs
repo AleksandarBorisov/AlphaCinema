@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using AlphaCinemaServices.Exceptions;
 
 namespace AlphaCinema.Core.Commands.DisplayMenus
 {
@@ -14,14 +15,17 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
         private IUserServices userServices;
         private IProjectionsServices projectionsServices;
         private IWatchedMovieServices watchedMovieServices;
+        private IOpenHourServices openHourServices;
 
         public EnterUser(ICommandProcessor commandProcessor, 
             IItemSelector selector, 
             IUserServices userServices, 
             IProjectionsServices projectionsServices,
-            IWatchedMovieServices watchedMovieServices) : base(commandProcessor, selector)
+            IWatchedMovieServices watchedMovieServices,
+            IOpenHourServices openHourServices) : base(commandProcessor, selector)
         {
             this.userServices = userServices;
+            this.openHourServices = openHourServices;
             this.projectionsServices = projectionsServices;
             this.watchedMovieServices = watchedMovieServices;
         }
@@ -30,9 +34,9 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
         {
             int offSetFromTop = int.Parse(parameters[parameters.Count - 2]);
             int startingRow = int.Parse(parameters[parameters.Count - 1]);
-            string cityID = parameters[7];
-            string movieID = parameters[3];
-            string openHourID = parameters[1];
+            int cityID = int.Parse(parameters[7]);
+            int movieID = int.Parse(parameters[3]);
+            int openHourID = int.Parse(parameters[1]);
             List<string> displayItems = new List<string>
             {
                 parameters[0],
@@ -67,8 +71,8 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
                 //Избираме резержация на база на Града, Филма и Часа
                 string reservationId = projectionsServices.GetID(cityID, movieID, openHourID).ToString();
                 watchedMovieServices.AddNewWatchedMovie(newUserId, reservationId);
-
-                string successfullyAdded = $"Your Reservation for {openHourID} has been Added";
+                string chosenHour = openHourServices.GetHour(openHourID);
+                string successfullyAdded = $"Your Reservation for {chosenHour} has been Added";
                 selector.PrintAtPosition(successfullyAdded, startingRow * 1 + offSetFromTop, false);
                 Thread.Sleep(2000);
                 selector.PrintAtPosition(new string(' ', successfullyAdded.Length), startingRow * 1 + offSetFromTop, false);
@@ -76,7 +80,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             }
             catch (Exception ex)
             {
-                if (ex is ArgumentException)
+                if (ex is ArgumentException || ex is EntityAlreadyExistsException)
                 {
                     string wrongParametersDetals = ex.Message;
                     selector.PrintAtPosition(new string(' ', enterUsername.Length), startingRow * 1 + offSetFromTop, false);

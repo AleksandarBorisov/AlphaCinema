@@ -1,53 +1,42 @@
-﻿using AlphaCinema.Core.Contracts;
+﻿using System.Collections.Generic;
+using System.Linq;
+using AlphaCinema.Core.Contracts;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AlphaCinema.Core.Commands.BasicCommands
 {
-	public class RemoveProjection : ICommand
+	public class RemoveMovieGenre : ICommand
 	{
 		private readonly ICommandProcessor commandProcessor;
+		private readonly IGenreServices genreServices;
 		private readonly IAlphaCinemaConsole cinemaConsole;
 		private readonly IMovieServices movieServices;
-		private readonly ICityServices cityServices;
-		private readonly IOpenHourServices openHourServices;
-		private readonly IProjectionsServices projectionsServices;
+		private readonly IMovieGenreServices movieGenreServices;
 
-		public RemoveProjection(ICommandProcessor commandProcessor, IAlphaCinemaConsole cinemaConsole,
-			IMovieServices movieServices, ICityServices cityServices,
-			IOpenHourServices openHourServices, IProjectionsServices projectionsServices)
+		public RemoveMovieGenre(ICommandProcessor commandProcessor, IGenreServices genreServices,
+			IAlphaCinemaConsole cinemaConsole, IMovieServices movieServices, IMovieGenreServices movieGenreServices)
 		{
 			this.commandProcessor = commandProcessor;
+			this.genreServices = genreServices;
 			this.cinemaConsole = cinemaConsole;
 			this.movieServices = movieServices;
-			this.cityServices = cityServices;
-			this.openHourServices = openHourServices;
-			this.projectionsServices = projectionsServices;
-			this.cinemaConsole = cinemaConsole;
-			this.movieServices = movieServices;
-			this.commandProcessor = commandProcessor;
+			this.movieGenreServices = movieGenreServices;
 		}
 		public void Execute(List<string> parameters)
 		{
 			cinemaConsole.Clear();
-			cinemaConsole.WriteLine("Type a projection:");
-			cinemaConsole.WriteLine("Format: MovieName(50) | CityName(50) | OpenHour (Format: HH:MMh) | Date (Format: YYYY-MM-DD)");
-
+			cinemaConsole.WriteLine("Type a movie name and a genre like this:");
+			cinemaConsole.WriteLine("Movie Name | Genre");
 			try
 			{
 				var input = cinemaConsole.ReadLine().Split('|');
 				Validations(input);
 
 				var movieID = movieServices.GetID(input[0].TrimEnd().TrimStart());
-				var cityID = cityServices.GetID(input[1].TrimEnd().TrimStart());
-				var openHourID = openHourServices.GetID(input[2].TrimEnd().TrimStart());
-				var date = projectionsServices.GetDate(movieID, cityID, openHourID);
+				var genreID = genreServices.GetID(input[1].TrimEnd().TrimStart());
 
-				projectionsServices.Delete(movieID, cityID, openHourID, date);
+				movieGenreServices.Delete(movieID, genreID);
 				cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
 			}
 			catch (InvalidClientInputException e)
@@ -69,7 +58,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		}
 		private void Validations(string[] input)
 		{
-			if (input.Length != 4)
+			if (input.Length != 2)
 			{
 				throw new InvalidClientInputException("Invalid parameters input");
 			}

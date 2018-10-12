@@ -49,7 +49,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             else
             {
                 var openHourID = openHourServices.GetID(startHour);
-                parameters.Insert(0, openHourID);
+                parameters.Insert(0, openHourID.ToString());
                 parameters.Insert(0, "EnterUser");
                 commandProcessor.ExecuteCommand(parameters.ToList());
             }

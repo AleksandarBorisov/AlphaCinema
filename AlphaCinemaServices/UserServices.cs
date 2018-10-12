@@ -4,6 +4,7 @@ using AlphaCinemaServices.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AlphaCinemaServices.Exceptions;
 
 namespace AlphaCinemaServices
 {
@@ -16,23 +17,14 @@ namespace AlphaCinemaServices
             this.unitOfWork = unitOfWork;
         }
 
-        public string GetID(string userName)
+        public int GetID(string userName)
         {
             var id = this.unitOfWork.Users.All()
                 .Where(user => user.Name == userName)
                 .Select(user => user.Id)
                 .FirstOrDefault();
 
-            return id.ToString();
-        }
-
-        public List<string> GetUsersNames()
-        {
-            var users = this.unitOfWork.Users.All()
-                .Select(user => user.Name)
-                .ToList();
-
-            return users;
+            return id;
         }
 
         public User AddNewUser(string name, int age)
@@ -51,21 +43,16 @@ namespace AlphaCinemaServices
 
             if (user != null)
             {
-                user.IsDeleted = false;
-                this.unitOfWork.SaveChanges();
-                return user;
+                throw new EntityAlreadyExistsException("You have already booked reservation");
             }
-            else
+            var newUser = new User()
             {
-                var newUser = new User()
-                {
-                    Name = name,
-                    Age = age
-                };
-                this.unitOfWork.Users.Add(newUser);
-                this.unitOfWork.SaveChanges();
-                return newUser;
-            }
+                Name = name,
+                Age = age
+            };
+            this.unitOfWork.Users.Add(newUser);
+            this.unitOfWork.SaveChanges();
+            return newUser;
 
         }
 

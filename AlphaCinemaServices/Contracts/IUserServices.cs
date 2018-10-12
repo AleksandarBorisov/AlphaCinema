@@ -7,10 +7,9 @@ namespace AlphaCinemaServices.Contracts
 {
     public interface IUserServices
     {
-        string GetID(string userName);
+		int GetID(string userName);
 
         User AddNewUser(string name, int age);
 
-        List<string> GetUsersNames();
     }
 }
