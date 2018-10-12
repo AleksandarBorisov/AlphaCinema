@@ -87,15 +87,15 @@ namespace AlphaCinemaServices
 
         }
 
-        public string GetID(string cityID, string movieID, string openHourID)
+        public int GetID(int cityID, int movieID, int openHourID)
 		{
 			var id = this.unitOfWork.Projections.All()
-				.Where(pr => pr.CityId.ToString() == cityID
-				&& pr.MovieId.ToString() == movieID
-				&& pr.OpenHourId.ToString() == openHourID)
+				.Where(pr => pr.CityId == cityID
+				&& pr.MovieId == movieID
+				&& pr.OpenHourId == openHourID)
 				.Select(pr => pr.Id).FirstOrDefault();
 
-			return id.ToString();
+			return id;
 		}
 
 		public List<string> GetProjections()

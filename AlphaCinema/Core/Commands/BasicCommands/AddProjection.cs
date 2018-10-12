@@ -70,13 +70,13 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                     startingRow * 1 + offSetFromTop, false);
                 
                 //Find cityId by cityName
-                int cityID = int.Parse(this.cityServices.GetID(cityName));
+                int cityID = this.cityServices.GetID(cityName);
                 
                 //Find movieId by movieName
-                int movieID = int.Parse(this.movieServices.GetID(movieName));
+                int movieID = this.movieServices.GetID(movieName);
                 
                 //Find openHourId by openHour
-                int openHourID = int.Parse(this.openHourServices.GetID(openHour));
+                int openHourID = this.openHourServices.GetID(openHour);
 
                 this.projectionsServices.AddNewProjection(movieID, cityID, openHourID, date);
 

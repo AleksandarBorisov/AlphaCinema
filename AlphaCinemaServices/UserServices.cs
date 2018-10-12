@@ -14,14 +14,14 @@ namespace AlphaCinemaServices
 			this.unitOfWork = unitOfWork;
 		}
 
-		public string GetID(string userName)
+		public int GetID(string userName)
         {
             var id = this.unitOfWork.Users.All()
                 .Where(user => user.Name == userName)
                 .Select(user => user.Id)
                 .FirstOrDefault();
 
-            return id.ToString();
+            return id;
         }
 
         public List<string> GetUsersNames()

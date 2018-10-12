@@ -23,7 +23,7 @@ namespace AlphaCinemaServices
                 .FirstOrDefault();
         }
 
-        public string GetID(string startHour)
+        public int GetID(string startHour)
 		{
             if(IfExist(startHour) == null)
             {
@@ -34,7 +34,7 @@ namespace AlphaCinemaServices
 				.Where(h => h.StartHour == startHour)
 				.Select(h => h.Id).FirstOrDefault();
 
-			return id.ToString();
+			return id;
 		}
 
 		public List<string> GetOpenHours()

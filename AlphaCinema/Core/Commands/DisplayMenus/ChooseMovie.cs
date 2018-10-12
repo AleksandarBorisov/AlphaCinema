@@ -45,7 +45,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             else
             {
 				var movieID = this.movieServices.GetID(movieName);
-                parameters.Insert(0, movieID);
+                parameters.Insert(0, movieID.ToString());
                 parameters.Insert(0, "ChooseHour");//Тук се налага да напишем командата ръчно
                 commandProcessor.ExecuteCommand(parameters);
             }

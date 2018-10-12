@@ -7,7 +7,7 @@ namespace AlphaCinemaServices.Contracts
 {
     public interface IGenreServices
     {
-        string GetID(string genreName);
+        int GetID(string genreName);
 
         List<string> GetGenreNames();
         List<string> GetGenreNames(string cityID);
