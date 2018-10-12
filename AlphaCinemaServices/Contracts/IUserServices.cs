@@ -1,7 +1,7 @@
-﻿using AlphaCinemaData.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AlphaCinemaData.Models;
 
 namespace AlphaCinemaServices.Contracts
 {
@@ -12,8 +12,5 @@ namespace AlphaCinemaServices.Contracts
         User AddNewUser(string name, int age);
 
 		List<int> GetProjectionsIDsByUserID(int userID);
-
-
-
 	}
 }

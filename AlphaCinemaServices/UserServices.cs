@@ -1,23 +1,21 @@
 ﻿using AlphaCinemaData.Models;
 using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using AlphaCinemaServices.Exceptions;
 
 namespace AlphaCinemaServices
 {
     public class UserServices : IUserServices
     {
-        private readonly IUnitOfWork unitOfWork;
+		private readonly IUnitOfWork unitOfWork;
 
-        public UserServices(IUnitOfWork unitOfWork)
-        {
-            this.unitOfWork = unitOfWork;
-        }
+		public UserServices(IUnitOfWork unitOfWork)
+		{
+			this.unitOfWork = unitOfWork;
+		}
 
-        public int GetID(string userName)
+		public int GetID(string userName)
         {
             var id = this.unitOfWork.Users.All()
                 .Where(user => user.Name == userName)
@@ -27,32 +25,11 @@ namespace AlphaCinemaServices
             return id;
         }
 
-        public User AddNewUser(string name, int age)
+        public List<string> GetUsersNames()
         {
-            if (name.Length > 50)
-            {
-                throw new ArgumentException("User Name can't be more than 50 characters");
-            }
-
-            if (age < 0)
-            {
-                throw new ArgumentException("Age can't be negative");
-            }
-
-            var user = IfExist(name);
-
-            if (user != null)
-            {
-                throw new EntityAlreadyExistsException("You have already booked reservation");
-            }
-            var newUser = new User()
-            {
-                Name = name,
-                Age = age
-            };
-            this.unitOfWork.Users.Add(newUser);
-            this.unitOfWork.SaveChanges();
-            return newUser;
+            return this.unitOfWork.Users.All()
+                .Select(user => user.Name)
+                .ToList();
 
         }
 
@@ -74,6 +51,11 @@ namespace AlphaCinemaServices
             return this.unitOfWork.Users.AllAndDeleted()
                 .Where(user => user.Name == userName)
                 .FirstOrDefault();
+        }
+
+        public User AddNewUser(string name, int age)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
