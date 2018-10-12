@@ -21,7 +21,7 @@ namespace AlphaCinemaServices
 		public int GetID(string genreName)
 		{
 			var id = this.unitOfWork.Genres.All()
-				.Where(genre => genre.Name == genreName && genre.IsDeleted == false)
+				.Where(genre => genre.Name == genreName)
 				.Select(genre => genre.Id)
 				.FirstOrDefault();
 

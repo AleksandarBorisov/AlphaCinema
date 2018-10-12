@@ -27,7 +27,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
 			try
 			{
-				var genreName = cinemaConsole.ReadLine().Trim();
+			  	var genreName = cinemaConsole.ReadLine().Trim();
 				Validations(genreName);
 				genreServices.DeleteGenre(genreName);
 				cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
@@ -52,7 +52,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			{
 				throw new InvalidClientInputException("\nInvalid genre name");
 			}
-			if (genreName.All(c => char.IsDigit(c)))
+			if (genreName.Any(c => char.IsDigit(c)))
 			{
 				throw new InvalidClientInputException("\nGenre cannot be only digits");
 			}
