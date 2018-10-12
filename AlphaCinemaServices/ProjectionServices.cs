@@ -93,10 +93,6 @@ namespace AlphaCinemaServices
                 .Where(pr => pr.CityId == cityID)
                 .Where(pr => pr.MovieId == movieID)
                 .Where(pr => pr.OpenHourId == openHourID)
-                .Select(pr => pr.Id).FirstOrDefault();
-				.Where(pr => pr.CityId == cityID
-                && pr.MovieId == movieID
-                && pr.OpenHourId == openHourID)
                 .Select(pr => pr.Id)
                 .FirstOrDefault();
 
