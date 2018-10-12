@@ -3,9 +3,12 @@
 	public interface IAlphaCinemaConsole
 	{
 		string ReadLine();
-		void Write(string message);
+        string ReadLineInMiddle(string str, int row);
+        void Write(string message);
 		void WriteLine(string message);
-		void Clear();
+        void WriteInMiddle(string str, int row);
+        void WriteLineInMiddle(string str, int row);
+        void Clear();
 		void ReadKey();
 		void HandleException(string message);
 		void HandleOperation(string message);

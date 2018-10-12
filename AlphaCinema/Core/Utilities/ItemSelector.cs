@@ -79,10 +79,14 @@ namespace AlphaCinema.Core.Utilities
         {
             Console.CursorVisible = true;
             Console.SetCursorPosition(Console.WindowWidth / 2 - caption.Length / 2, currentRow);
+
             string message = HideCharacters(hideCharacters, maxLength);
+
             Console.SetCursorPosition(Console.WindowWidth / 2 - caption.Length / 2, currentRow);
             Console.Write(new string(' ', message.Length));
+
             Console.CursorVisible = false;
+
             return message;
         }
 

@@ -1,4 +1,5 @@
-﻿using AlphaCinemaData.Context;
+﻿
+using AlphaCinemaData.Context;
 using AlphaCinemaData.Models;
 using AlphaCinemaData.Repository;
 using AlphaCinemaData.UnitOfWork;
@@ -81,7 +82,25 @@ namespace AlphaCinemaServices
 			}
         }
 
-		public Movie GetMovieByName(string movieName)
+        public void DeleteMovie(string movieName)
+        {
+            if (!IfExist(movieName))
+            {
+                throw new EntityDoesntExistException("\nMovie is not present in the database.");
+            }
+            else if (IfExist(movieName) && IsDeleted(movieName))
+            {
+                throw new EntityDoesntExistException($"Movie {movieName} is not present in the database.");
+            }
+            var entity = this.unitOfWork.Movies.All()
+                .Where(mov => mov.Name == movieName)
+                .FirstOrDefault();
+
+            this.unitOfWork.Movies.Delete(entity);
+            this.unitOfWork.Movies.Save();
+        }
+        
+        public Movie GetMovieByName(string movieName)
 		{
 			var movie = unitOfWork.Movies.All()
 				.Where(m => m.Name == movieName)

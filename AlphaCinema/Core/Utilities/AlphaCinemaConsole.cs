@@ -5,12 +5,25 @@ namespace AlphaCinema.Core.Utilities
 {
 	public class AlphaCinemaConsole : IAlphaCinemaConsole
 	{
-		public string ReadLine()
+        private readonly IItemSelector selector;
+
+        public AlphaCinemaConsole(IItemSelector selector)
+        {
+            this.selector = selector;
+        }
+
+        public string ReadLine()
 		{
 			return Console.ReadLine();
 		}
 
-		public void Write(string message)
+        public string ReadLineInMiddle(string str, int row)
+        {
+            Console.SetCursorPosition(Console.WindowWidth / 2 - str.Length / 2, row);
+            return Console.ReadLine();
+        }
+        
+        public void Write(string message)
 		{
 			Console.Write(message);
 		}
@@ -19,8 +32,19 @@ namespace AlphaCinema.Core.Utilities
 		{
 			Console.WriteLine(message);
 		}
+        
+        public void WriteInMiddle(string str, int row)
+        {
+            Console.SetCursorPosition(Console.WindowWidth / 2 - str.Length / 2, row);
+        }
 
-		public void Clear()
+        public void WriteLineInMiddle(string str, int row)
+        {
+            Console.SetCursorPosition(Console.WindowWidth / 2 - str.Length / 2, row);
+            Console.Write(str);
+        }
+        
+        public void Clear()
 		{
 			Console.Clear();
 		}
@@ -32,18 +56,24 @@ namespace AlphaCinema.Core.Utilities
 
 		public void HandleException(string message)
 		{
-			Console.WriteLine(message);
-			Console.Write("\nPress any key to go back...");
-			Console.ReadKey();
-			Console.Clear();
+            Console.WriteLine(message);
+            Console.Write("\nPress any key to go back...");
+            //WriteLineInMiddle(message, 8);
+            //WriteLineInMiddle("\nPress any key to go back...", 10);
+            Console.ReadKey();
+            Console.Clear();
 		}
 
 		public void HandleOperation(string message)
 		{
-			Console.WriteLine(message);
-			Console.Write("\nPress any key to go back...");
-			Console.ReadKey();
+            Console.WriteLine(message);
+            Console.Write("\nPress any key to go back...");
+            //WriteLineInMiddle(message, 8);
+            //WriteLineInMiddle("\nPress any key to go back...", 10);
+            Console.ReadKey();
 			Console.Clear();
 		}
+
+
 	}
 }
