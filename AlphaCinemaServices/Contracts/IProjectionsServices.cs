@@ -8,5 +8,7 @@ namespace AlphaCinemaServices.Contracts
         void AddNewProjection(int movieID, int cityID, int openHourID, DateTime date);
 		int GetID(int cityID, int movieID, int openHourID);
 		List<string> GetProjections();
+		DateTime GetDate(int movieID, int cityID, int openHourID);
+		void Delete(int movieID, int cityID, int openHourID, DateTime date);
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using AlphaCinema.Core.Contracts;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,11 +23,14 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		public void Execute(List<string> parameters)
 		{
 			cinemaConsole.Clear();
+			Console.SetCursorPosition(Console.WindowWidth / 2, Console.WindowHeight / 2);
 			cinemaConsole.WriteLine("Type a city:\n");
 			
 			try
 			{
-				var cityName = cinemaConsole.ReadLine().Trim();
+				Console.SetCursorPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 2);
+				var cityName = Console.ReadLine().Trim();
+				//var cityName = cinemaConsole.ReadLine().Trim();
 				Validations(cityName);
 				cityServices.AddNewCity(cityName);
 				cinemaConsole.HandleOperation("\nSuccessfully added to database");
