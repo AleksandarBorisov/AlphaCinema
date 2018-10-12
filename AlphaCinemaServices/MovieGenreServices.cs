@@ -22,7 +22,7 @@ namespace AlphaCinemaServices
 			 // трябва да се добави добавяне на нов жанр и филм, малко по-късно ще го оправя
 			if (IfExist(movieID, genreID) && IsDeleted(movieID, genreID))
 			{
-				var movieGenreObj = this.unitOfWork.MovieGenres.All()
+				var movieGenreObj = this.unitOfWork.MovieGenres.AllAndDeleted()
 					.FirstOrDefault(mg => mg.MovieId == movieID && mg.MovieId == genreID);
 				movieGenreObj.IsDeleted = false;
 				this.unitOfWork.SaveChanges();

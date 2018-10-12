@@ -56,7 +56,7 @@ namespace AlphaCinemaServices
                 //Check if the projection is deleted and if it is - set it to NOT deleted
                 if(IsDeleted(projection))
                 {
-                    var genre = this.unitOfWork.Projections.All()
+                    var genre = this.unitOfWork.Projections.AllAndDeleted()
                     .Where(pr => pr.MovieId == projection.MovieId &&
                     pr.CityId == projection.CityId &&
                     pr.OpenHourId == projection.OpenHourId &&
