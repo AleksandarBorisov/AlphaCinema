@@ -22,14 +22,15 @@ namespace AlphaCinemaServices
 
         public int GetID(string movieName)
 		{
-            if(!IfExist(movieName))
+            if(!IfExist(movieName) || IsDeleted(movieName))
             {
                 throw new EntityDoesntExistException($"Movie {movieName} is not present in the database.");
             }
 
             var id = this.unitOfWork.Movies.All()
 				.Where(m => m.Name == movieName)
-				.Select(m => m.Id).FirstOrDefault();
+				.Select(m => m.Id)
+                .FirstOrDefault();
 
 			return id;
 		}
@@ -58,9 +59,10 @@ namespace AlphaCinemaServices
             //Check if exist and if is deleted
             if (IfExist(name) && IsDeleted(name))
             {
-                var genre = this.unitOfWork.Genres.All()
-                    .FirstOrDefault(g => g.Name == name);
-                genre.IsDeleted = false;
+                var movie = this.unitOfWork.Movies.AllAndDeleted()
+                    .FirstOrDefault(m => m.Name == name);
+                movie.IsDeleted = false;
+
 				this.unitOfWork.SaveChanges();
             }
             else if (IfExist(name) && !IsDeleted(name))
@@ -113,6 +115,13 @@ namespace AlphaCinemaServices
             return this.unitOfWork.Movies.AllAndDeleted()
 			    .Where(m => m.Name == movieName)
 			    .FirstOrDefault() == null ? false : true;
+        }
+
+        private Movie ObjectExist(string movieName)
+        {
+            return this.unitOfWork.Movies.AllAndDeleted()
+            .Where(m => m.Name == movieName)
+            .FirstOrDefault();
         }
 
         private bool IsDeleted(string movieName)
