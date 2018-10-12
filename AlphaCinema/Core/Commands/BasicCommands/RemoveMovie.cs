@@ -25,7 +25,6 @@ namespace AlphaCinema.Core.Commands.BasicCommands
         public void Execute(List<string> parameters)
         {
             cinemaConsole.Clear();
-
             cinemaConsole.WriteLineInMiddle("REMOVEMOVIE", 2);
             cinemaConsole.WriteLineInMiddle("Type a movie:", 4);
             

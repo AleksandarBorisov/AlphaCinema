@@ -7,14 +7,14 @@ namespace AlphaCinemaServices
 {
     public class UserServices : IUserServices
     {
-        private readonly IUnitOfWork unitOfWork;
+		private readonly IUnitOfWork unitOfWork;
 
-        public UserServices(IUnitOfWork unitOfWork)
-        {
-            this.unitOfWork = unitOfWork;
-        }
+		public UserServices(IUnitOfWork unitOfWork)
+		{
+			this.unitOfWork = unitOfWork;
+		}
 
-        public int GetID(string userName)
+		public int GetID(string userName)
         {
             var id = this.unitOfWork.Users.All()
                 .Where(user => user.Name == userName)
@@ -31,18 +31,6 @@ namespace AlphaCinemaServices
                 .ToList();
 
             return users;
-        }
-
-        public List<int> GetProjectionsIDsByUserID(int userID)
-        {
-            var projectionsIDs = this.unitOfWork.Users.All()
-                .Where(us => us.Id == userID)
-                .Select(us => us.WatchedMovies
-                    .Select(wm => wm.ProjectionId)
-                    .ToList())
-                .FirstOrDefault();
-            
-            return projectionsIDs;
         }
     }
 }

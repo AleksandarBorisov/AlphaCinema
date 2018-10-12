@@ -26,11 +26,9 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		public void Execute(List<string> parameters)
 		{
 			cinemaConsole.Clear();
-
-            cinemaConsole.WriteLine("Type a movie name and a genre like this:");
+			cinemaConsole.WriteLine("Type a movie name and a genre like this:");
 			cinemaConsole.WriteLine("Movie Name | Genre");
-
-            try
+			try
 			{
 				var input = cinemaConsole.ReadLine().Split('|');
 				Validations(input);

@@ -34,8 +34,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		public void Execute(List<string> parameters)
 		{
 			cinemaConsole.Clear();
-
-            cinemaConsole.WriteLine("Type a projection:");
+			cinemaConsole.WriteLine("Type a projection:");
 			cinemaConsole.WriteLine("Format: MovieName(50) | CityName(50) | OpenHour (Format: HH:MMh) | Date (Format: YYYY-MM-DD)");
 
 			try

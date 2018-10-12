@@ -28,10 +28,8 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			try
 			{
 				var cityName = cinemaConsole.ReadLine().Trim();
-
-                Validations(cityName);
-
-                cityServices.DeleteCity(cityName);
+				Validations(cityName);
+				cityServices.DeleteCity(cityName);
 				cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
 			}
 			catch (InvalidClientInputException e)

@@ -87,6 +87,7 @@ namespace AlphaCinemaServices
 
         }
 
+<<<<<<< HEAD
         public int GetID(int cityID, int movieID, int openHourID)
         {
             var id = this.unitOfWork.Projections.All()
@@ -95,6 +96,15 @@ namespace AlphaCinemaServices
                 .Where(pr => pr.OpenHourId == openHourID)
                 .Select(pr => pr.Id)
                 .FirstOrDefault();
+=======
+		public int GetID(int cityID, int movieID, int openHourID)
+		{
+			var id = this.unitOfWork.Projections.All()
+				.Where(pr => pr.CityId == cityID
+				&& pr.MovieId == movieID
+				&& pr.OpenHourId == openHourID)
+				.Select(pr => pr.Id).FirstOrDefault();
+>>>>>>> parent of 514ab54... Modify UserInfo command
 
             return id;
         }

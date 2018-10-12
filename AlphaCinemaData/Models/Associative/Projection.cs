@@ -25,10 +25,5 @@ namespace AlphaCinemaData.Models.Associative
         public ICollection<WatchedMovie> WatchedMovies { get; set; }
 
 		public bool IsDeleted { get; set; }
-
-        public override string ToString()
-        {
-            return $"{Movie.Name},{City.Name},{OpenHour.StartHour},{Date.ToString()}"; 
-        }
-    }
+	}
 }

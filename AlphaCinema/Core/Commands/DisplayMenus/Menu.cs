@@ -18,25 +18,20 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             //В самите параметри които подаваме се съдържат координатите на принтиране
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
-
-            string result = selector.DisplayItems(parameters);
-
-            if (result == "BuyTickets") // sorry for this
+			string result = selector.DisplayItems(parameters);
+			if (result == "BuyTickets") // sorry for this
 			{
 				result = "ChooseCity"; // sorry for this
 			}
-
-            if (result == "Exit")
+			if (result == "Exit")
             {
                 //Ако сме избрали Exit, просто с индекси е по-безопасно ако сменим името на стринга
                 Environment.Exit(0);
             }
-
             if (result == "LogAsAdmin")
             {
                 result = "Login";
             }
-
             parameters.Insert(0, result);
 			
             commandProcessor.ExecuteCommand(parameters);
