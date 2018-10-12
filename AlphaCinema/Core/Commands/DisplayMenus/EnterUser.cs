@@ -1,6 +1,7 @@
 ﻿using AlphaCinema.Core.Commands.DisplayMenus.Abstract;
 using AlphaCinema.Core.Contracts;
 using AlphaCinemaServices.Contracts;
+using AlphaCinemaServices.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 	public class EnterUser : DisplayBaseCommand
 	{
 		private IUserServices userServices;
+        private IOpenHourServices openHourServices;
 		private IProjectionsServices projectionsServices;
 		private IWatchedMovieServices watchedMovieServices;
 
@@ -19,9 +21,11 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 			IItemSelector selector,
 			IUserServices userServices,
 			IProjectionsServices projectionsServices,
-			IWatchedMovieServices watchedMovieServices) : base(commandProcessor, selector)
+			IWatchedMovieServices watchedMovieServices,
+            IOpenHourServices openHourServices) : base(commandProcessor, selector)
 		{
 			this.userServices = userServices;
+            this.openHourServices = openHourServices;
 			this.projectionsServices = projectionsServices;
 			this.watchedMovieServices = watchedMovieServices;
 		}
@@ -62,13 +66,12 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 				}
 				selector.PrintAtPosition(new string(' ', enterUsername.Length), startingRow * 1 + offSetFromTop, false);
 
-
 				int newUserID = userServices.AddNewUser(userName, userAge).Id;
-				//Избираме резержация на база на Града, Филма и Часа
+				//Избираме резервация на база на Града, Филма и Часа
 				int reservationID = projectionsServices.GetID(cityID, movieID, openHourID);
 				watchedMovieServices.AddNewWatchedMovie(newUserID, reservationID);
-
-				string successfullyAdded = $"Your Reservation for {openHourID} has been Added";
+                string openHour = openHourServices.GetHour(openHourID);
+				string successfullyAdded = $"Your Reservation for {openHour} has been Added";
 				selector.PrintAtPosition(successfullyAdded, startingRow * 1 + offSetFromTop, false);
 				Thread.Sleep(2000);
 				selector.PrintAtPosition(new string(' ', successfullyAdded.Length), startingRow * 1 + offSetFromTop, false);
@@ -76,7 +79,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 			}
 			catch (Exception ex)
 			{
-				if (ex is ArgumentException)
+				if (ex is ArgumentException || ex is EntityAlreadyExistsException)
 				{
 					string wrongParametersDetals = ex.Message;
 					selector.PrintAtPosition(new string(' ', enterUsername.Length), startingRow * 1 + offSetFromTop, false);

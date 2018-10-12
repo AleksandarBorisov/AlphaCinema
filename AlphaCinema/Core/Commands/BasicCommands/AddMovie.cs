@@ -1,6 +1,7 @@
 ﻿using AlphaCinema.Core.Commands.DisplayMenus.Abstract;
 using AlphaCinema.Core.Contracts;
 using AlphaCinemaServices.Contracts;
+using AlphaCinemaServices.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,7 +67,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 				
 				movieServices.AddNewMovie(name, description, releaseYear, duration);
 
-                string successfullyAdded = $"Movie {movieDetails[0]} sucessfully added to the database";
+                string successfullyAdded = $"Movie {movieDetails[0].Trim()} sucessfully added to the database";
 
                 selector.PrintAtPosition(successfullyAdded, startingRow * 1 + offSetFromTop, false);
                 Thread.Sleep(2000);
@@ -78,7 +79,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			}
 			catch (Exception ex)
 			{
-				if (ex is ArgumentException)
+				if (ex is ArgumentException || ex is EntityAlreadyExistsException)
 				{
 					string wrongParametersDetals = ex.Message;
 

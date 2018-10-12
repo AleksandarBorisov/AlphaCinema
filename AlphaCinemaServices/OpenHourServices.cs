@@ -16,6 +16,14 @@ namespace AlphaCinemaServices
 			this.unitOfWork = unitOfWork;
 		}
 
+        public string GetHour(int startHourID)
+        {
+            return this.unitOfWork.OpenHours.AllAndDeleted()
+                .Where(opHour => opHour.Id == startHourID)
+                .Select(oh => oh.StartHour)
+                .FirstOrDefault();
+        }
+
         private OpenHour IfExist(string openHour)
         {
             return this.unitOfWork.OpenHours.AllAndDeleted()

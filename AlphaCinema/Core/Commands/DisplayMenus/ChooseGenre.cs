@@ -27,8 +27,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 			string offSetFromTop = parameters[parameters.Count - 2];
 			string startingRow = parameters[parameters.Count - 1];
 			int cityID = int.Parse(parameters[1]);
-			//var genreNames = this.genreServices.GetGenreNames(cityId);
-			// Избираме Жанр на база на града
+			// Избираме Жанр на база на Града
 			var genreNames = this.cityServices.GetGenreNames(cityID);
 			List<string> displayItems = new List<string>() { "Choose Genre" };
 

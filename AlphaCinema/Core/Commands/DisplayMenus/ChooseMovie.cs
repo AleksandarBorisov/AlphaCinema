@@ -26,7 +26,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 			int genreID = int.Parse(parameters[1]);
 			int cityID = int.Parse(parameters[3]);
 
-			// Избираме Филм на база на жанра и града
+			// Избираме Филм на база на Жанра и Града
 			var movieNames = this.movieServices.GetMovieNamesByCityIDGenreID(genreID, cityID);
 			List<string> displayItems = new List<string>() { "Choose Movie" };
 

@@ -6,6 +6,6 @@ namespace AlphaCinemaServices.Contracts
 	{
 		int GetID(string startHour);
 		List<string> GetOpenHours();
-
-	}
+        string GetHour(int startHourID);
+    }
 }
