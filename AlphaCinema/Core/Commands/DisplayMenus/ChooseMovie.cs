@@ -23,11 +23,10 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 		{
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
-			var genreID = parameters[1];
-			var cityID = parameters[3];
-			//var movieNames = this.movieGenreServices.GetMovieNamesByGenreIDCityID(genreID, cityID);
-            // Ибираме Филм на база на жанра и града
-            var movieNames = this.movieServices.GetMovieNamesByCityIDGenreID(genreID,cityID);
+
+            var genreID = parameters[1];
+			var movieNames = this.movieGenreServices.GetMovieNamesByGenreID(genreID);
+
             List<string> displayItems = new List<string>() { "Choose Movie"};
 
             displayItems.AddRange(movieNames);
