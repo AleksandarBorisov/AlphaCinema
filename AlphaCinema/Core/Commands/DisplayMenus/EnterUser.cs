@@ -30,7 +30,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
         {
             int offSetFromTop = int.Parse(parameters[parameters.Count - 2]);
             int startingRow = int.Parse(parameters[parameters.Count - 1]);
-            string cityID = parameters[5];
+            string cityID = parameters[7];
             string movieID = parameters[3];
             string openHourID = parameters[1];
             List<string> displayItems = new List<string>
@@ -64,6 +64,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 
 
                 string newUserId = userServices.AddNewUser(userName, userAge).Id.ToString();
+                //Избираме резержация на база на Града, Филма и Часа
                 string reservationId = projectionsServices.GetID(cityID, movieID, openHourID).ToString();
                 watchedMovieServices.AddNewWatchedMovie(newUserId, reservationId);
 

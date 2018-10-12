@@ -6,5 +6,7 @@ namespace AlphaCinemaServices.Contracts
 	{
 		string GetID(string cityName);
 		List<string> GetCityNames();
-	}
+        List<string> GetGenreNames(string cityIDAsString);
+
+    }
 }

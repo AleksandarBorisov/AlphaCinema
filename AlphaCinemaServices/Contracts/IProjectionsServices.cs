@@ -6,5 +6,7 @@ namespace AlphaCinemaServices.Contracts
 	{
 		string GetID(string cityID, string movieID, string openHourID);
 		List<string> GetProjections();
-	}
+        List<string> GetOpenHoursByMovieIDCityID(string movieIDAsString, string cityIDAsString);
+
+    }
 }

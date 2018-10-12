@@ -1,4 +1,5 @@
-﻿using AlphaCinemaData.UnitOfWork;
+﻿using AlphaCinemaData.Models;
+using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,11 @@ namespace AlphaCinemaServices
 {
     public class MovieGenreServices : IMovieGenreServices
     {
-		private readonly IUnitOfWork unitOfWork;
-        
+        private readonly IUnitOfWork unitOfWork;
+
         public MovieGenreServices(IUnitOfWork unitOfWork)
         {
-			this.unitOfWork = unitOfWork;
+            this.unitOfWork = unitOfWork;
         }
 
         public List<string> GetGenreIDsByMovie(string movieName)
@@ -22,7 +23,7 @@ namespace AlphaCinemaServices
                     .Select(movieGenre => movieGenre.GenreId.ToString())
                     .ToList())
                 .FirstOrDefault();
-            
+
             return genreIDs;
         }
 
@@ -40,13 +41,13 @@ namespace AlphaCinemaServices
 
         public List<string> GetMovieIDsByGenre(string genreName)
         {
-			var movieIDs = this.unitOfWork.Genres.All()
-				.Where(g => g.Name == genreName)
-				.Select(mg => mg.MoviesGenres
+            var movieIDs = this.unitOfWork.Genres.All()
+                .Where(g => g.Name == genreName)
+                .Select(mg => mg.MoviesGenres
                     .Select(m => m.MovieId.ToString())
                     .ToList())
-				.FirstOrDefault();
-            
+                .FirstOrDefault();
+
             return movieIDs;
         }
 
@@ -62,16 +63,18 @@ namespace AlphaCinemaServices
             return moviesNames;
         }
 
-		public List<string> GetMovieNamesByGenreID(string genreID)
-		{
-			var moviesNames = this.unitOfWork.Genres.All()
-				.Where(g => g.Id.ToString() == genreID)
-				.Select(mg => mg.MoviesGenres
-					.Select(m => m.Movie.Name)
-					.ToList())
-				.FirstOrDefault();
+        public List<string> GetMovieNamesByGenreID(string genreID)
+        {
+            var moviesNames = this.unitOfWork.Genres.All()
+                .Where(g => g.Id.ToString() == genreID)
+                .Select(mg => mg.MoviesGenres
+                    .Select(m => m.Movie.Name)
+                    .ToList())
+                .FirstOrDefault();
 
-			return moviesNames;
-		}
-	}
+            return moviesNames;
+        }
+
+
+    }
 }

@@ -37,10 +37,11 @@ namespace AlphaCinemaServices
             return genreNames;
         }
 
-		public List<string> GetGenreNames(string cityID)
+		public List<string> GetGenreNames(string cityIDAsString)
 		{
-			var genreNames = this.unitOfWork.Genres.All()
-				.Where(genre => genre.IsDeleted == false)
+            int cityID = int.Parse(cityIDAsString);
+            var genreNames = this.unitOfWork.Genres.All()
+                .Where(genre => genre.MoviesGenres.Any(mg => mg.Movie.Projections.Any(p => p.City.Name == cityIDAsString)))
 				.Select(genre => genre.Name)
 				.ToList();
 

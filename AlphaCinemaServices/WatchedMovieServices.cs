@@ -62,17 +62,20 @@ namespace AlphaCinemaServices
             {
                 var watchedMovie = new WatchedMovie()
                 {
-                    UserId = Guid.Parse(userId),
-                    ProjectionId = Guid.Parse(reservationId)
+                    UserId = int.Parse(userId),
+                    ProjectionId = int.Parse(reservationId)
                 };
                 this.unitOfWork.WatchedMovies.Add(watchedMovie);
+                this.unitOfWork.SaveChanges();
             }
         }
 
-        private WatchedMovie IfExist(string userId, string projectionId)
+        private WatchedMovie IfExist(string userIdAsString, string projectionIdAsString)
         {
+            int userId = int.Parse(userIdAsString);
+            int projectionId = int.Parse(projectionIdAsString);
             return this.unitOfWork.WatchedMovies.AllAndDeleted()
-                .Where(watchedMovie => watchedMovie.UserId.ToString() == userId && watchedMovie.ProjectionId.ToString() == projectionId)
+                .Where(watchedMovie => watchedMovie.UserId == userId && watchedMovie.ProjectionId == projectionId)
                 .FirstOrDefault();
         }
     }

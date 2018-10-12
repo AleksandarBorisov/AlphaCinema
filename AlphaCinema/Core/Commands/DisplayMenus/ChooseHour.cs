@@ -12,21 +12,24 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
         private readonly IOpenHourServices openHourServices;
         private readonly IProjectionsServices projectionsServices;
 
-        public ChooseHour(ICommandProcessor commandProcessor, IItemSelector selector, IOpenHourServices openHourServices)
+        public ChooseHour(ICommandProcessor commandProcessor, IItemSelector selector, IOpenHourServices openHourServices, IProjectionsServices projectionsServices)
             : base(commandProcessor, selector)
         {
             this.openHourServices = openHourServices;
+            this.projectionsServices = projectionsServices;
         }
 
         public override void Execute(List<string> parameters)
         {
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
-            string cityID = parameters[3];
+            string cityID = parameters[5];
             string movieID = parameters[1];
 
             //Тук ще направим заявка до базата от таблицата Movies за да ни мапне Прожекциите на GUID-овете
-            var hours = this.openHourServices.GetOpenHours();
+            //var hours = this.openHourServices.GetOpenHours();
+            //Избираме час на база на филма и града
+            var hours = this.projectionsServices.GetOpenHoursByMovieIDCityID(movieID, cityID);
             List<string> displayItems = new List<string>() { "Choose Hour" };
 
             displayItems.AddRange(hours);
@@ -46,7 +49,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             else
             {
                 var openHourID = openHourServices.GetID(startHour);
-                parameters.Insert(0, startHour);
+                parameters.Insert(0, openHourID);
                 parameters.Insert(0, "EnterUser");
                 commandProcessor.ExecuteCommand(parameters.ToList());
             }

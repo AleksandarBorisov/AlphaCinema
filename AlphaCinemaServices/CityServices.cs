@@ -33,5 +33,20 @@ namespace AlphaCinemaServices
             
 			return cityNames;
 		}
-	}
+
+        public List<string> GetGenreNames(string cityIDAsString)
+        {
+            int cityID = int.Parse(cityIDAsString);
+
+            var genreNames = this.unitOfWork.Cities.All()
+                .Where(city => city.Id == cityID)
+                .SelectMany(c => c.Projections)
+                .SelectMany(p => p.Movie.MovieGenres)
+                .Select(g => g.Genre.Name)
+                .Distinct()//За да вземем уникалните жанрове
+                .ToList();
+
+            return genreNames;
+        }
+    }
 }
