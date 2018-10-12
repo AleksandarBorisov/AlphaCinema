@@ -7,35 +7,35 @@ using System.Text;
 
 namespace AlphaCinema.Core.Commands.DisplayMenus
 {
-    public class AdminMenu : DisplayBaseCommand
-    {
-        public AdminMenu(ICommandProcessor commandProcessor, IItemSelector selector)
-            : base(commandProcessor, selector)
-        {
+	public class AdminMenu : DisplayBaseCommand
+	{
+		public AdminMenu(ICommandProcessor commandProcessor, IItemSelector selector)
+			: base(commandProcessor, selector)
+		{
 
-        }
+		}
 
-        public override void Execute(List<string> parameters)
-        {
-            string offSetFromTop = parameters[parameters.Count - 2];
-            string startingRow = parameters[parameters.Count - 1];
-            List<string> displayItems = new List<string>() { parameters[0] };
+		public override void Execute(List<string> parameters)
+		{
+			string offSetFromTop = parameters[parameters.Count - 2];
+			string startingRow = parameters[parameters.Count - 1];
+			List<string> displayItems = new List<string>() { parameters[0] };
 			AddMovieOptions(displayItems);
 			displayItems.Add(offSetFromTop);
-            displayItems.Add(startingRow);
+			displayItems.Add(startingRow);
 
-            string commandName = selector.DisplayItems(displayItems);
+			string commandName = selector.DisplayItems(displayItems);
 
-            if (commandName == "Back" || commandName == "Home")
-            {
-                commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
-            }
-            else
-            {
-                parameters.Insert(0, commandName);
-                commandProcessor.ExecuteCommand(parameters);
-            }
-        }
+			if (commandName == "Back" || commandName == "Home")
+			{
+				commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
+			}
+			else
+			{
+				parameters.Insert(0, commandName);
+				commandProcessor.ExecuteCommand(parameters);
+			}
+		}
 		private void AddMovieOptions(List<string> displayItems)
 		{
 			displayItems.Add("AddMovie");

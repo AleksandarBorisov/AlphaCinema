@@ -21,7 +21,8 @@ namespace AlphaCinemaServices
 		{
 			var id = this.unitOfWork.Cities.All()
 				.Where(c => c.Name == cityName)
-				.Select(c => c.Id).FirstOrDefault();
+				.Select(c => c.Id)
+				.FirstOrDefault();
 
 			return id;
 		}
@@ -77,6 +78,19 @@ namespace AlphaCinemaServices
 
 			this.unitOfWork.Cities.Delete(entity);
 			this.unitOfWork.Cities.Save();
+		}
+
+		public List<string> GetGenreNames(int cityID)
+		{
+			var genreNames = this.unitOfWork.Cities.All()
+				.Where(city => city.Id == cityID)
+				.SelectMany(c => c.Projections)
+				.SelectMany(p => p.Movie.MovieGenres)
+				.Select(g => g.Genre.Name)
+				.Distinct()//За да вземем уникалните жанрове
+				.ToList();
+
+			return genreNames;
 		}
 
 		private bool IfExist(string name)

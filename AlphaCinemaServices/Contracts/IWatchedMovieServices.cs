@@ -11,5 +11,7 @@ namespace AlphaCinemaServices.Contracts
         List<int> GetUsersIDsByProjection(int cityID, int movieID, int openHourID);
 
         List<int> GetProjectionsIDsByUser(string userName);
-    }
+		void AddNewWatchedMovie(int userID, int resevationID);
+
+	}
 }

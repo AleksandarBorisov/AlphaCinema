@@ -28,26 +28,6 @@ namespace AlphaCinemaServices
 			return id;
 		}
 
-		public List<string> GetGenreNames()
-		{
-			var genreNames = this.unitOfWork.Genres.All()
-				.Where(genre => genre.IsDeleted == false)
-				.Select(genre => genre.Name)
-				.ToList();
-
-			return genreNames;
-		}
-
-		public List<string> GetGenreNames(string cityID)
-		{
-			var genreNames = this.unitOfWork.Genres.All()
-				.Where(genre => genre.IsDeleted == false)
-				.Select(genre => genre.Name)
-				.ToList();
-
-			return genreNames;
-		}
-
 		public void AddNewGenre(string genreName)
 		{
 
@@ -93,13 +73,6 @@ namespace AlphaCinemaServices
 			this.unitOfWork.Genres.Save();
 		}
 
-		public Genre GetGenreByName(string genreName)
-		{
-			var genre = unitOfWork.Genres.All()
-				.Where(g => g.Name == genreName)
-				.FirstOrDefault();
-			return genre;
-		}
 
 		private bool IfExist(string name)
 		{

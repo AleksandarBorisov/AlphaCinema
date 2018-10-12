@@ -110,7 +110,18 @@ namespace AlphaCinemaServices
 			return movie;
 		}
 
-        private bool IfExist(string movieName)
+		public List<string> GetMovieNamesByCityIDGenreID(int genreID, int cityID)
+		{
+			var movies = this.unitOfWork.Movies.All()
+			.Where(movie => movie.MovieGenres.Any(mg => mg.GenreId == genreID))
+			.Where(movie => movie.Projections.Any(p => p.CityId == cityID))
+			.Select(movie => movie.Name).ToList();
+
+			return movies;
+		}
+
+
+		private bool IfExist(string movieName)
         {
             return this.unitOfWork.Movies.AllAndDeleted()
 			    .Where(m => m.Name == movieName)

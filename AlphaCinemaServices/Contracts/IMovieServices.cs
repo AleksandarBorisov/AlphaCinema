@@ -12,6 +12,11 @@ namespace AlphaCinemaServices.Contracts
         void DeleteMovie(string movieName);
         Movie GetMovieByName(string movieName);
 
+		List<string> GetMovieNamesByCityIDGenreID(
+			int genreID,
+			int cityID);
+
+
 
 	}
 }

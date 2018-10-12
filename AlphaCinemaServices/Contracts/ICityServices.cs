@@ -10,5 +10,6 @@ namespace AlphaCinemaServices.Contracts
 
 		void AddNewCity(string cityName);
 		void DeleteCity(string cityName);
+		List<string> GetGenreNames(int cityID);
 	}
 }
