@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlphaCinemaData.Models.Associative;
+using System;
 using System.Collections.Generic;
 
 namespace AlphaCinemaServices.Contracts
@@ -10,5 +11,9 @@ namespace AlphaCinemaServices.Contracts
         List<string> GetOpenHoursByMovieIDCityID(string movieIDAsString, string cityIDAsString);
 		DateTime GetDate(int movieID, int cityID, int openHourID);
 		void Delete(int movieID, int cityID, int openHourID, DateTime date);
+
+		Projection GetProjectionByID(int id);
+		List<string> GetProjections();
+
 	}
 }

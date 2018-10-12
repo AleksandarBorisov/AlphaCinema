@@ -93,12 +93,14 @@ namespace AlphaCinemaServices
 				.Where(pr => pr.CityId == cityID)
 				.Where(pr => pr.MovieId == movieID)
                 .Where(pr => pr.OpenHourId == openHourID)
-				.Select(pr => pr.Id).FirstOrDefault();
+				.Select(pr => pr.Id)
+				.FirstOrDefault();
 
 			return id;
 		}
 
-        public List<string> GetOpenHoursByMovieIDCityID(string movieIDAsString, string cityIDAsString)
+
+		public List<string> GetOpenHoursByMovieIDCityID(string movieIDAsString, string cityIDAsString)
         {
             int cityID = int.Parse(cityIDAsString);
             int movieID = int.Parse(movieIDAsString);
@@ -109,6 +111,26 @@ namespace AlphaCinemaServices
 
             return openHours;
         }
+
+		public Projection GetProjectionByID(int id)
+		{
+			var projection = this.unitOfWork.Projections.All()
+				 .Where(proj => proj.Id == id)
+				 .Select(proj => proj)
+				 .FirstOrDefault();
+
+			return projection;
+		}
+
+		public List<string> GetProjections()
+		{
+			var projections = this.unitOfWork.Projections.All()
+				.Select(pr => pr.Id.ToString())
+				.ToList();
+
+			return projections;
+		}
+
 
 		public DateTime GetDate(int movieID, int cityID, int openHourID)
 		{

@@ -11,5 +11,9 @@ namespace AlphaCinemaServices.Contracts
 
         User AddNewUser(string name, int age);
 
-    }
+		List<int> GetProjectionsIDsByUserID(int userID);
+
+
+
+	}
 }

@@ -56,7 +56,20 @@ namespace AlphaCinemaServices
 
         }
 
-        private User IfExist(string userName)
+		public List<int> GetProjectionsIDsByUserID(int userID)
+		{
+			var projectionsIDs = this.unitOfWork.Users.All()
+				.Where(us => us.Id == userID)
+				.Select(us => us.WatchedMovies
+					.Select(wm => wm.ProjectionId)
+					.ToList())
+				.FirstOrDefault();
+
+			return projectionsIDs;
+		}
+
+
+		private User IfExist(string userName)
         {
             return this.unitOfWork.Users.AllAndDeleted()
                 .Where(user => user.Name == userName)

@@ -74,5 +74,19 @@ namespace AlphaCinemaServices
                 .IsDeleted;
         }
 
-    }
+		public List<string> GetMovieNamesByGenreID(string genreID)
+		{
+			var moviesNames = this.unitOfWork.Genres.All()
+				.Where(g => g.Id.ToString() == genreID)
+				.Select(mg => mg.MoviesGenres
+					.Where(m => m.Movie.IsDeleted == false)
+					.Select(m => m.Movie.Name)
+					.ToList())
+				.FirstOrDefault();
+
+			return moviesNames;
+		}
+
+
+	}
 }
