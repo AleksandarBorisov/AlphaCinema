@@ -24,7 +24,7 @@ namespace AlphaCinemaServices
 		{
             if(!IfExist(movieName) || IsDeleted(movieName))
             {
-                throw new EntityDoesntExistException($"Movie {movieName} is not present in the database.");
+                throw new EntityDoesntExistException($"{movieName} is not present in the database.");
             }
 
             var id = this.unitOfWork.Movies.All()

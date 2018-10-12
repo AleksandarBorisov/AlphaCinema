@@ -34,12 +34,10 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		public void Execute(List<string> parameters)
 		{
 			cinemaConsole.Clear();
-			cinemaConsole.WriteLine("Type a projection:");
-			cinemaConsole.WriteLine("Format: MovieName(50) | CityName(50) | OpenHour (Format: HH:MMh) | Date (Format: YYYY-MM-DD)");
-
+			cinemaConsole.WriteLineMiddle("Format: MovieName(50) | CityName(50) | OpenHour (Format: HH:MMh) | Date (Format: YYYY-MM-DD)", 0);
 			try
 			{
-				var input = cinemaConsole.ReadLine().Split('|');
+				var input = cinemaConsole.ReadLineMiddle(0).Split('|');
 				Validations(input);
 
 				var movieID = movieServices.GetID(input[0].TrimEnd().TrimStart());

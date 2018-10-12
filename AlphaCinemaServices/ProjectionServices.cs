@@ -89,6 +89,10 @@ namespace AlphaCinemaServices
 
 		public int GetID(int cityID, int movieID, int openHourID)
 		{
+			if (!IfExist(cityID, movieID, openHourID) && IsDeleted(cityID, movieID, openHourID))
+			{
+				throw new EntityDoesntExistException($"\nProjection is not present in the database.");
+			}
 			var id = this.unitOfWork.Projections.All()
 				.Where(pr => pr.CityId == cityID)
 				.Where(pr => pr.MovieId == movieID)

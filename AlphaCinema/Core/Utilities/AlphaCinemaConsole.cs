@@ -1,17 +1,13 @@
 ﻿using AlphaCinema.Core.Contracts;
 using System;
+using System.Threading;
 
 namespace AlphaCinema.Core.Utilities
 {
 	public class AlphaCinemaConsole : IAlphaCinemaConsole
 	{
-        private readonly IItemSelector selector;
-
-        public AlphaCinemaConsole(IItemSelector selector)
-        {
-            this.selector = selector;
-        }
-
+		private const int left = 40;
+		private const int top = 4;
         public string ReadLine()
 		{
 			return Console.ReadLine();
@@ -37,28 +33,59 @@ namespace AlphaCinema.Core.Utilities
 			Console.ReadKey();
 		}
 
-		public void HandleException(string message)
+		public void HandleException(string message, int left = 40, int top = 4)
 		{
-            Console.WriteLine(message);
-            Console.Write("\nPress any key to go back...");
-            Console.ReadKey();
-            Console.Clear();
+			ChangeColor(ConsoleColor.Red);
+			SetMiddleWrite(0, top + 3);
+			Console.WriteLine(message);
+			GoBack();
 		}
 
-		public void HandleOperation(string message)
+		public void HandleOperation(string message, int left = 40, int top = 4)
 		{
-            Console.WriteLine(message);
-            Console.Write("\nPress any key to go back...");
-            Console.ReadKey();
+			ChangeColor(ConsoleColor.Green);
+			SetMiddleWrite(0, top + 3);
+			Console.WriteLine(message);
+			GoBack();
+		}
+
+		public void WriteLineMiddle(string message, int left = 40, int top = 4)
+		{
+			SetMiddleWrite(left, top);
+			Console.WriteLine(message);
+		}
+
+		public string ReadLineMiddle(int left = 40, int top = 4)
+		{
+			SetMiddleRead(left, top + 2);
+			return Console.ReadLine();
+		}
+
+		public void GoBack()
+		{
+			Thread.Sleep(2000);
+			ResetColor();
 			Console.Clear();
 		}
 
-		public void SetScreenSize()
+		private void SetMiddleWrite(int left, int top)
 		{
-			Console.WindowHeight = 30;
-			Console.BufferWidth = Console.WindowWidth = 120;
+			Console.SetCursorPosition(left, top);
 		}
 
+		private void SetMiddleRead(int left, int top)
+		{
+			Console.SetCursorPosition(left, top);
+		}
 
+		private void ResetColor()
+		{
+			ChangeColor(ConsoleColor.White);
+		}
+
+		private void ChangeColor(ConsoleColor console)
+		{
+			Console.ForegroundColor = console;
+		}
 	}
 }

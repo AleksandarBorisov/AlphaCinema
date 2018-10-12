@@ -23,14 +23,10 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		public void Execute(List<string> parameters)
 		{
 			cinemaConsole.Clear();
-			Console.SetCursorPosition(Console.WindowWidth / 2, Console.WindowHeight / 2);
-			cinemaConsole.WriteLine("Type a city:\n");
-			
+			cinemaConsole.WriteLineMiddle("Type a city name:\n");
 			try
 			{
-				Console.SetCursorPosition(Console.WindowWidth / 2, Console.WindowHeight / 2 + 2);
-				var cityName = Console.ReadLine().Trim();
-				//var cityName = cinemaConsole.ReadLine().Trim();
+				var cityName = cinemaConsole.ReadLineMiddle().TrimEnd().TrimStart();
 				Validations(cityName);
 				cityServices.AddNewCity(cityName);
 				cinemaConsole.HandleOperation("\nSuccessfully added to database");
