@@ -22,6 +22,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 		{
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
+
             string cityID = parameters[3];
             string movieID = parameters[1];
 
@@ -34,7 +35,9 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             displayItems.Add("Home");
             displayItems.Add(offSetFromTop);
             displayItems.Add(startingRow);
+
             var startHour = selector.DisplayItems(displayItems);
+
             while (startHour != "Back" && startHour != "Home")
             {
 				// ТОВА ТРЯБВА ДА Е В ОТДЕЛНА КОМАНДА ЗА РЕЗЕРВАЦИЯ

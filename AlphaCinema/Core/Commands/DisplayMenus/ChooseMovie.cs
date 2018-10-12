@@ -23,7 +23,8 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 		{
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
-			var genreID = parameters[1];
+
+            var genreID = parameters[1];
 			var movieNames = this.movieGenreServices.GetMovieNamesByGenreID(genreID);
 
             List<string> displayItems = new List<string>() { "Choose Movie"};
@@ -33,7 +34,9 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             displayItems.Add("Home");
             displayItems.Add(offSetFromTop);
             displayItems.Add(startingRow);
+
             string movieName = selector.DisplayItems(displayItems);
+
             if (movieName == "Back")
             {
                 commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());

@@ -28,8 +28,10 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			try
 			{
 			  	var genreName = cinemaConsole.ReadLine().Trim();
-				Validations(genreName);
-				genreServices.DeleteGenre(genreName);
+
+                Validations(genreName);
+
+                genreServices.DeleteGenre(genreName);
 				cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
 			}
 			catch (InvalidClientInputException e)

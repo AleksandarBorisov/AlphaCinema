@@ -93,12 +93,24 @@ namespace AlphaCinemaServices
 				.Where(pr => pr.CityId == cityID
 				&& pr.MovieId == movieID
 				&& pr.OpenHourId == openHourID)
-				.Select(pr => pr.Id).FirstOrDefault();
+				.Select(pr => pr.Id)
+                .FirstOrDefault();
 
 			return id;
 		}
 
-		public List<string> GetProjections()
+        public Projection GetProjectionByID(int id)
+        {
+            var projection = this.unitOfWork.Projections.All()
+                 .Where(proj => proj.Id == id)
+                 .Select(proj => proj)
+                 .FirstOrDefault();
+
+            return projection;
+        }
+
+
+        public List<string> GetProjections()
 		{
 			var projections = this.unitOfWork.Projections.All()
 				.Select(pr => pr.Id.ToString())

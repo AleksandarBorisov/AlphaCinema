@@ -9,5 +9,7 @@ namespace AlphaCinemaServices.Contracts
 		int GetID(string userName);
 
         List<string> GetUsersNames();
+
+        List<int> GetProjectionsIDsByUserID(int userID);
     }
 }
