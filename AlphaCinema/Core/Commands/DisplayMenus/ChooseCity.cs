@@ -20,8 +20,9 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 		{
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
-
+            // Първо избираме град
 			var cityNames = this.cityServices.GetCityNames();
+
             List<string> displayItems = new List<string>() { "Choose City"};
 
             displayItems.AddRange(cityNames);

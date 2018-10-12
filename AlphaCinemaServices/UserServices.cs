@@ -1,7 +1,10 @@
-﻿using AlphaCinemaData.UnitOfWork;
+﻿using AlphaCinemaData.Models;
+using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using AlphaCinemaServices.Exceptions;
 
 namespace AlphaCinemaServices
 {
@@ -24,13 +27,40 @@ namespace AlphaCinemaServices
             return id;
         }
 
-        public List<string> GetUsersNames()
+        public User AddNewUser(string name, int age)
         {
-            var users = this.unitOfWork.Users.All()
-                .Select(user => user.Name)
-                .ToList();
+            if (name.Length > 50)
+            {
+                throw new ArgumentException("User Name can't be more than 50 characters");
+            }
 
-            return users;
+            if (age < 0)
+            {
+                throw new ArgumentException("Age can't be negative");
+            }
+
+            var user = IfExist(name);
+
+            if (user != null)
+            {
+                throw new EntityAlreadyExistsException("You have already booked reservation");
+            }
+            var newUser = new User()
+            {
+                Name = name,
+                Age = age
+            };
+            this.unitOfWork.Users.Add(newUser);
+            this.unitOfWork.SaveChanges();
+            return newUser;
+
+        }
+
+        private User IfExist(string userName)
+        {
+            return this.unitOfWork.Users.AllAndDeleted()
+                .Where(user => user.Name == userName)
+                .FirstOrDefault();
         }
 
         public List<int> GetProjectionsIDsByUserID(int userID)

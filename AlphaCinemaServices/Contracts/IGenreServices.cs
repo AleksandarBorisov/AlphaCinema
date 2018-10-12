@@ -8,10 +8,6 @@ namespace AlphaCinemaServices.Contracts
     public interface IGenreServices
     {
         int GetID(string genreName);
-
-        List<string> GetGenreNames();
-        List<string> GetGenreNames(string cityID);
-
 		void AddNewGenre(string genreName);
 		void DeleteGenre(string genreName);
 		Genre GetGenreByName(string movieName);
