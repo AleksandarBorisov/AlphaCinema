@@ -22,8 +22,10 @@ namespace AlphaCinemaServices
 
         public int GetID(string movieName)
 		{
-            if(!IfExist(movieName) || IsDeleted(movieName))
-            {
+            var oldMovie = IfExist(movieName);
+
+            if (oldMovie == null || oldMovie.IsDeleted)
+            {//Ако няма такова или е изтрито
                 throw new EntityDoesntExistException($"Movie {movieName} is not present in the database.");
             }
 
@@ -46,16 +48,16 @@ namespace AlphaCinemaServices
             {
                 throw new ArgumentException("Movie Description can't be more than 150 characters");
             }
-  
-            if (IfExist(name) && IsDeleted(name))
-            {
-                var movie = this.unitOfWork.Movies.AllAndDeleted()
-                    .FirstOrDefault(m => m.Name == name);
-                movie.IsDeleted = false;
 
+            var oldMovie = IfExist(name);
+
+            if (oldMovie != null && oldMovie.IsDeleted)
+            {
+                oldMovie.IsDeleted = false;
+                //TO DO implement cascade renew of navigational movie properties
 				this.unitOfWork.SaveChanges();
             }
-            else if (IfExist(name) && !IsDeleted(name))
+            else if (oldMovie != null && !oldMovie.IsDeleted)
             {
                 throw new EntityAlreadyExistsException("Movie is already present in the database.");
             }
@@ -76,43 +78,29 @@ namespace AlphaCinemaServices
 
         public void DeleteMovie(string movieName)
         {
-            if (!IfExist(movieName))
+            var oldMovie = IfExist(movieName);
+
+            if (oldMovie == null)
             {
                 throw new EntityDoesntExistException("\nMovie is not present in the database.");
             }
-            else if (IfExist(movieName) && IsDeleted(movieName))
+            else if (oldMovie != null && oldMovie.IsDeleted)
             {
                 throw new EntityDoesntExistException($"Movie {movieName} is not present in the database.");
             }
             var entity = this.unitOfWork.Movies.All()
                 .Where(mov => mov.Name == movieName)
                 .FirstOrDefault();
-
+            //TO DO implement cascade delete
             this.unitOfWork.Movies.Delete(entity);
             this.unitOfWork.Movies.Save();
         }
         
-        public Movie GetMovieByName(string movieName)
-		{
-			var movie = unitOfWork.Movies.All()
-				.Where(m => m.Name == movieName)
-				.FirstOrDefault();
-			return movie;
-		}
-
-        private bool IfExist(string movieName)
+        private Movie IfExist(string movieName)
         {
             return this.unitOfWork.Movies.AllAndDeleted()
 			    .Where(m => m.Name == movieName)
-			    .FirstOrDefault() == null ? false : true;
-        }
-
-        private bool IsDeleted(string movieName)
-        {
-            return this.unitOfWork.Movies.AllAndDeleted()
-                .Where(g => g.Name == movieName)
-                .FirstOrDefault()
-                .IsDeleted;
+			    .FirstOrDefault();
         }
 
         public List<string> GetMovieNamesByCityIDGenreID(
