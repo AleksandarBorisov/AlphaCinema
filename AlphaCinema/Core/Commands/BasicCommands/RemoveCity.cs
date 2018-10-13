@@ -24,10 +24,10 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		public void Execute(List<string> parameters)
 		{
 			cinemaConsole.Clear();
-			cinemaConsole.WriteLine("Type a city:\n");
+			cinemaConsole.WriteLineMiddle("Type a city name:\n");
 			try
 			{
-				var cityName = cinemaConsole.ReadLine().Trim();
+				var cityName = cinemaConsole.ReadLineMiddle().TrimEnd().TrimStart();
 				Validations(cityName);
 				cityServices.DeleteCity(cityName);
 				cinemaConsole.HandleOperation("\nSuccessfully deleted from database");

@@ -30,11 +30,10 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		public void Execute(List<string> parameters)
 		{
 			cinemaConsole.Clear();
-			cinemaConsole.WriteLine("Type a movie name and a genre like this:");
-			cinemaConsole.WriteLine("Movie Name | Genre");
+			cinemaConsole.WriteLineMiddle("Format: Movie Name | Genre");
 			try
 			{
-				var input = cinemaConsole.ReadLine().Split('|');
+				var input = cinemaConsole.ReadLineMiddle().Split('|');
 				Validations(input);
 
 				var movieID = movieServices.GetID(input[0].TrimEnd().TrimStart());

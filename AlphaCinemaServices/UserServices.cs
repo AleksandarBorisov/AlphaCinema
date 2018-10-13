@@ -20,6 +20,10 @@ namespace AlphaCinemaServices
 
 		public int GetID(string userName)
 		{
+			if (IfExist(userName) == null && IsDeleted(userName))
+			{
+				throw new EntityDoesntExistException($"\n{userName} is not present in the database.");
+			}
 			var id = this.unitOfWork.Users.All()
 				.Where(user => user.Name == userName)
 				.Select(user => user.Id)
@@ -100,6 +104,15 @@ namespace AlphaCinemaServices
 			return this.unitOfWork.Users.AllAndDeleted()
 				.Where(user => user.Name == userName)
 				.FirstOrDefault();
+		}
+
+		private bool IsDeleted(string userName)
+		{
+			var result = this.unitOfWork.Users.AllAndDeleted()
+				.Where(u => u.Name == userName)
+				.FirstOrDefault()
+				.IsDeleted;
+			return result;
 		}
 	}
 }

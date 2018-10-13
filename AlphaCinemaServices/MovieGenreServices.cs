@@ -23,7 +23,7 @@ namespace AlphaCinemaServices
 			if (IfExist(movieID, genreID) && IsDeleted(movieID, genreID))
 			{
 				var movieGenreObj = this.unitOfWork.MovieGenres.AllAndDeleted()
-					.FirstOrDefault(mg => mg.MovieId == movieID && mg.MovieId == genreID);
+					.FirstOrDefault(mg => mg.MovieId == movieID && mg.GenreId == genreID);
 				movieGenreObj.IsDeleted = false;
 				this.unitOfWork.SaveChanges();
 			}
@@ -57,14 +57,6 @@ namespace AlphaCinemaServices
 				this.unitOfWork.MovieGenres.Delete(movieGenreObject);
 			}
 			this.unitOfWork.Cities.Save();
-		}
-
-
-		private bool IfExist(string movieName, string genreName)
-		{
-			return this.unitOfWork.MovieGenres.AllAndDeleted()
-				.Where(mg => mg.Movie.Name == movieName && mg.Genre.Name == genreName)
-				.FirstOrDefault() == null ? false : true;
 		}
 
 		private bool IfExist(int movieID, int genreID)

@@ -19,6 +19,10 @@ namespace AlphaCinemaServices
 
 		public int GetID(string cityName)
 		{
+			if (!IfExist(cityName) && IsDeleted(cityName))
+			{
+				throw new EntityDoesntExistException($"\n{cityName} is not present in the database.");
+			}
 			var id = this.unitOfWork.Cities.All()
 				.Where(c => c.Name == cityName)
 				.Select(c => c.Id)

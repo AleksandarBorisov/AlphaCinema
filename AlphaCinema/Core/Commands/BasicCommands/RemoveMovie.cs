@@ -25,12 +25,12 @@ namespace AlphaCinema.Core.Commands.BasicCommands
         public void Execute(List<string> parameters)
         {
             cinemaConsole.Clear();
-			cinemaConsole.WriteLine("type a movie:");
-            
-            try
+			cinemaConsole.WriteLineMiddle("Type a movie name:\n");
+
+			try
             {
-				string movieName = cinemaConsole.ReadLine();
-                Validations(movieName);
+				string movieName = cinemaConsole.ReadLineMiddle().TrimEnd().TrimStart();
+				Validations(movieName);
 
                 movieServices.DeleteMovie(movieName);
                 cinemaConsole.HandleOperation("\nSuccessfully deleted from database");

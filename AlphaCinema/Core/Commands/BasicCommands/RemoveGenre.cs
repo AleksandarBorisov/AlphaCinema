@@ -23,11 +23,11 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		public void Execute(List<string> parameters)
 		{
 			cinemaConsole.Clear();
-			cinemaConsole.WriteLine("Type a city:\n");
+			cinemaConsole.WriteLineMiddle("Type a genre name:\n");
 
 			try
 			{
-			  	var genreName = cinemaConsole.ReadLine().Trim();
+			  	var genreName = cinemaConsole.ReadLineMiddle().TrimEnd().TrimStart();
 				Validations(genreName);
 				genreServices.DeleteGenre(genreName);
 				cinemaConsole.HandleOperation("\nSuccessfully deleted from database");

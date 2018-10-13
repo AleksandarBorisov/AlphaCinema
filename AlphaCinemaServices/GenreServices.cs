@@ -20,6 +20,10 @@ namespace AlphaCinemaServices
 
 		public int GetID(string genreName)
 		{
+			if (!IfExist(genreName) || IsDeleted(genreName))
+			{
+				throw new EntityDoesntExistException($"\n{genreName} is not present in the database.");
+			}
 			var id = this.unitOfWork.Genres.All()
 				.Where(genre => genre.Name == genreName)
 				.Select(genre => genre.Id)
