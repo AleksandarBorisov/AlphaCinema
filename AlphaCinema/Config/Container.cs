@@ -46,24 +46,30 @@ namespace AlphaCinema.Config
 
         private void RegisterCoreComponents(ContainerBuilder builder)
         {
-            builder.RegisterType<Engine>().As<IEngine>().SingleInstance();
+			//builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly(), Assembly.GetAssembly(typeof(CityServices)))
+			//	   .AsImplementedInterfaces();
+
+			builder.RegisterType<Engine>().As<IEngine>().SingleInstance();
             builder.RegisterType<CommandProcessor>().As<ICommandProcessor>().SingleInstance();
             builder.RegisterType<CommandFactory>().As<ICommandFactory>().SingleInstance();
             builder.RegisterType<ItemSelector>().As<IItemSelector>().SingleInstance();
 			builder.RegisterType<AlphaCinemaContext>().AsSelf();
+
+
+
 			builder.RegisterType<Data>().As<IData>();
-            builder.RegisterType<CityServices>().As<ICityServices>();
+			builder.RegisterType<CityServices>().As<ICityServices>();
 			builder.RegisterType<MovieServices>().As<IMovieServices>();
 			builder.RegisterType<OpenHourServices>().As<IOpenHourServices>();
 			builder.RegisterType<ProjectionServices>().As<IProjectionsServices>();
-            builder.RegisterType<GenreServices>().As<IGenreServices>();
-            builder.RegisterType<MovieGenreServices>().As<IMovieGenreServices>();
-            builder.RegisterType<UserServices>().As<IUserServices>();
-            builder.RegisterType<WatchedMovieServices>().As<IWatchedMovieServices>();
+			builder.RegisterType<GenreServices>().As<IGenreServices>();
+			builder.RegisterType<MovieGenreServices>().As<IMovieGenreServices>();
+			builder.RegisterType<UserServices>().As<IUserServices>();
+			builder.RegisterType<WatchedMovieServices>().As<IWatchedMovieServices>();
 			builder.RegisterType<CommandHandler>().As<ICommandHandler>();
 			builder.RegisterType<AlphaCinemaConsole>().As<IAlphaCinemaConsole>();
 			builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
-
+			builder.RegisterType<PdfExporter>().As<IPdfExporter>();
 		}
-    }
+	}
 }
