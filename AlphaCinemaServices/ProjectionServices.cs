@@ -24,7 +24,7 @@ namespace AlphaCinemaServices
 			//Create projection object from the input parameters
 
 			//Check if the projection already exist
-			if (IfExist(movieID, cityID, openHourID, date))
+			if (IfExist(cityID, movieID, openHourID, date))
 			{
 				if (IsDeleted(movieID, cityID, openHourID, date))
 				{
