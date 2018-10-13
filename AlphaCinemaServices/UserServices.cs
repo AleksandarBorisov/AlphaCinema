@@ -126,5 +126,12 @@ namespace AlphaCinemaServices
 				.IsDeleted;
 			return result;
 		}
+
+		public HashSet<User> GetUsers()
+		{
+			// Maybe a try-catch block?
+			return this.unitOfWork.Users.All()
+				.ToHashSet();
+		}
 	}
 }

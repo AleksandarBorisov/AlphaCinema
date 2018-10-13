@@ -6,5 +6,6 @@ namespace AlphaCinema.Core.Utilities
 	public interface IPdfExporter
 	{
 		void ExportUserWatchedMovies(IEnumerable<Movie> movies, string userName);
+		void ExportWatchedMoviesByUsers(SortedDictionary<string, HashSet<Movie>> watchedMovies);
 	}
 }
