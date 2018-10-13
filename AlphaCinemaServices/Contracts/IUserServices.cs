@@ -15,5 +15,9 @@ namespace AlphaCinemaServices.Contracts
 		List<int> GetProjectionsIDsByUserID(int userID);
 
         List<ProjectionDetailsViewModel> GetMoviesByUserAge(int minAge, int maxAge);
-    }
+		bool IfExist(string userName);
+		bool IsDeleted(string userName);
+		User GetUserByID(int userID);
+
+	}
 }

@@ -1,4 +1,5 @@
-﻿using AlphaCinemaData.Models.Associative;
+﻿using AlphaCinemaData.Models;
+using AlphaCinemaData.Models.Associative;
 using AlphaCinemaData.Repository;
 using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
@@ -70,15 +71,25 @@ namespace AlphaCinemaServices
 			}
 		}
 
+		public IEnumerable<Movie> GetWatchedMoviesByUserName(string userName)
+		{
+			var movies = this.unitOfWork.Movies.All()
+				.SelectMany(m => m.Projections)
+				.SelectMany(wm => wm.WatchedMovies)
+				.Where(u => u.User.Name == userName)
+				.Select(m => m.Projection.Movie)
+				.ToList();
+
+			return movies;
+		}
+
 
 		private WatchedMovie IfExist(int userID, int projectionID)
 		{
-
 			return this.unitOfWork.WatchedMovies.AllAndDeleted()
 				.Where(watchedMovie => watchedMovie.UserId == userID
 				&& watchedMovie.ProjectionId == projectionID)
 				.FirstOrDefault();
 		}
-
 	}
 }

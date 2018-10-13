@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AlphaCinemaServices.Exceptions;
+using System.Text;
 using AlphaCinemaData.ViewModels;
 
 namespace AlphaCinemaServices
@@ -20,7 +21,7 @@ namespace AlphaCinemaServices
 
 		public int GetID(string userName)
 		{
-			if (IfExist(userName) == null && IsDeleted(userName))
+			if (!IfExist(userName) && IsDeleted(userName))
 			{
 				throw new EntityDoesntExistException($"\n{userName} is not present in the database.");
 			}
@@ -44,33 +45,48 @@ namespace AlphaCinemaServices
 				throw new ArgumentException("Age can't be negative");
 			}
 
-			var user = IfExist(name);
-
-			if (user != null)
+			if (IfExist(name) && !IsDeleted(name))
 			{
-				throw new EntityAlreadyExistsException("You have already booked reservation");
+				return GetUserByID(GetID(name));
 			}
+
 			var newUser = new User()
 			{
 				Name = name,
 				Age = age
 			};
+
 			this.unitOfWork.Users.Add(newUser);
 			this.unitOfWork.SaveChanges();
 			return newUser;
-
 		}
 
 		public List<int> GetProjectionsIDsByUserID(int userID)
 		{
-			var projectionsIDs = this.unitOfWork.Users.All()
-				.Where(us => us.Id == userID)
-				.Select(us => us.WatchedMovies
-					.Select(wm => wm.ProjectionId)
-					.ToList())
-				.FirstOrDefault();
+            //var projectionsIDs = this.unitOfWork.Users.All()
+            //    .Where(us => us.Id == userID)
+            //    .Select(us => us.WatchedMovies
+            //        .Select(wm => wm.Projection)
+            //            .Select(pr => new
+            //            {
+            //                pr.City,
+            //                pr.Movie,
+            //                pr.OpenHour.StartHour,
+            //                pr.Date
+            //            })
+            //            .ToList())
+            //         .FirstOrDefault();
 
-			return projectionsIDs;
+
+            var projectionsIDs = this.unitOfWork.Users.All()
+                .Where(us => us.Id == userID)
+                .Select(us => us.WatchedMovies
+                    .Select(wm => wm.ProjectionId)
+                        .ToList())
+                    .FirstOrDefault();
+
+
+            return projectionsIDs;
 		}
 
         public List<ProjectionDetailsViewModel> GetMoviesByUserAge(int minAge, int maxAge)
@@ -99,14 +115,22 @@ namespace AlphaCinemaServices
             return movieInfo;
         }
 
-		private User IfExist(string userName)
+		public User GetUserByID(int userID)
 		{
-			return this.unitOfWork.Users.AllAndDeleted()
-				.Where(user => user.Name == userName)
+			return this.unitOfWork.Users.All()
+				.Where(u => u.Id == userID)
 				.FirstOrDefault();
 		}
 
-		private bool IsDeleted(string userName)
+		public bool IfExist(string userName)
+		{
+			return this.unitOfWork.Users.AllAndDeleted()
+				.Where(user => user.Name == userName)
+				.FirstOrDefault() == null ? false : true;
+		}
+
+
+		public bool IsDeleted(string userName)
 		{
 			var result = this.unitOfWork.Users.AllAndDeleted()
 				.Where(u => u.Name == userName)

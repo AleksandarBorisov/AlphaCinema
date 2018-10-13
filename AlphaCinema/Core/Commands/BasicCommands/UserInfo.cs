@@ -1,5 +1,6 @@
 ﻿using AlphaCinema.Core.Commands.DisplayMenus.Abstract;
 using AlphaCinema.Core.Contracts;
+using AlphaCinemaData.Models.Associative;
 using AlphaCinemaServices.Contracts;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			: base(commandProcessor, selector)
 		{
 			this.userServices = userServices;
+            this.projectionsServices = projectionsServices;
 		}
 
 		public override void Execute(List<string> parameters)
@@ -57,9 +59,13 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
 				//Now get projections as objects by ID
 				List<string> projections = new List<string>();
-				foreach (int projID in projectionsIDs)
+
+                Projection currProjection;
+                foreach (int projID in projectionsIDs)
 				{
-					projections.Add(this.projectionsServices.GetProjectionByID(projID).ToString());
+                    currProjection = this.projectionsServices.GetProjectionByID(projID);
+
+                    projections.Add(currProjection.ToString());
 				}
 
 				Console.WriteLine(string.Join(",", projections));

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlphaCinemaData.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,6 +13,7 @@ namespace AlphaCinemaServices.Contracts
 
         List<int> GetProjectionsIDsByUser(string userName);
 		void AddNewWatchedMovie(int userID, int resevationID);
+		IEnumerable<Movie> GetWatchedMoviesByUserName(string userName);
 
 	}
 }
