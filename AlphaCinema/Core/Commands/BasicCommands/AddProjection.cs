@@ -93,7 +93,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
             }
             catch (Exception ex)
             {
-                if (ex is ArgumentException || ex is EntityDoesntExistException)
+                if (ex is ArgumentException || ex is EntityDoesntExistException || ex is EntityAlreadyExistsException)
                 {
                     string wrongParametersDetals = ex.Message;
 

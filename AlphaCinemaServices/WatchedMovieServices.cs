@@ -6,6 +6,7 @@ using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 
@@ -19,39 +20,6 @@ namespace AlphaCinemaServices
         {
 			this.unitOfWork = unitOfWork;
 		}
-
-        public List<int> GetProjectionsIDsByUser(string userName)
-        {
-            var projectionsIDs = this.unitOfWork.WatchedMovies.All()
-                .Where(watchedMovie => watchedMovie.User.Name == userName)
-                .Select(watchedMovie => watchedMovie.ProjectionId)
-                .ToList();
-
-            return projectionsIDs;
-        }
-
-        public List<int> GetUsersIDsByMovie(string movieName)
-        {
-            var usersIDs = this.unitOfWork.WatchedMovies.All()
-				.Where(watchedMovie => watchedMovie.Projection.Movie.Name == movieName)
-                .Select(watchedMovie => watchedMovie.UserId)
-                .ToList();
-
-            return usersIDs;
-        }
-
-        public List<int> GetUsersIDsByProjection(int cityID, int movieID, int openHourID)
-        {
-            var usersIDs = this.unitOfWork.WatchedMovies.All()
-				.Where(watchedMovie => 
-                watchedMovie.Projection.CityId == cityID &&
-                watchedMovie.Projection.MovieId == movieID &&
-                watchedMovie.Projection.OpenHourId == openHourID)
-                .Select(watchedMovie => watchedMovie.UserId)
-                .ToList();
-
-            return usersIDs;
-        }
 
 		public void AddNewWatchedMovie(int userID, int resevationID)
 		{
@@ -79,10 +47,8 @@ namespace AlphaCinemaServices
 				.Where(u => u.User.Name == userName)
 				.Select(m => m.Projection.Movie)
 				.ToList();
-
 			return movies;
 		}
-
 
 		private WatchedMovie IfExist(int userID, int projectionID)
 		{

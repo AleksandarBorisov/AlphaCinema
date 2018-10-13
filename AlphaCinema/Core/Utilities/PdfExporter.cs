@@ -1,6 +1,8 @@
 ﻿using AlphaCinemaData.Models;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,25 +18,21 @@ namespace AlphaCinema.Core.Utilities
 			string createdOn =
 					($"{userName}-{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Year}-" +
 					$"{DateTime.Now.Hour}-{DateTime.Now.Minute}-{DateTime.Now.Second}-{DateTime.Now.Millisecond}");
+
 			string fileName = $"../../../../AlphaCinemaData/Files/PDF Reports/{createdOn}.pdf";
 
-			FileStream fs = new FileStream(fileName, FileMode.Create);
-			Document document = new Document(PageSize.A4, 25, 25, 30, 30);
-			PdfWriter writer = PdfWriter.GetInstance(document, fs);
+			PdfWriter writer = new PdfWriter(fileName);
+			PdfDocument pdf = new PdfDocument(writer);
+			Document document = new Document(pdf, PageSize.A4);
 
-			document.AddSubject($"All watched movies by {userName}");
-
-			document.Open();
-			document.Add(new Paragraph($"Total watched movies by: {userName} = {movies.Count()}"));
+			document.Add(new Paragraph($"Count of watched movies by {userName} = {movies.Count()}"));
 			document.Add(new Paragraph(Environment.NewLine));
 			if (!movies.Any())
 			{
 				document.Add(new Paragraph("No movies present in the database"));
-
 			}
 			else
-			{
-
+			{ 
 				document.Add(new Paragraph("Movie info:\n\n"));
 				foreach (var item in movies)
 				{
@@ -45,7 +43,6 @@ namespace AlphaCinema.Core.Utilities
 			}
 			document.Close();
 			writer.Close();
-			fs.Close();
 		}
 	}
 }

@@ -40,7 +40,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			{
 				cinemaConsole.HandleException(e.Message);
 			}
-			catch (EntityAlreadyExistsException e)
+			catch (EntityDoesntExistException e)
 			{
 				cinemaConsole.HandleException(e.Message);
 			}
@@ -52,15 +52,14 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
 		private void Validations(string userName)
 		{
-			if (!userServices.IfExist(userName) || userServices.IsDeleted(userName))
-			{
-				throw new EntityDoesntExistException("\nUser is not present in the database.");
-			}
-
 			if (string.IsNullOrWhiteSpace(userName))
 			{
 				throw new InvalidClientInputException("\nInvalid user name");
 			}
+			if (!userServices.IfExist(userName) || userServices.IsDeleted(userName))
+			{
+				throw new EntityDoesntExistException("\nUser is not present in the database.");
+			}	
 			if (userName.All(c => char.IsDigit(c)))
 			{
 				throw new InvalidClientInputException("\nUser cannot be only digits");
