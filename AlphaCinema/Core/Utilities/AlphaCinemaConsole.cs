@@ -68,7 +68,7 @@ namespace AlphaCinema.Core.Utilities
 
 		public void GoBack()
 		{
-			Thread.Sleep(2000);
+			Thread.Sleep(1800);
 			ResetColor();
 			Console.Clear();
 		}

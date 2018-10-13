@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AlphaCinemaServices.Exceptions;
 using AlphaCinemaData.ViewModels;
+using System.Data.SqlClient;
 
 namespace AlphaCinemaServices
 {
@@ -129,7 +130,6 @@ namespace AlphaCinemaServices
 
 		public HashSet<User> GetUsers()
 		{
-			// Maybe a try-catch block?
 			return this.unitOfWork.Users.All()
 				.ToHashSet();
 		}
