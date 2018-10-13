@@ -13,5 +13,6 @@ namespace AlphaCinemaServices.Contracts
 
 		Projection GetProjectionByID(int id);
 		List<string> GetOpenHoursByMovieIDCityID(int movieID, int cityID);
+		Projection GetProjection(int cityID, int movieID, int openHourID);
 	}
 }

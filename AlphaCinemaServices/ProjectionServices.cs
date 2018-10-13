@@ -19,27 +19,6 @@ namespace AlphaCinemaServices
 			this.unitOfWork = unitOfWork;
 		}
 
-		private Projection IfExist(Projection inputProjection)
-		{
-			return this.unitOfWork.Projections.AllAndDeleted()
-				.Where(projection => projection.MovieId == inputProjection.MovieId &&
-				projection.CityId == inputProjection.CityId &&
-				projection.OpenHourId == inputProjection.OpenHourId &&
-				projection.Date == inputProjection.Date)
-				.FirstOrDefault();
-		}
-
-		private bool IsDeleted(Projection inputProjection)
-		{
-			return this.unitOfWork.Projections.AllAndDeleted()
-				.Where(projection => projection.MovieId == inputProjection.MovieId &&
-				projection.CityId == inputProjection.CityId &&
-				projection.OpenHourId == inputProjection.OpenHourId &&
-				projection.Date == inputProjection.Date)
-				.FirstOrDefault()
-				.IsDeleted;
-		}
-
 		public void AddNewProjection(int movieID, int cityID, int openHourID, DateTime date)
 		{
 			//Create projection object from the input parameters
@@ -75,10 +54,13 @@ namespace AlphaCinemaServices
 
 		public int GetID(int cityID, int movieID, int openHourID)
 		{
-			var date = GetDate(movieID, cityID, openHourID);
-
-			if (!IfExist(cityID, movieID, openHourID, date) || IsDeleted(cityID, movieID, openHourID, date))
+			var date = GetDate(cityID, movieID, openHourID);
+			if (!IfExist(cityID, movieID, openHourID, date))
 			{
+				throw new EntityDoesntExistException($"\nProjection is not present in the database.");
+			}
+			else if (!IfExist(cityID, movieID, openHourID, date) && IsDeleted(cityID, movieID, openHourID, date))
+			{ 
 				throw new EntityDoesntExistException($"\nProjection is not present in the database.");
 			}
 			var id = this.unitOfWork.Projections.All()
@@ -88,6 +70,15 @@ namespace AlphaCinemaServices
 				.Select(pr => pr.Id)
 				.FirstOrDefault();
 			return id;
+		}
+
+		public Projection GetProjection(int cityID, int movieID, int openHourID)
+		{
+			return this.unitOfWork.Projections.AllAndDeleted()
+				.Where(pr => pr.MovieId == movieID)
+				.Where(pr => pr.CityId == cityID)
+				.Where(pr => pr.OpenHourId == openHourID)
+				.FirstOrDefault();
 		}
 
 		public Projection GetProjectionByID(int id)
@@ -100,18 +91,19 @@ namespace AlphaCinemaServices
 			return projection;
 		}
 
-		public DateTime GetDate(int movieID, int cityID, int openHourID)
+		public DateTime GetDate(int cityID, int movieID, int openHourID)
 		{
-			if (!IfExist(movieID, cityID, openHourID) || IsDeleted(movieID, cityID, openHourID))
+			if (!IfExist(movieID, cityID, openHourID))
 			{
 				throw new EntityDoesntExistException("\nProjection is not present in the database.");
 			}
-			var date = this.unitOfWork.Projections.AllAndDeleted()
-				.Where(p => p.MovieId == movieID
-				&& p.CityId == cityID
-				&& p.OpenHourId == openHourID)
-				.Select(p => p.Date)
-				.FirstOrDefault();
+			else if (IfExist(movieID, cityID, openHourID) && IsDeleted(movieID, cityID, openHourID))
+			{
+				throw new EntityDoesntExistException("\nProjection is not present in the database.");
+			}
+
+			var date = GetProjection(cityID, movieID, openHourID).Date;
+
 			return date;
 		}
 
@@ -125,32 +117,26 @@ namespace AlphaCinemaServices
 			else if (IfExist(movieID, cityID, openHourID, date) && !IsDeleted(movieID, cityID, openHourID, date))
 			{
 				var projectionObject = this.unitOfWork.Projections.All()
-					.Where(pr => pr.MovieId == movieID
-					&& pr.CityId == cityID
-					&& pr.OpenHourId == openHourID
-					&& CompareDates(pr.Date, date))
+					.Where(pr => pr.MovieId == movieID)
+					.Where(pr => pr.CityId == cityID)
+					.Where(pr => pr.OpenHourId == openHourID)
+					.Where(pr => CompareDates(pr.Date, date))
 					.FirstOrDefault();
 				this.unitOfWork.Projections.Delete(projectionObject);
 			}
 			this.unitOfWork.Cities.Save();
 		}
 
-		private bool IfExist(int movieID, int cityID, int openHourID, DateTime date)
+		private bool IfExist(int cityID, int movieID, int openHourID, DateTime date)
 		{
 				return this.unitOfWork.Projections.AllAndDeleted()
-					.Where(pr => pr.MovieId == movieID
-						&& pr.CityId == cityID
-						&& pr.OpenHourId == openHourID
-						&& CompareDates(pr.Date, date))
+					.Where(pr => pr.MovieId == movieID)
+					.Where(pr => pr.CityId == cityID)
+					.Where(pr => pr.OpenHourId == openHourID)
+					.Where(pr => CompareDates(pr.Date, date))
 					.FirstOrDefault() == null ? false : true;
 		}
 
-		private Projection MyProjection(int movieID, int cityID, int openHourID)
-		{
-			return this.unitOfWork.Projections.AllAndDeleted()
-				.Where(pr => pr.MovieId == movieID && pr.CityId == cityID && pr.OpenHourId == openHourID)
-				.FirstOrDefault();
-		}
 
 		private bool IfExist(int movieID, int cityID, int openHourID)
 		{
@@ -164,10 +150,10 @@ namespace AlphaCinemaServices
 		private bool IsDeleted(int movieID, int cityID, int openHourID, DateTime date)
 		{
 			return this.unitOfWork.Projections.AllAndDeleted()
-				.Where(pr => pr.MovieId == movieID
-					&& pr.CityId == cityID
-					&& pr.OpenHourId == openHourID
-					&& CompareDates(pr.Date, date))
+				.Where(pr => pr.MovieId == movieID)
+				.Where(pr => pr.CityId == cityID)
+				.Where(pr => pr.OpenHourId == openHourID)
+				.Where(pr => CompareDates(pr.Date, date))
 				.FirstOrDefault()
 				.IsDeleted;
 		}
@@ -175,9 +161,9 @@ namespace AlphaCinemaServices
 		private bool IsDeleted(int movieID, int cityID, int openHourID)
 		{
 			return this.unitOfWork.Projections.AllAndDeleted()
-				.Where(pr => pr.MovieId == movieID
-					&& pr.CityId == cityID
-					&& pr.OpenHourId == openHourID)
+				.Where(pr => pr.MovieId == movieID)
+				.Where(pr => pr.CityId == cityID)
+				.Where(pr => pr.OpenHourId == openHourID)
 				.FirstOrDefault()
 				.IsDeleted;
 		}
