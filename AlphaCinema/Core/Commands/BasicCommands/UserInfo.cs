@@ -30,17 +30,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
             int offSetFromTop = int.Parse(parameters[parameters.Count - 2]);
             int startingRow = int.Parse(parameters[parameters.Count - 1]);
 
-            List<string> displayItems = new List<string>() { "Information" };
-
-            //displayItems.Add("Back");
-            //displayItems.Add("Home");
-            
-            //string commandName = selector.DisplayItems(displayItems);
-            
-            //if (commandName == "Back" || commandName == "Home")
-            //{
-            //    commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
-            //}
+            List<string> displayItems = new List<string>() { "UserInfo" };
             
             displayItems = new List<string>
             {
@@ -63,12 +53,8 @@ namespace AlphaCinema.Core.Commands.BasicCommands
             
             try
             {
-                selector.PrintAtPosition(new string(' ', enterUserName.Length), startingRow * 1 + offSetFromTop, false);//Затрива stringa enterAgeRange
-
-                //
                 //Just clear enterUserName string from the console
-                selector.PrintAtPosition(new string(' ', enterUserName.Length),
-                    startingRow * 1 + offSetFromTop, false);
+                selector.PrintAtPosition(new string(' ', enterUserName.Length), startingRow * 1 + offSetFromTop, false);
 
                 //Find user by name
                 int userID = this.userServices.GetID(userName);
@@ -76,16 +62,8 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 //Get projections that user has been on them
                 var projections = this.userServices.GetProjectionsByUserID(userID);
 
-                currentRow = startingRow * 2;
+                currentRow = offSetFromTop + 1;
                 //Display all projections
-                foreach (var projection in projections)
-                {
-                    selector.PrintAtPosition(projection.ToString(),
-                        currentRow++ + offSetFromTop, false);
-                }
-                //
-
-                currentRow = startingRow * 2;
                 foreach (var projection in projections)
                 {
                     selector.PrintAtPosition(projection.ToString(), currentRow++, false);
@@ -97,7 +75,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
                 Console.ReadKey(true);
 
-                currentRow = startingRow * 2;
+                currentRow = offSetFromTop + 1;
                 foreach (var projection in projections)
                 {
                     selector.PrintAtPosition(new string(' ', projection.ToString().Length), currentRow++, false);
@@ -108,16 +86,16 @@ namespace AlphaCinema.Core.Commands.BasicCommands
             }
             catch (Exception ex)
             {
-                if (ex is ArgumentException)
+                if (ex is ArgumentException || ex is EntityDoesntExistException)
                 {
                     string wrongParametersDetails = ex.Message;
 
                     selector.PrintAtPosition(new string(' ', enterUserName.Length), 1 + offSetFromTop, false);//Затрива stringa enterAgeRange
-                    selector.PrintAtPosition(wrongParametersDetails, startingRow * 4 + offSetFromTop, false);
+                    selector.PrintAtPosition(wrongParametersDetails, startingRow * 4 + offSetFromTop, false);//Изписва error message-a
 
-                    string selected = selector.DisplayItems(displayItems);
+                    string selected = selector.DisplayItems(displayItems);//Изписва избора на бутон
 
-                    selector.PrintAtPosition(new string(' ', wrongParametersDetails.Length), startingRow * 4 + offSetFromTop, false);
+                    selector.PrintAtPosition(new string(' ', wrongParametersDetails.Length), startingRow * 4 + offSetFromTop, false);//Затрива error message-a
 
                     if (selected == "Retry")
                     {
@@ -131,6 +109,10 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                     {
                         commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
                     }
+                }
+                else
+                {
+                    Console.WriteLine(ex.Message);
                 }
             }
         }

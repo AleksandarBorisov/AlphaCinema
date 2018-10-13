@@ -41,12 +41,12 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 			displayItems.Add("AddMovie");
 			displayItems.Add("UpdateMovie");
 			displayItems.Add("RemoveMovie");
-			displayItems.Add("AddGenre");
-			displayItems.Add("RemoveGenre");
-			displayItems.Add("AddCity");
-			displayItems.Add("RemoveCity");
-			displayItems.Add("AddMovieGenre");
-			displayItems.Add("RemoveMovieGenre");
+			//displayItems.Add("AddGenre");
+			//displayItems.Add("RemoveGenre");
+			//displayItems.Add("AddCity");
+			//displayItems.Add("RemoveCity");
+			//displayItems.Add("AddMovieGenre");
+			//displayItems.Add("RemoveMovieGenre");
 			displayItems.Add("AddProjection");
 			displayItems.Add("RemoveProjection");
 			displayItems.Add("UserInfo");

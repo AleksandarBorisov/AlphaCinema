@@ -20,9 +20,9 @@ namespace AlphaCinemaServices
 
 		public int GetID(string userName)
 		{
-			if (!IfExist(userName) && IsDeleted(userName))
+			if (!IfExist(userName))
 			{
-				throw new EntityDoesntExistException($"\n{userName} is not present in the database.");
+				throw new EntityDoesntExistException($"{userName} is not present in the database.");
 			}
 			var id = this.unitOfWork.Users.All()
 				.Where(user => user.Name == userName)
