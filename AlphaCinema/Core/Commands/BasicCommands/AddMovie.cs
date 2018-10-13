@@ -81,14 +81,14 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			{
 				if (ex is ArgumentException || ex is EntityAlreadyExistsException)
 				{
-					string wrongParametersDetals = ex.Message;
+					string wrongParametersDetails = ex.Message;
 
                     selector.PrintAtPosition(new string(' ', enterМovie.Length), startingRow * 1 + offSetFromTop, false);
-                    selector.PrintAtPosition(wrongParametersDetals, startingRow * 4 + offSetFromTop, false);
+                    selector.PrintAtPosition(wrongParametersDetails, startingRow * 4 + offSetFromTop, false);
 
                     string selected = selector.DisplayItems(displayItems);
 
-                    selector.PrintAtPosition(new string(' ', wrongParametersDetals.Length), startingRow * 4 + offSetFromTop, false);
+                    selector.PrintAtPosition(new string(' ', wrongParametersDetails.Length), startingRow * 4 + offSetFromTop, false);
 
                     if (selected == "Retry")
 					{
