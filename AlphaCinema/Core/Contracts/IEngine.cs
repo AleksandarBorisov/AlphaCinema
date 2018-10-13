@@ -1,5 +1,4 @@
-﻿
-namespace AlphaCinema.Core.Contracts
+﻿namespace AlphaCinema.Core.Contracts
 {
     public interface IEngine
     {

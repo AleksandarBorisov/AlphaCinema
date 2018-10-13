@@ -1,12 +1,10 @@
 ﻿using AlphaCinema.Core.Commands.DisplayMenus.Abstract;
 using AlphaCinema.Core.Contracts;
-using AlphaCinemaData.Models.Associative;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AlphaCinema.Core.Commands.BasicCommands
 {
@@ -50,7 +48,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
             displayItems.Add(offSetFromTop.ToString());
             displayItems.Add(startingRow.ToString());
-            
+
             try
             {
                 //Just clear enterUserName string from the console

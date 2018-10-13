@@ -1,7 +1,4 @@
-﻿
-using AlphaCinemaData.Context;
-using AlphaCinemaData.Models;
-using AlphaCinemaData.Repository;
+﻿using AlphaCinemaData.Models;
 using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;

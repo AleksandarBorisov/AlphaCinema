@@ -1,14 +1,10 @@
 ﻿using AlphaCinemaData.Models;
 using AlphaCinemaData.Models.Associative;
-using AlphaCinemaData.Repository;
 using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
-using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 
 namespace AlphaCinemaServices
 {

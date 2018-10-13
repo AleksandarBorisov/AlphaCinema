@@ -19,21 +19,25 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			IWatchedMovieServices watchedMovieServices, IUserServices userServices, IPdfExporter pdfExporter)
 		{
 			this.commandProcessor = commandProcessor;
-			this.cinemaConsole = cinemaConsole;
-			this.watchedMovieServices = watchedMovieServices;
-			this.userServices = userServices;
+            this.cinemaConsole = cinemaConsole;
 			this.pdfExporter = pdfExporter;
+
+            this.watchedMovieServices = watchedMovieServices;
+			this.userServices = userServices;
 		}
 		public void Execute(List<string> parameters)
 		{
 			cinemaConsole.Clear();
 			cinemaConsole.WriteLineMiddle("Type a user name:\n");
-			try
+
+            try
 			{
 				var userName = cinemaConsole.ReadLineMiddle().TrimEnd().TrimStart();
 				Validations(userName);
-				var movies = watchedMovieServices.GetWatchedMoviesByUserName(userName);
-				pdfExporter.ExportUserWatchedMovies(movies, userName);
+
+                var movies = watchedMovieServices.GetWatchedMoviesByUserName(userName);
+
+                pdfExporter.ExportUserWatchedMovies(movies, userName);
 				cinemaConsole.HandleOperation("\nSuccessfully exported data to PDF");
 			}
 			catch (InvalidClientInputException e)

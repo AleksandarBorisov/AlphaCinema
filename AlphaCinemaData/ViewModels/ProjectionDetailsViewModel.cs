@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AlphaCinemaData.ViewModels
+﻿namespace AlphaCinemaData.ViewModels
 {
     public class ProjectionDetailsViewModel
     {

@@ -1,10 +1,7 @@
 ﻿using AlphaCinemaData.Models;
-using AlphaCinemaData.Repository;
 using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 
 namespace AlphaCinemaServices
@@ -34,8 +31,7 @@ namespace AlphaCinemaServices
 
 		public void AddNewGenre(string genreName)
 		{
-
-			if (IfExist(genreName) && IsDeleted(genreName))
+            if (IfExist(genreName) && IsDeleted(genreName))
 			{
 				var genre = this.unitOfWork.Genres.AllAndDeleted()
 					.FirstOrDefault(g => g.Name == genreName);
@@ -77,8 +73,7 @@ namespace AlphaCinemaServices
 			this.unitOfWork.Genres.Save();
 		}
 
-
-		private bool IfExist(string name)
+        private bool IfExist(string name)
 		{
 			return this.unitOfWork.Genres.AllAndDeleted()
 				.Where(g => g.Name == name)

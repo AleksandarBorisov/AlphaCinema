@@ -16,10 +16,10 @@ namespace AlphaCinema.Core.Commands.BasicCommands
         private ICityServices cityServices;
         private IOpenHourServices openHourServices;
 
-        public AddProjection(ICommandProcessor commandProcessor,IItemSelector selector,
+        public AddProjection(ICommandProcessor commandProcessor, IItemSelector selector,
             IProjectionsServices projectionsServices, IMovieServices movieServices,
             ICityServices cityServices, IOpenHourServices openHourServices)
-            :base(commandProcessor,selector)
+            : base(commandProcessor, selector)
         {
             this.projectionsServices = projectionsServices;
             this.movieServices = movieServices;
@@ -55,7 +55,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
             try
             {
-                if(projectionDetails.Length != 3)
+                if (projectionDetails.Length != 3)
                 {
                     throw new ArgumentException("Please enter valid count of projection attributes");
                 }
@@ -66,15 +66,15 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 DateTime date = DateTime.Now;
 
                 //Just clear the input from the console
-                selector.PrintAtPosition(new string(' ', enterProjection.Length), 
+                selector.PrintAtPosition(new string(' ', enterProjection.Length),
                     startingRow * 1 + offSetFromTop, false);
-                
+
                 //Find cityId by cityName
                 int cityID = this.cityServices.GetID(cityName);
-                
+
                 //Find movieId by movieName
                 int movieID = this.movieServices.GetID(movieName);
-                
+
                 //Find openHourId by openHour
                 int openHourID = this.openHourServices.GetID(openHour);
 
@@ -102,7 +102,6 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
                     string selected = selector.DisplayItems(displayItems);
 
-
                     selector.PrintAtPosition(new string(' ', wrongParametersDetals.Length), startingRow * 4 + offSetFromTop, false);
 
                     if (selected == "Retry")
@@ -118,7 +117,6 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                         commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
                     }
                 }
-               
             }
         }
     }

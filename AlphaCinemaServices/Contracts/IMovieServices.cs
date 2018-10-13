@@ -1,18 +1,14 @@
-﻿using AlphaCinemaData.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace AlphaCinemaServices.Contracts
 {
-	public interface IMovieServices
-	{
-		int GetID(string movieName);
-		List<string> GetMovieNames();
+    public interface IMovieServices
+    {
+        int GetID(string movieName);
+        List<string> GetMovieNames();
         void AddNewMovie(string name, string description, int releaseYear, int duration);
         void UpdateMovie(string name, string description, int releaseYear, int duration);
         void DeleteMovie(string movieName);
-		List<string> GetMovieNamesByCityIDGenreID(
-			int genreID,
-			int cityID);
-	}
+        List<string> GetMovieNamesByCityIDGenreID(int genreID, int cityID);
+    }
 }

@@ -1,11 +1,9 @@
 ﻿using AlphaCinemaData.Models.Associative;
-using AlphaCinemaData.Repository;
 using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 
 namespace AlphaCinemaServices
@@ -21,8 +19,6 @@ namespace AlphaCinemaServices
 
 		public void AddNewProjection(int movieID, int cityID, int openHourID, DateTime date)
 		{
-			//Create projection object from the input parameters
-
 			//Check if the projection already exist
 			if (IfExist(cityID, movieID, openHourID, date))
 			{
@@ -30,11 +26,15 @@ namespace AlphaCinemaServices
 				{
 					var projectionID = GetID(cityID, movieID, openHourID);
 					var projection = GetProjectionByID(projectionID);
-					projection.IsDeleted = false;
-					this.unitOfWork.SaveChanges();
-					return;
+
+                    projection.IsDeleted = false;
+
+                    this.unitOfWork.SaveChanges();
+
+                    return;
 				}
-				throw new EntityAlreadyExistsException($"Projection with cityId:{cityID}," +
+
+                throw new EntityAlreadyExistsException($"Projection with cityId:{cityID}," +
 				$" movieId:{movieID}, openHourId:{openHourID} and date:{date} " +
 				$"is already present in the database.");
 			}
@@ -47,7 +47,8 @@ namespace AlphaCinemaServices
 					OpenHourId = openHourID,
 					Date = date
 				};
-				this.unitOfWork.Projections.Add(projection);
+
+                this.unitOfWork.Projections.Add(projection);
 				this.unitOfWork.SaveChanges();
 			}
 		}
@@ -55,7 +56,8 @@ namespace AlphaCinemaServices
 		public int GetID(int cityID, int movieID, int openHourID)
 		{
 			var date = GetDate(cityID, movieID, openHourID);
-			if (!IfExist(cityID, movieID, openHourID, date))
+
+            if (!IfExist(cityID, movieID, openHourID, date))
 			{
 				throw new EntityDoesntExistException($"\nProjection is not present in the database.");
 			}
@@ -63,13 +65,15 @@ namespace AlphaCinemaServices
 			{ 
 				throw new EntityDoesntExistException($"\nProjection is not present in the database.");
 			}
-			var id = this.unitOfWork.Projections.All()
+
+            var id = this.unitOfWork.Projections.All()
 				.Where(pr => pr.CityId == cityID)
 				.Where(pr => pr.MovieId == movieID)
 				.Where(pr => pr.OpenHourId == openHourID)
 				.Select(pr => pr.Id)
 				.FirstOrDefault();
-			return id;
+
+            return id;
 		}
 
 		public Projection GetProjection(int cityID, int movieID, int openHourID)
@@ -109,8 +113,7 @@ namespace AlphaCinemaServices
 
 		public void Delete(int movieID, int cityID, int openHourID, DateTime date)
 		{
-
-			if (!IfExist(movieID, cityID, openHourID, date) || IsDeleted(movieID, cityID, openHourID, date))
+            if (!IfExist(movieID, cityID, openHourID, date) || IsDeleted(movieID, cityID, openHourID, date))
 			{
 				throw new EntityDoesntExistException("\nProjection is not present in the database.");
 			}
@@ -136,8 +139,7 @@ namespace AlphaCinemaServices
 					.Where(pr => CompareDates(pr.Date, date))
 					.FirstOrDefault() == null ? false : true;
 		}
-
-
+        
 		private bool IfExist(int movieID, int cityID, int openHourID)
 		{
 			return this.unitOfWork.Projections.AllAndDeleted()
