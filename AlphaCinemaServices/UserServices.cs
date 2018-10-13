@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AlphaCinemaServices.Exceptions;
+using AlphaCinemaData.ViewModels;
 
 namespace AlphaCinemaServices
 {
@@ -68,6 +69,31 @@ namespace AlphaCinemaServices
 			return projectionsIDs;
 		}
 
+        public List<ProjectionDetailsViewModel> GetMoviesByUserAge(int minAge, int maxAge)
+        {
+            if (minAge < 0)
+            {
+                throw new ArgumentException("The minimum Age must be non-negative number");
+            }
+            if (maxAge < 0)
+            {
+                throw new ArgumentException("The maximum Age must be non-negative number");
+            }
+
+            var movieInfo = this.unitOfWork.Users.All()
+                .Where(user => user.Age >= minAge && user.Age <= maxAge)
+                .SelectMany(user => user.WatchedMovies)//За всеки user взимаме всички гледани прожекции
+                .Select(watchetMovie => watchetMovie.Projection)//За всяка гледана прожекция на филм взимаме отговарящата и прожекция
+                .Select(projection => new ProjectionDetailsViewModel//Накрая от всяка прожекция взимаме данните, които ни трябват
+                {
+                    CityName = projection.City.Name,
+                    MovieName = projection.Movie.Name,
+                    Hour = projection.OpenHour.StartHour
+                })
+                .ToList();
+
+            return movieInfo;
+        }
 
 		private User IfExist(string userName)
 		{
