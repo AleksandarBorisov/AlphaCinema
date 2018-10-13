@@ -12,7 +12,7 @@ namespace AlphaCinemaServices.Contracts
 
         User AddNewUser(string name, int age);
 
-		List<int> GetProjectionsIDsByUserID(int userID);
+        List<ProjectionDetailsViewModel> GetProjectionsByUserID(int userID);
 
         List<ProjectionDetailsViewModel> GetMoviesByUserAge(int minAge, int maxAge);
 		bool IfExist(string userName);

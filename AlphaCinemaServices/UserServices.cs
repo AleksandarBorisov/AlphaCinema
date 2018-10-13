@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AlphaCinemaServices.Exceptions;
-using System.Text;
 using AlphaCinemaData.ViewModels;
 
 namespace AlphaCinemaServices
@@ -61,32 +60,21 @@ namespace AlphaCinemaServices
 			return newUser;
 		}
 
-		public List<int> GetProjectionsIDsByUserID(int userID)
+		public List<ProjectionDetailsViewModel> GetProjectionsByUserID(int userID)
 		{
-            //var projectionsIDs = this.unitOfWork.Users.All()
-            //    .Where(us => us.Id == userID)
-            //    .Select(us => us.WatchedMovies
-            //        .Select(wm => wm.Projection)
-            //            .Select(pr => new
-            //            {
-            //                pr.City,
-            //                pr.Movie,
-            //                pr.OpenHour.StartHour,
-            //                pr.Date
-            //            })
-            //            .ToList())
-            //         .FirstOrDefault();
-
-
-            var projectionsIDs = this.unitOfWork.Users.All()
+            var projections = this.unitOfWork.Users.All()
                 .Where(us => us.Id == userID)
-                .Select(us => us.WatchedMovies
-                    .Select(wm => wm.ProjectionId)
-                        .ToList())
-                    .FirstOrDefault();
-
-
-            return projectionsIDs;
+                .SelectMany(us => us.WatchedMovies)
+                    .Select(wm => wm.Projection)
+                        .Select(pr => new ProjectionDetailsViewModel
+                        {
+                            CityName = pr.City.Name,
+                            MovieName = pr.Movie.Name,
+                            Hour = pr.OpenHour.StartHour,
+                        })
+                        .ToList();
+            
+            return projections;
 		}
 
         public List<ProjectionDetailsViewModel> GetMoviesByUserAge(int minAge, int maxAge)
