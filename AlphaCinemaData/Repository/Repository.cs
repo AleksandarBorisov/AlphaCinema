@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
 using AlphaCinemaData.Models.Contracts;
-using System.Collections.Generic;
 
 namespace AlphaCinemaData.Repository
 {

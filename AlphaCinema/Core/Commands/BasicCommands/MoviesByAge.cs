@@ -4,7 +4,6 @@ using AlphaCinemaServices.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AlphaCinema.Core.Commands.BasicCommands
 {
@@ -32,6 +31,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
             string enterAgeRange = "Format: MinAge | MaxAge";
             int currentRow = startingRow * 0;
+
             selector.PrintAtPosition(displayItems[0].ToUpper(), currentRow++ + offSetFromTop, false);
             selector.PrintAtPosition(enterAgeRange, currentRow++ + offSetFromTop, false);
 
@@ -57,7 +57,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 {
                     throw new ArgumentException("Max Age must be integer number");
                 }
-                
+
                 selector.PrintAtPosition(new string(' ', enterAgeRange.Length), startingRow * 1 + offSetFromTop, false);//Затрива stringa enterAgeRange
 
                 var results = userServices.GetMoviesByUserAge(minAge, maxAge);
@@ -69,7 +69,9 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
                 string endOfResluts = "Press any key to return to Information";
                 selector.PrintAtPosition(endOfResluts, currentRow, false);
+
                 Console.ReadKey(true);
+
                 currentRow = startingRow * 2;
                 foreach (var result in results)
                 {

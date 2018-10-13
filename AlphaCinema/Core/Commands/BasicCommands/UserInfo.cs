@@ -1,12 +1,9 @@
 ﻿using AlphaCinema.Core.Commands.DisplayMenus.Abstract;
 using AlphaCinema.Core.Contracts;
-using AlphaCinemaData.Models.Associative;
 using AlphaCinemaServices.Contracts;
-using AlphaCinemaServices.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AlphaCinema.Core.Commands.BasicCommands
 {
@@ -32,16 +29,6 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
             List<string> displayItems = new List<string>() { "Information" };
 
-            //displayItems.Add("Back");
-            //displayItems.Add("Home");
-            
-            //string commandName = selector.DisplayItems(displayItems);
-            
-            //if (commandName == "Back" || commandName == "Home")
-            //{
-            //    commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
-            //}
-            
             displayItems = new List<string>
             {
                 parameters[0],
@@ -60,12 +47,11 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
             displayItems.Add(offSetFromTop.ToString());
             displayItems.Add(startingRow.ToString());
-            
+
             try
             {
                 selector.PrintAtPosition(new string(' ', enterUserName.Length), startingRow * 1 + offSetFromTop, false);//Затрива stringa enterAgeRange
 
-                //
                 //Just clear enterUserName string from the console
                 selector.PrintAtPosition(new string(' ', enterUserName.Length),
                     startingRow * 1 + offSetFromTop, false);
@@ -83,7 +69,6 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                     selector.PrintAtPosition(projection.ToString(),
                         currentRow++ + offSetFromTop, false);
                 }
-                //
 
                 currentRow = startingRow * 2;
                 foreach (var projection in projections)

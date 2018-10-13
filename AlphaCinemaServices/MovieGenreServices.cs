@@ -1,9 +1,7 @@
-﻿using AlphaCinemaData.Models;
-using AlphaCinemaData.Models.Associative;
+﻿using AlphaCinemaData.Models.Associative;
 using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace AlphaCinemaServices
@@ -73,6 +71,5 @@ namespace AlphaCinemaServices
 				.FirstOrDefault()
 				.IsDeleted;
 		}
-
-	}
+    }
 }

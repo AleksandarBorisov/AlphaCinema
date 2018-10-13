@@ -1,9 +1,4 @@
-﻿using AlphaCinemaData.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AlphaCinemaServices.Contracts
+﻿namespace AlphaCinemaServices.Contracts
 {
     public interface IGenreServices
     {

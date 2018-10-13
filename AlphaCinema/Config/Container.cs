@@ -7,8 +7,6 @@ using AlphaCinema.Core.Commands.Factory;
 using AlphaCinema.Core.Contracts;
 using AlphaCinema.Core.Utilities;
 using AlphaCinemaData.Context;
-using AlphaCinemaData.Models.Associative;
-using AlphaCinemaData.Repository;
 using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices;
 using AlphaCinemaServices.Contracts;
@@ -19,6 +17,7 @@ namespace AlphaCinema.Config
    public class Container : Autofac.Module
     {
 		public Container() { }
+        
         // Метода, който се изппълява когато модула се зареди
         protected override void Load(ContainerBuilder builder)
         {
@@ -36,6 +35,7 @@ namespace AlphaCinema.Config
                     typeInfo.ImplementedInterfaces.Contains(typeof(ICommand)))
                 .ToList();
             // Намираме всички класове които имплементират ICommand
+
             foreach (var commandType in commandTypes)
             {
                 builder.RegisterType(commandType.AsType())
@@ -54,8 +54,7 @@ namespace AlphaCinema.Config
             builder.RegisterType<CommandFactory>().As<ICommandFactory>().SingleInstance();
             builder.RegisterType<ItemSelector>().As<IItemSelector>().SingleInstance();
 			builder.RegisterType<AlphaCinemaContext>().AsSelf();
-
-
+            
 
 			builder.RegisterType<Data>().As<IData>();
 			builder.RegisterType<CityServices>().As<ICityServices>();

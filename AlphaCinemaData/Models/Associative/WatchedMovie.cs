@@ -1,5 +1,4 @@
 ﻿using AlphaCinemaData.Models.Contracts;
-using System;
 
 namespace AlphaCinemaData.Models.Associative
 {
@@ -10,6 +9,7 @@ namespace AlphaCinemaData.Models.Associative
         public int ProjectionId { get; set; }
 
         public User User { get; set; }
+
         public Projection Projection { get; set; }
 
 		public bool IsDeleted { get; set; }
