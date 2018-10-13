@@ -97,25 +97,23 @@ namespace AlphaCinemaServices
                 throw new ArgumentException("Movie Description can't be more than 150 characters");
             }
 
-            var oldMovie = IfExist(name);
+            var movie = IfExist(name);
 
-            if (oldMovie != null)
+            if (movie != null)
             {//Ако го е имало, се подсигуряваме че не е изтрито
-                oldMovie.IsDeleted = false;
+                movie.IsDeleted = false;
             }
             else
             {//В противен случай го няма и хвърляме изключение
                 throw new EntityDoesntExistException("Movie is not present in the database, consider using AddMovie.");
             }
-            //Ако не сме хвърлили изключение предефинираме филма и го запазваме
-            var movie = new Movie()
-            {
-                Name = name,
-                Description = description,
-                ReleaseYear = releaseYear,
-                Duration = duration
-            };
-            this.unitOfWork.Movies.Update(movie);
+			//Ако не сме хвърлили изключение предефинираме филма и го запазваме
+			movie.Name = name;
+			movie.Description = description;
+			movie.ReleaseYear = releaseYear;
+			movie.Duration = duration;
+
+			this.unitOfWork.Movies.Update(movie);
             this.unitOfWork.SaveChanges();
         }
 
