@@ -13,7 +13,7 @@ namespace AlphaCinema.Core.Utilities
 	{
 		private PdfWriter writer;
 		private PdfDocument pdf;
-		Document document;
+		private Document document;
 		public void ExportUserWatchedMovies(IEnumerable<Movie> movies, string userName)
 		{
 			string createdOn =
