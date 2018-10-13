@@ -57,7 +57,8 @@ namespace AlphaCinemaServices
 
 			this.unitOfWork.Users.Add(newUser);
 			this.unitOfWork.SaveChanges();
-			return newUser;
+
+            return newUser;
 		}
 
 		public List<ProjectionDetailsViewModel> GetProjectionsByUserID(int userID)
@@ -117,8 +118,7 @@ namespace AlphaCinemaServices
 				.FirstOrDefault() == null ? false : true;
 		}
 
-
-		public bool IsDeleted(string userName)
+        public bool IsDeleted(string userName)
 		{
 			var result = this.unitOfWork.Users.AllAndDeleted()
 				.Where(u => u.Name == userName)

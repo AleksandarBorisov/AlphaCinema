@@ -28,7 +28,8 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			{
 				var genreName = cinemaConsole.ReadLineMiddle().TrimEnd().TrimStart();
 				Validations(genreName);
-				genreServices.AddNewGenre(genreName);
+
+                genreServices.AddNewGenre(genreName);
 				cinemaConsole.HandleOperation("\nSuccessfully added to database");
 			}
 			catch (InvalidClientInputException e)

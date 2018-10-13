@@ -1,10 +1,8 @@
 ﻿using AlphaCinema.Core.Contracts;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AlphaCinema.Core.Commands.BasicCommands
 {
@@ -25,12 +23,12 @@ namespace AlphaCinema.Core.Commands.BasicCommands
         public void Execute(List<string> parameters)
         {
             cinemaConsole.Clear();
-			cinemaConsole.WriteLineMiddle("Type a movie name:\n");
+            cinemaConsole.WriteLineMiddle("Type a movie name:\n");
 
-			try
+            try
             {
-				string movieName = cinemaConsole.ReadLineMiddle().TrimEnd().TrimStart();
-				Validations(movieName);
+                string movieName = cinemaConsole.ReadLineMiddle().TrimEnd().TrimStart();
+                Validations(movieName);
 
                 movieServices.DeleteMovie(movieName);
                 cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
@@ -56,6 +54,5 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 throw new InvalidClientInputException("\nInvalid movie name");
             }
         }
-
     }
 }

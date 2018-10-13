@@ -10,9 +10,12 @@ namespace AlphaCinema
         {
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyModules(Assembly.GetExecutingAssembly());
+
             var container = builder.Build();
+
             var engine = container.Resolve<IEngine>();
-			engine.Run();
+
+            engine.Run();
         }
     }
 }

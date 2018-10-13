@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using AlphaCinemaData.Models.Contracts;
 
 namespace AlphaCinemaData.Repository

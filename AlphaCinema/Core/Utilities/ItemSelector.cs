@@ -6,7 +6,7 @@ namespace AlphaCinema.Core.Utilities
 {
     public class ItemSelector : IItemSelector
     {
-        public string DisplayItems(List<string> selection) //, IAlphaConsole alphaConsole
+        public string DisplayItems(List<string> selection)
         {
             int currentIndex = 1;
 

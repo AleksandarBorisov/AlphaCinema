@@ -1,5 +1,4 @@
 ﻿using AlphaCinemaData.Models.Contracts;
-using System;
 
 namespace AlphaCinemaData.Models.Associative
 {

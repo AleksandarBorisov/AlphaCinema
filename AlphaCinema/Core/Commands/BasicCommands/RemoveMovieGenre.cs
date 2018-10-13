@@ -27,7 +27,8 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		{
 			cinemaConsole.Clear();
 			cinemaConsole.WriteLineMiddle("Format: Movie Name | Genre");
-			try
+
+            try
 			{
 				var input = cinemaConsole.ReadLineMiddle().Split('|');
 				Validations(input);

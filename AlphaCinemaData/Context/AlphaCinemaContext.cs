@@ -37,7 +37,8 @@ namespace AlphaCinemaData.Context
 			modelBuilder.ApplyConfiguration(new ProjectionConfiguration());
 			modelBuilder.ApplyConfiguration(new UserConfiguration());
 			modelBuilder.ApplyConfiguration(new WatchedMovieConfiguration());
-			base.OnModelCreating(modelBuilder);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

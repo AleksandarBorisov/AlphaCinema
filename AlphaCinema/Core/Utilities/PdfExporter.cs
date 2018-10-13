@@ -5,9 +5,7 @@ using iText.Layout;
 using iText.Layout.Element;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace AlphaCinema.Core.Utilities
 {

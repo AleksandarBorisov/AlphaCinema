@@ -1,6 +1,5 @@
 ﻿using AlphaCinemaData.Models;
 using AlphaCinemaData.Models.Associative;
-using AlphaCinemaData.Models.Contracts;
 using AlphaCinemaData.Repository;
 
 namespace AlphaCinemaData.UnitOfWork
