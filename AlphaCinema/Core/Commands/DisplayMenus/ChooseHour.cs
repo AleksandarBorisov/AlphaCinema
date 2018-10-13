@@ -27,7 +27,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 			int movieID = int.Parse(parameters[1]);
             //Избираме час на база на филма и града
 			var hours = this.projectionsServices.GetOpenHoursByMovieIDCityID(movieID, cityID);
-			List<string> displayItems = new List<string>() { "Choose Hour" };
+			List<string> displayItems = new List<string>() { "ChooseHour" };
 
 			displayItems.AddRange(hours);
 			displayItems.Add("Back");
