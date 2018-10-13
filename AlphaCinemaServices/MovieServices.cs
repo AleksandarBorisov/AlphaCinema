@@ -11,17 +11,17 @@ using System.Linq;
 
 namespace AlphaCinemaServices
 {
-	public class MovieServices : IMovieServices
-	{
-		private readonly IUnitOfWork unitOfWork;
+    public class MovieServices : IMovieServices
+    {
+        private readonly IUnitOfWork unitOfWork;
 
-		public MovieServices(IUnitOfWork unitOfWork)
-		{
-			this.unitOfWork = unitOfWork;
-		}
+        public MovieServices(IUnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork;
+        }
 
         public int GetID(string movieName)
-		{
+        {
             var oldMovie = IfExist(movieName);
 
             if (oldMovie == null || oldMovie.IsDeleted)
@@ -30,28 +30,28 @@ namespace AlphaCinemaServices
             }
 
             var id = this.unitOfWork.Movies.All()
-				.Where(m => m.Name == movieName)
-				.Select(m => m.Id)
+                .Where(m => m.Name == movieName)
+                .Select(m => m.Id)
                 .FirstOrDefault();
 
-			return id;
-		}
+            return id;
+        }
 
-		public List<string> GetMovieNames()
-		{
-			var movieNames = this.unitOfWork.Movies.All()
-				.Select(movie => movie.Name)
-				.ToList();
+        public List<string> GetMovieNames()
+        {
+            var movieNames = this.unitOfWork.Movies.All()
+                .Select(movie => movie.Name)
+                .ToList();
 
-			return movieNames;
-		}
+            return movieNames;
+        }
 
         public void AddNewMovie(string name, string description, int releaseYear, int duration)
         {
-			if (name.Length > 50)
-			{
-				throw new ArgumentException("Movie Name can't be more than 50 characters");
-			}
+            if (name.Length > 50)
+            {
+                throw new ArgumentException("Movie Name can't be more than 50 characters");
+            }
 
             if (description.Length > 150)
             {
@@ -63,8 +63,8 @@ namespace AlphaCinemaServices
             if (oldMovie != null && oldMovie.IsDeleted)
             {
                 oldMovie.IsDeleted = false;
-                //TO DO implement cascade renew of navigational movie properties
-				this.unitOfWork.SaveChanges();
+                //TODO implement cascade renew of navigational movie properties
+                this.unitOfWork.SaveChanges();
             }
             else if (oldMovie != null && !oldMovie.IsDeleted)
             {
@@ -72,17 +72,49 @@ namespace AlphaCinemaServices
             }
             else
             {
-				var movie = new Movie()
-				{
-					Name = name,
-					Description = description,
-					ReleaseYear = releaseYear,
-					Duration = duration
-				};
-				this.unitOfWork.Movies.Add(movie);
-				this.unitOfWork.SaveChanges();
+                var movie = new Movie()
+                {
+                    Name = name,
+                    Description = description,
+                    ReleaseYear = releaseYear,
+                    Duration = duration
+                };
+                this.unitOfWork.Movies.Add(movie);
+                this.unitOfWork.SaveChanges();
 
-			}
+            }
+        }
+
+        public void UpdateMovie(string name, string description, int releaseYear, int duration)
+        {
+            if (name.Length > 50)
+            {
+                throw new ArgumentException("Movie Name can't be more than 50 characters");
+            }
+
+            if (description.Length > 150)
+            {
+                throw new ArgumentException("Movie Description can't be more than 150 characters");
+            }
+
+            var movie = IfExist(name);
+
+            if (movie != null)
+            {//Ако го е имало, се подсигуряваме че не е изтрито
+                movie.IsDeleted = false;
+            }
+            else
+            {//В противен случай го няма и хвърляме изключение
+                throw new EntityDoesntExistException("Movie is not present in the database, consider using AddMovie.");
+            }
+			//Ако не сме хвърлили изключение предефинираме филма и го запазваме
+			movie.Name = name;
+			movie.Description = description;
+			movie.ReleaseYear = releaseYear;
+			movie.Duration = duration;
+
+			this.unitOfWork.Movies.Update(movie);
+            this.unitOfWork.SaveChanges();
         }
 
         public void DeleteMovie(string movieName)
@@ -100,7 +132,7 @@ namespace AlphaCinemaServices
             var entity = this.unitOfWork.Movies.All()
                 .Where(mov => mov.Name == movieName)
                 .FirstOrDefault();
-            //TO DO implement cascade delete
+            //TODO implement cascade delete
             this.unitOfWork.Movies.Delete(entity);
             this.unitOfWork.Movies.Save();
         }
@@ -112,15 +144,15 @@ namespace AlphaCinemaServices
                 .FirstOrDefault();
         }
 
-		public List<string> GetMovieNamesByCityIDGenreID(int genreID, int cityID)
-		{
-			var movies = this.unitOfWork.Movies.All()
-			.Where(movie => movie.MovieGenres.Any(mg => mg.GenreId == genreID))
-			.Where(movie => movie.Projections.Any(p => p.CityId == cityID))
-			.Select(movie => movie.Name).ToList();
+        public List<string> GetMovieNamesByCityIDGenreID(int genreID, int cityID)
+        {
+            var movies = this.unitOfWork.Movies.All()
+            .Where(movie => movie.MovieGenres.Any(mg => mg.GenreId == genreID))
+            .Where(movie => movie.Projections.Any(p => p.CityId == cityID))
+            .Select(movie => movie.Name).ToList();
 
-			return movies;
-		}
+            return movies;
+        }
 
     }
 }

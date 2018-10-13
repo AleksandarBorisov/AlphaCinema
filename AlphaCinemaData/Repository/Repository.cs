@@ -7,62 +7,62 @@ using System.Collections.Generic;
 
 namespace AlphaCinemaData.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class, IDeletable
-    {
-        private readonly AlphaCinemaContext context;
+	public class Repository<T> : IRepository<T> where T : class, IDeletable
+	{
+		private readonly AlphaCinemaContext context;
 
-        public Repository(AlphaCinemaContext context)
-        {
-            this.context = context;
-        }
+		public Repository(AlphaCinemaContext context)
+		{
+			this.context = context;
+		}
 
-        public IQueryable<T> All()
-        {
-            return this.context.Set<T>().Where(x => !x.IsDeleted);
-        }
+		public IQueryable<T> All()
+		{
+			return this.context.Set<T>().Where(x => !x.IsDeleted);
+		}
 
-        public IQueryable<T> AllAndDeleted()
-        {
-            return this.context.Set<T>();
-        }
+		public IQueryable<T> AllAndDeleted()
+		{
+			return this.context.Set<T>();
+		}
 
-        public void Add(T entity)
-        {
-            EntityEntry entry = this.context.Entry(entity);
+		public void Add(T entity)
+		{
+			EntityEntry entry = this.context.Entry(entity);
 
-            if (entry.State != EntityState.Detached)
-            {
-                entry.State = EntityState.Added;
-            }
-            else
-            {
-                this.context.Set<T>().Add(entity);
-            }
-        }
+			if (entry.State != EntityState.Detached)
+			{
+				entry.State = EntityState.Added;
+			}
+			else
+			{
+				this.context.Set<T>().Add(entity);
+			}
+		}
 
-        public void Delete(T entity)
-        {
-            entity.IsDeleted = true;
+		public void Delete(T entity)
+		{
+			entity.IsDeleted = true;
 
-            var entry = this.context.Entry(entity);
-            entry.State = EntityState.Modified;
-        }
+			var entry = this.context.Entry(entity);
+			entry.State = EntityState.Modified;
+		}
 
-        public void Update(T entity)
-        {
-            EntityEntry entry = this.context.Entry(entity);
-            if (entry.State == EntityState.Detached)
-            {
-                this.context.Set<T>().Attach(entity);
-            }
+		public void Update(T entity)
+		{
+			EntityEntry entry = this.context.Entry(entity);
+			if (entry.State == EntityState.Detached)
+			{
+				this.context.Set<T>().Attach(entity);
+			}
 
-            entry.State = EntityState.Modified;
-        }
+			entry.State = EntityState.Modified;
+		}
 
-        public void Save()
-        {
-            this.context.SaveChanges();
-        }
+		public void Save()
+		{
+			this.context.SaveChanges();
+		}
 
-    }
+	}
 }

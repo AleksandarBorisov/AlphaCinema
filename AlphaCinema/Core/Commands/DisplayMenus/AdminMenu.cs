@@ -39,6 +39,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 		private void AddMovieOptions(List<string> displayItems)
 		{
 			displayItems.Add("AddMovie");
+			displayItems.Add("UpdateMovie");
 			displayItems.Add("RemoveMovie");
 			displayItems.Add("AddGenre");
 			displayItems.Add("RemoveGenre");

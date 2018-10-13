@@ -8,9 +8,13 @@ namespace AlphaCinemaData.Configurations
 	{
 		public void Configure(EntityTypeBuilder<Movie> builder)
 		{
-
-			builder
-				.Property(m => m.Name)
+            //TODO add movies ValueGeneratedOnAddOrUpdate() Constraint
+            //builder
+            //    .Property(b => b.Id)
+            //    .ValueGeneratedOnAddOrUpdate();
+            //За да можем да update-ваме стойности
+            builder
+                .Property(m => m.Name)
 				.HasMaxLength(50);
 
 			builder

@@ -19,7 +19,7 @@ namespace AlphaCinemaServices
 
 		public void AddNew(int movieID, int genreID)
 		{
-			 // трябва да се добави добавяне на нов жанр и филм, малко по-късно ще го оправя
+			 // TODO: трябва да се добави добавяне на нов жанр и филм, малко по-късно ще го оправя
 			if (IfExist(movieID, genreID) && IsDeleted(movieID, genreID))
 			{
 				var movieGenreObj = this.unitOfWork.MovieGenres.AllAndDeleted()
