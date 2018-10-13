@@ -18,8 +18,13 @@ namespace AlphaCinema.Core.Utilities
 			Console.Write(message);
 		}
 
-		public void WriteLine(string message)
+		public void WriteLine(string message = null)
 		{
+            if (message == null)
+            {
+                Console.WriteLine();
+                return;
+            }
 			Console.WriteLine(message);
 		}
         
