@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AlphaCinemaServices.Exceptions;
+using System.Text;
 
 namespace AlphaCinemaServices
 {
@@ -62,14 +63,30 @@ namespace AlphaCinemaServices
 
 		public List<int> GetProjectionsIDsByUserID(int userID)
 		{
-			var projectionsIDs = this.unitOfWork.Users.All()
-				.Where(us => us.Id == userID)
-				.Select(us => us.WatchedMovies
-					.Select(wm => wm.ProjectionId)
-					.ToList())
-				.FirstOrDefault();
+            //var projectionsIDs = this.unitOfWork.Users.All()
+            //    .Where(us => us.Id == userID)
+            //    .Select(us => us.WatchedMovies
+            //        .Select(wm => wm.Projection)
+            //            .Select(pr => new
+            //            {
+            //                pr.City,
+            //                pr.Movie,
+            //                pr.OpenHour.StartHour,
+            //                pr.Date
+            //            })
+            //            .ToList())
+            //         .FirstOrDefault();
 
-			return projectionsIDs;
+
+            var projectionsIDs = this.unitOfWork.Users.All()
+                .Where(us => us.Id == userID)
+                .Select(us => us.WatchedMovies
+                    .Select(wm => wm.ProjectionId)
+                        .ToList())
+                    .FirstOrDefault();
+
+
+            return projectionsIDs;
 		}
 
 
