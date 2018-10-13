@@ -21,6 +21,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 			List<string> displayItems = new List<string>() { "PDF Export" };
 
 			displayItems.Add("WatchedMoviesByUser");
+			displayItems.Add("AllWatchedMoviesByUsers");
 			displayItems.Add("Back");
 			displayItems.Add("Home");
 			displayItems.Add(offSetFromTop);

@@ -18,6 +18,7 @@ namespace AlphaCinemaServices.Contracts
 		bool IfExist(string userName);
 		bool IsDeleted(string userName);
 		User GetUserByID(int userID);
+		HashSet<User> GetUsers();
 
 	}
 }
