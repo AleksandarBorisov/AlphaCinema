@@ -11,16 +11,17 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 		private readonly IOpenHourServices openHourServices;
 		private readonly IProjectionsServices projectionsServices;
 
-		public ChooseHour(ICommandProcessor commandProcessor, IItemSelector selector, IOpenHourServices openHourServices, IProjectionsServices projectionsServices)
-			: base(commandProcessor, selector)
+		public ChooseHour(IItemSelector selector, IOpenHourServices openHourServices, IProjectionsServices projectionsServices)
+			: base(selector)
 		{
 			this.openHourServices = openHourServices;
 			this.projectionsServices = projectionsServices;
 		}
 
-		public override void Execute(List<string> parameters)
+		public override IEnumerable<string> Execute(IEnumerable<string> input)
 		{
-			string offSetFromTop = parameters[parameters.Count - 2];
+            var parameters = input.ToList();
+            string offSetFromTop = parameters[parameters.Count - 2];
 			string startingRow = parameters[parameters.Count - 1];
 
             int cityID = int.Parse(parameters[5]);
@@ -40,18 +41,18 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             var startHour = selector.DisplayItems(displayItems);
 			if (startHour == "Back")
 			{
-				commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
+                return parameters.Skip(2);
 			}
 			else if (startHour == "Home")
 			{
-				commandProcessor.ExecuteCommand(parameters.Skip(7).ToList());
+                return parameters.Skip(7);
 			}
 			else
 			{
 				var openHourID = openHourServices.GetID(startHour);
 				parameters.Insert(0, openHourID.ToString());
 				parameters.Insert(0, "EnterUser");
-				commandProcessor.ExecuteCommand(parameters.ToList());
+                return parameters;
 			}
 		}
 	}

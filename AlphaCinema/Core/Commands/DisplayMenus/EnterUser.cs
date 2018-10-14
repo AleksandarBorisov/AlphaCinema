@@ -16,12 +16,11 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
         private IProjectionsServices projectionsServices;
         private IWatchedMovieServices watchedMovieServices;
 
-        public EnterUser(ICommandProcessor commandProcessor,
-            IItemSelector selector,
+        public EnterUser(IItemSelector selector,
             IUserServices userServices,
             IProjectionsServices projectionsServices,
             IWatchedMovieServices watchedMovieServices,
-            IOpenHourServices openHourServices) : base(commandProcessor, selector)
+            IOpenHourServices openHourServices) : base(selector)
         {
             this.userServices = userServices;
             this.openHourServices = openHourServices;
@@ -29,8 +28,9 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             this.watchedMovieServices = watchedMovieServices;
         }
 
-        public override void Execute(List<string> parameters)
+        public override IEnumerable<string> Execute(IEnumerable<string> input)
         {
+            var parameters = input.ToList();
             int offSetFromTop = int.Parse(parameters[parameters.Count - 2]);
             int startingRow = int.Parse(parameters[parameters.Count - 1]);
 
@@ -87,7 +87,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
                 Thread.Sleep(2000);
                 selector.PrintAtPosition(new string(' ', successfullyAdded.Length), startingRow * 1 + offSetFromTop, false);
 
-                commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
+                return parameters.Skip(2);
             }
             catch (Exception ex)
             {
@@ -104,22 +104,23 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 
                     if (selected == "Retry")
                     {
-                        commandProcessor.ExecuteCommand(parameters);
+                        return parameters;
                     }
                     else if (selected == "Back")
                     {
-                        commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
+                        return parameters.Skip(2);
                     }
                     else if (selected == "Home")
                     {
-                        commandProcessor.ExecuteCommand(parameters.Skip(9).ToList());
+                        return parameters.Skip(9);
                     }
                 }
                 else
                 {
-                    Console.WriteLine(ex.Message);
+                    return ex.Message.ToString().Split();
                 }
             }
+            return new List<string>() { "Enter", "User", "Command", "is broken" };
         }
     }
 }

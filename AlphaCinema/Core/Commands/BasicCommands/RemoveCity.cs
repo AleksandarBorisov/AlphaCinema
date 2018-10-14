@@ -8,20 +8,19 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 {
     class RemoveCity : ICommand
     {
-		private readonly ICommandProcessor commandProcessor;
 		private readonly ICityServices cityServices;
 		private readonly IAlphaCinemaConsole cinemaConsole;
 
-		public RemoveCity(ICommandProcessor commandProcessor, ICityServices cityServices, IAlphaCinemaConsole cinemaConsole)
+		public RemoveCity(ICityServices cityServices, IAlphaCinemaConsole cinemaConsole)
 		{
-			this.commandProcessor = commandProcessor;
 			this.cityServices = cityServices;
 			this.cinemaConsole = cinemaConsole;
 		}
 
-		public void Execute(List<string> parameters)
+		public IEnumerable<string> Execute(IEnumerable<string> input)
 		{
-			cinemaConsole.Clear();
+            var parameters = input.ToList();
+            cinemaConsole.Clear();
 			cinemaConsole.WriteLineMiddle("Type a city name:\n");
 			try
 			{
@@ -29,19 +28,18 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 				Validations(cityName);
 				cityServices.DeleteCity(cityName);
 				cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
-			}
+                return parameters.Skip(1);
+            }
 			catch (InvalidClientInputException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-			}
+                return parameters.Skip(1);
+            }
 			catch (EntityDoesntExistException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-			}
-			finally
-			{
-				commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
-			}
+                return parameters.Skip(1);
+            }
 		}
 
 		private void Validations(string cityName)

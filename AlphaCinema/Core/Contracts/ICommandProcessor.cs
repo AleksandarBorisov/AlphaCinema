@@ -4,6 +4,6 @@ namespace AlphaCinema.Core.Contracts
 {
     public interface ICommandProcessor
     {
-        void ExecuteCommand(List<string> command);
+        ICommand ParseCommand(string commandName);
     }
 }

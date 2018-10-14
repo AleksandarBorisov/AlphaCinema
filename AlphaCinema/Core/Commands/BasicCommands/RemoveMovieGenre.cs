@@ -8,24 +8,23 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 {
 	public class RemoveMovieGenre : ICommand
 	{
-		private readonly ICommandProcessor commandProcessor;
 		private readonly IGenreServices genreServices;
 		private readonly IAlphaCinemaConsole cinemaConsole;
 		private readonly IMovieServices movieServices;
 		private readonly IMovieGenreServices movieGenreServices;
 
-		public RemoveMovieGenre(ICommandProcessor commandProcessor, IGenreServices genreServices,
+		public RemoveMovieGenre(IGenreServices genreServices,
 			IAlphaCinemaConsole cinemaConsole, IMovieServices movieServices, IMovieGenreServices movieGenreServices)
 		{
-			this.commandProcessor = commandProcessor;
 			this.genreServices = genreServices;
 			this.cinemaConsole = cinemaConsole;
 			this.movieServices = movieServices;
 			this.movieGenreServices = movieGenreServices;
 		}
-		public void Execute(List<string> parameters)
+		public IEnumerable<string> Execute(IEnumerable<string> inputAsIEnumerable)
 		{
-			cinemaConsole.Clear();
+            var parameters = inputAsIEnumerable.ToList();
+            cinemaConsole.Clear();
 			cinemaConsole.WriteLineMiddle("Format: Movie Name | Genre");
 
             try
@@ -38,23 +37,23 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
 				movieGenreServices.Delete(movieID, genreID);
 				cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
-			}
+                return parameters.Skip(1);
+            }
 			catch (InvalidClientInputException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-			}
+                return parameters.Skip(1);
+            }
 			catch (EntityDoesntExistException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-			}
+                return parameters.Skip(1);
+            }
 			catch (EntityAlreadyExistsException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-			}
-			finally
-			{
-				commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
-			}
+                return parameters.Skip(1);
+            }
 		}
 		private void Validations(string[] input)
 		{

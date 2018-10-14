@@ -2,19 +2,21 @@
 using AlphaCinema.Core.Commands.DisplayMenus.Abstract;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AlphaCinema.Core.Commands.DisplayMenus
 {
     public class Menu : DisplayBaseCommand
     {
-        public Menu(ICommandProcessor commandProcessor,IItemSelector selector)
-			: base(commandProcessor, selector)
+        public Menu(IItemSelector selector)
+			: base(selector)
 		{
 
         }
 
-		public override void Execute(List<string> parameters)
+		public override IEnumerable<string> Execute(IEnumerable<string> input)
 		{
+            var parameters = input.ToList();
             //В самите параметри които подаваме се съдържат координатите на принтиране
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
@@ -35,8 +37,8 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
                 result = "Login";
             }
             parameters.Insert(0, result);
-			
-            commandProcessor.ExecuteCommand(parameters);
+
+            return parameters;
         }
     }
 }

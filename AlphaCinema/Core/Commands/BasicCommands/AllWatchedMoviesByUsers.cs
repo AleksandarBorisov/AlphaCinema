@@ -10,7 +10,6 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 {
 	public class AllWatchedMoviesByUsers : ICommand
 	{
-		private readonly ICommandProcessor commandProcessor;
 		private readonly IAlphaCinemaConsole cinemaConsole;
 		private readonly IWatchedMovieServices watchedMovieServices;
 		private readonly IUserServices userServices;
@@ -20,34 +19,33 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		public AllWatchedMoviesByUsers(ICommandProcessor commandProcessor, IAlphaCinemaConsole cinemaConsole,
 			IWatchedMovieServices watchedMovieServices, IUserServices userServices, IPdfExporter pdfExporter)
 		{
-			this.commandProcessor = commandProcessor;
 			this.cinemaConsole = cinemaConsole;
 			this.watchedMovieServices = watchedMovieServices;
 			this.userServices = userServices;
 			this.pdfExporter = pdfExporter;
 		}
 
-		public void Execute(List<string> parameters)
+		public IEnumerable<string> Execute(IEnumerable<string> input)
 		{
-			cinemaConsole.Clear();
+            var parameters = input.ToList();
+            cinemaConsole.Clear();
 			try
 			{
 				FillCollectionWithData();
 				pdfExporter.ExportWatchedMoviesByUsers(watchedMovies);
 				cinemaConsole.HandleOperation("\nSuccessfully exported data to PDF");
-			}
+                return parameters.Skip(1);
+            }
 			catch (EmptyEntityTableException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-			}
+                return parameters.Skip(1);
+            }
 			catch (iText.Kernel.PdfException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-			}
-			finally
-			{
-				commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
-			}
+                return parameters.Skip(1);
+            }
 		}
 
 		private void FillCollectionWithData()

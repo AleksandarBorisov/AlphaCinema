@@ -12,16 +12,16 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		private readonly IGenreServices genreServices;
 		private readonly IAlphaCinemaConsole cinemaConsole;
 
-		public AddGenre(ICommandProcessor commandProcessor, IGenreServices genreServices, IAlphaCinemaConsole cinemaConsole)
+		public AddGenre(IGenreServices genreServices, IAlphaCinemaConsole cinemaConsole)
 		{
-			this.commandProcessor = commandProcessor;
 			this.genreServices = genreServices;
 			this.cinemaConsole = cinemaConsole;
 		}
 
-		public void Execute(List<string> parameters)
+		public IEnumerable<string> Execute(IEnumerable<string> input)
 		{
-			cinemaConsole.Clear();
+            var parameters = input.ToList();
+            cinemaConsole.Clear();
 			cinemaConsole.WriteLineMiddle("Type a genre name:\n");
 
 			try
@@ -31,19 +31,18 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
                 genreServices.AddNewGenre(genreName);
 				cinemaConsole.HandleOperation("\nSuccessfully added to database");
-			}
+                return parameters.Skip(1);
+            }
 			catch (InvalidClientInputException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-			}
+                return parameters.Skip(1);
+            }
 			catch (EntityAlreadyExistsException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-			}
-			finally
-			{
-				commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
-			}
+                return parameters.Skip(1);
+            }
 		}
 
 		private void Validations(string genreName)

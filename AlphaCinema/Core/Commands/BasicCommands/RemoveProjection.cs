@@ -8,14 +8,13 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 {
     public class RemoveProjection : ICommand
     {
-        private readonly ICommandProcessor commandProcessor;
         private readonly IAlphaCinemaConsole cinemaConsole;
         private readonly IMovieServices movieServices;
         private readonly ICityServices cityServices;
         private readonly IOpenHourServices openHourServices;
         private readonly IProjectionsServices projectionsServices;
 
-        public RemoveProjection(ICommandProcessor commandProcessor, IAlphaCinemaConsole cinemaConsole,
+        public RemoveProjection(IAlphaCinemaConsole cinemaConsole,
             IMovieServices movieServices, ICityServices cityServices,
             IOpenHourServices openHourServices, IProjectionsServices projectionsServices)
         {
@@ -23,13 +22,11 @@ namespace AlphaCinema.Core.Commands.BasicCommands
             this.openHourServices = openHourServices;
             this.projectionsServices = projectionsServices;
             this.movieServices = movieServices;
-
             this.cinemaConsole = cinemaConsole;
-
-            this.commandProcessor = commandProcessor;
         }
-        public void Execute(List<string> parameters)
+        public IEnumerable<string> Execute(IEnumerable<string> inputAsIEnumerable)
         {
+            var parameters = inputAsIEnumerable.ToList();
             cinemaConsole.Clear();
             cinemaConsole.WriteLineMiddle("Format: MovieName(50) | CityName(50) | OpenHour (Format: HH:MMh) | Date (Format: YYYY-MM-DD)", 0);
 
@@ -45,22 +42,22 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
                 projectionsServices.Delete(movieID, cityID, openHourID, date);
                 cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
+                return parameters.Skip(1);
             }
             catch (InvalidClientInputException e)
             {
                 cinemaConsole.HandleException(e.Message);
+                return parameters.Skip(1);
             }
             catch (EntityDoesntExistException e)
             {
                 cinemaConsole.HandleException(e.Message);
+                return parameters.Skip(1);
             }
             catch (EntityAlreadyExistsException e)
             {
                 cinemaConsole.HandleException(e.Message);
-            }
-            finally
-            {
-                commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
+                return parameters.Skip(1);
             }
         }
         private void Validations(string[] input)

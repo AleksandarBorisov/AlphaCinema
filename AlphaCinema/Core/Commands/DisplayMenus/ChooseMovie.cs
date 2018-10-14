@@ -11,16 +11,17 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
         private readonly IMovieGenreServices movieGenreServices;
         private readonly IMovieServices movieServices;
 
-        public ChooseMovie(ICommandProcessor commandProcessor, IItemSelector selector,
+        public ChooseMovie(IItemSelector selector,
             IMovieGenreServices movieGenreServices, IMovieServices movieServices)
-            : base(commandProcessor, selector)
+            : base(selector)
         {
             this.movieGenreServices = movieGenreServices;
             this.movieServices = movieServices;
         }
 
-        public override void Execute(List<string> parameters)
+        public override IEnumerable<string> Execute(IEnumerable<string> input)
         {
+            var parameters = input.ToList();
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
 
@@ -41,18 +42,18 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
             string movieName = selector.DisplayItems(displayItems);
             if (movieName == "Back")
             {
-                commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
+                return parameters.Skip(2);
             }
             else if (movieName == "Home")
             {
-                commandProcessor.ExecuteCommand(parameters.Skip(5).ToList());
+                return parameters.Skip(5);
             }
             else
             {
                 var movieID = this.movieServices.GetID(movieName);
                 parameters.Insert(0, movieID.ToString());
                 parameters.Insert(0, "ChooseHour");//Тук се налага да напишем командата ръчно
-                commandProcessor.ExecuteCommand(parameters);
+                return parameters;
             }
         }
     }

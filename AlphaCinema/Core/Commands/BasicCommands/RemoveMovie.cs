@@ -8,20 +8,19 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 {
     public class RemoveMovie : ICommand
     {
-        private readonly ICommandProcessor commandProcessor;
         private readonly IMovieServices movieServices;
         private readonly IAlphaCinemaConsole cinemaConsole;
 
-        public RemoveMovie(ICommandProcessor commandProcessor, IMovieServices movieServices,
+        public RemoveMovie(IMovieServices movieServices,
             IAlphaCinemaConsole cinemaConsole)
         {
-            this.commandProcessor = commandProcessor;
             this.movieServices = movieServices;
             this.cinemaConsole = cinemaConsole;
         }
 
-        public void Execute(List<string> parameters)
+        public IEnumerable<string> Execute(IEnumerable<string> input)
         {
+            var parameters = input.ToList();
             cinemaConsole.Clear();
             cinemaConsole.WriteLineMiddle("Type a movie name:\n");
 
@@ -32,18 +31,17 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
                 movieServices.DeleteMovie(movieName);
                 cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
+                return parameters.Skip(1);
             }
             catch (InvalidClientInputException e)
             {
                 cinemaConsole.HandleException(e.Message);
+                return parameters.Skip(1);
             }
             catch (EntityDoesntExistException e)
             {
                 cinemaConsole.HandleException(e.Message);
-            }
-            finally
-            {
-                commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
+                return parameters.Skip(1);
             }
         }
 

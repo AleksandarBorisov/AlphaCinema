@@ -19,7 +19,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
         public AddProjection(ICommandProcessor commandProcessor, IItemSelector selector,
             IProjectionsServices projectionsServices, IMovieServices movieServices,
             ICityServices cityServices, IOpenHourServices openHourServices)
-            : base(commandProcessor, selector)
+            : base(selector)
         {
             this.projectionsServices = projectionsServices;
             this.movieServices = movieServices;
@@ -27,8 +27,9 @@ namespace AlphaCinema.Core.Commands.BasicCommands
             this.openHourServices = openHourServices;
         }
 
-        public override void Execute(List<string> parameters)
+        public override IEnumerable<string> Execute(IEnumerable<string> input)
         {
+            var parameters = input.ToList();
             int offSetFromTop = int.Parse(parameters[parameters.Count - 2]);
             int startingRow = int.Parse(parameters[parameters.Count - 1]);
 
@@ -89,7 +90,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
                 parameters[0] = "AdminMenu";
 
-                commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
+                return parameters.Skip(1);
             }
             catch (Exception ex)
             {
@@ -106,17 +107,18 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
                     if (selected == "Retry")
                     {
-                        commandProcessor.ExecuteCommand(parameters);
+                        return parameters;
                     }
                     else if (selected == "Back")
                     {
-                        commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
+                        return parameters.Skip(1);
                     }
                     else if (selected == "Home")
                     {
-                        commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
+                        return parameters.Skip(2);
                     }
                 }
+                return ex.Message.ToString().Split();
             }
         }
     }

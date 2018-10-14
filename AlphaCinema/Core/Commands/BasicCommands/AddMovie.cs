@@ -13,14 +13,15 @@ namespace AlphaCinema.Core.Commands.BasicCommands
     {
         private IMovieServices movieServices;
 
-        public AddMovie(ICommandProcessor commandProcessor, IItemSelector selector, IMovieServices movieServices)
-            : base(commandProcessor, selector)
+        public AddMovie(IItemSelector selector, IMovieServices movieServices)
+            : base(selector)
         {
             this.movieServices = movieServices;
         }
 
-        public override void Execute(List<string> parameters)
+        public override IEnumerable<string> Execute(IEnumerable<string> input)
         {
+            var parameters = input.ToList();
             int offSetFromTop = int.Parse(parameters[parameters.Count - 2]);
             int startingRow = int.Parse(parameters[parameters.Count - 1]);
 
@@ -45,27 +46,27 @@ namespace AlphaCinema.Core.Commands.BasicCommands
             string[] movieDetails = movie.Split('|');
 
             try
-			{
-				if (movieDetails.Length != 4)
-				{
-					throw new ArgumentException("Please enter valid count of movie attributes");
-				}
+            {
+                if (movieDetails.Length != 4)
+                {
+                    throw new ArgumentException("Please enter valid count of movie attributes");
+                }
 
-				string name = movieDetails[0];
+                string name = movieDetails[0];
                 string description = movieDetails[1];
 
-				if (!int.TryParse(movieDetails[2].Trim(), out int releaseYear))
-				{
-					throw new ArgumentException("Movie ReleaseYear must be integer number");
-				}
-				if (!int.TryParse(movieDetails[3].Trim(), out int duration))
-				{
-					throw new ArgumentException("Movie Duration must be integer number");
-				}
+                if (!int.TryParse(movieDetails[2].Trim(), out int releaseYear))
+                {
+                    throw new ArgumentException("Movie ReleaseYear must be integer number");
+                }
+                if (!int.TryParse(movieDetails[3].Trim(), out int duration))
+                {
+                    throw new ArgumentException("Movie Duration must be integer number");
+                }
 
                 selector.PrintAtPosition(new string(' ', enterМovie.Length), startingRow * 1 + offSetFromTop, false);
-				
-				movieServices.AddNewMovie(name, description, releaseYear, duration);
+
+                movieServices.AddNewMovie(name, description, releaseYear, duration);
 
                 string successfullyAdded = $"Movie {movieDetails[0].Trim()} sucessfully added to the database";
 
@@ -75,13 +76,13 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
                 parameters[0] = "AdminMenu";
 
-                commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
-			}
-			catch (Exception ex)
-			{
-				if (ex is ArgumentException || ex is EntityAlreadyExistsException)
-				{
-					string wrongParametersDetails = ex.Message;
+                return parameters.Skip(1);
+            }
+            catch (Exception ex)
+            {
+                if (ex is ArgumentException || ex is EntityAlreadyExistsException)
+                {
+                    string wrongParametersDetails = ex.Message;
 
                     selector.PrintAtPosition(new string(' ', enterМovie.Length), startingRow * 1 + offSetFromTop, false);
                     selector.PrintAtPosition(wrongParametersDetails, startingRow * 4 + offSetFromTop, false);
@@ -91,21 +92,20 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                     selector.PrintAtPosition(new string(' ', wrongParametersDetails.Length), startingRow * 4 + offSetFromTop, false);
 
                     if (selected == "Retry")
-					{
-						commandProcessor.ExecuteCommand(parameters);
-					}
-					else if (selected == "Back")
-					{
-						commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
-					}
-					else if (selected == "Home")
-					{
-						commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
-					}
-				}
-			}
+                    {
+                        return parameters;
+                    }
+                    else if (selected == "Back")
+                    {
+                        return parameters.Skip(1);
+                    }
+                    else if (selected == "Home")
+                    {
+                        return parameters.Skip(2);
+                    }
+                }
+                return ex.Message.ToString().Split();
+            }
         }
-
-
     }
 }

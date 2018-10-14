@@ -7,13 +7,14 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 {
 	public class PdfExport : DisplayBaseCommand
 	{
-		public PdfExport(ICommandProcessor commandProcessor, IItemSelector selector) : base(commandProcessor, selector)
+		public PdfExport(IItemSelector selector) : base(selector)
 		{
 		}
 
-		public override void Execute(List<string> parameters)
+		public override IEnumerable<string> Execute(IEnumerable<string> input)
 		{
-			string offSetFromTop = parameters[parameters.Count - 2];
+            var parameters = input.ToList();
+            string offSetFromTop = parameters[parameters.Count - 2];
 			string startingRow = parameters[parameters.Count - 1];
 
 			List<string> displayItems = new List<string>() { "PDF Export" };
@@ -29,12 +30,12 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 
 			if (commandName == "Back" || commandName == "Home")
 			{
-				commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
+                return parameters.Skip(1);
 			}
 			else
 			{
 				parameters.Insert(0, commandName);
-				commandProcessor.ExecuteCommand(parameters);
+                return parameters;
 			}
 		}
 	}

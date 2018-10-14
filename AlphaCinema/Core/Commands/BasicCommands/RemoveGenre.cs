@@ -8,20 +8,19 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 {
 	public class RemoveGenre : ICommand
 	{
-		private readonly ICommandProcessor commandProcessor;
 		private readonly IGenreServices genreServices;
 		private readonly IAlphaCinemaConsole cinemaConsole;
 
-		public RemoveGenre(ICommandProcessor commandProcessor, IGenreServices genreServices, IAlphaCinemaConsole cinemaConsole)
+		public RemoveGenre(IGenreServices genreServices, IAlphaCinemaConsole cinemaConsole)
 		{
-			this.commandProcessor = commandProcessor;
 			this.genreServices = genreServices;
 			this.cinemaConsole = cinemaConsole;
 		}
 
-		public void Execute(List<string> parameters)
+		public IEnumerable<string> Execute(IEnumerable<string> input)
 		{
-			cinemaConsole.Clear();
+            var parameters = input.ToList();
+            cinemaConsole.Clear();
 			cinemaConsole.WriteLineMiddle("Type a genre name:\n");
 
 			try
@@ -30,19 +29,18 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 				Validations(genreName);
 				genreServices.DeleteGenre(genreName);
 				cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
-			}
+                return parameters.Skip(1);
+            }
 			catch (InvalidClientInputException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-			}
+                return parameters.Skip(1);
+            }
 			catch (EntityDoesntExistException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-			}
-			finally
-			{
-				commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
-			}
+                return parameters.Skip(1);
+            }
 		}
 
 		private void Validations(string genreName)

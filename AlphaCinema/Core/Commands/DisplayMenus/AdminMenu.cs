@@ -7,14 +7,15 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 {
     public class AdminMenu : DisplayBaseCommand
     {
-        public AdminMenu(ICommandProcessor commandProcessor, IItemSelector selector)
-            : base(commandProcessor, selector)
+        public AdminMenu(IItemSelector selector)
+            : base(selector)
         {
 
         }
 
-        public override void Execute(List<string> parameters)
+        public override IEnumerable<string> Execute(IEnumerable<string> input)
         {
+            var parameters = input.ToList();
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
             List<string> displayItems = new List<string>() { parameters[0] };
@@ -28,12 +29,12 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 
             if (commandName == "Back" || commandName == "Home")
             {
-                commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
+                return parameters.Skip(1);
             }
             else
             {
                 parameters.Insert(0, commandName);
-                commandProcessor.ExecuteCommand(parameters);
+                return parameters;
             }
         }
         private void AddOptions(List<string> displayItems)

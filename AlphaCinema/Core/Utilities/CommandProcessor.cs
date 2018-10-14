@@ -19,16 +19,6 @@ namespace AlphaCinema.Core.Utilities
             this.commandFactory = commandFactory;
         }
 
-        public void ExecuteCommand(List<string> parameters)
-        {
-            var commandName = parameters[0];
-
-            var command = ParseCommand(commandName);
-
-            //Тук вкарваме параметрите и изпълняваме командата
-            command.Execute(parameters); 
-        }
-
         public ICommand ParseCommand(string commandName)
         {
             //Тук Resolve-аме командата и разбираме коя е

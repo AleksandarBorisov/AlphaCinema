@@ -4,6 +4,6 @@ namespace AlphaCinema.Core.Contracts
 {
     public interface ICommand
     {
-        void Execute(List<string> parameters);
+        IEnumerable<string> Execute(IEnumerable<string> parameters);
     }
 }

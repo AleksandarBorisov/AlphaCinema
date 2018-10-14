@@ -7,14 +7,15 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 {
     public class Login : DisplayBaseCommand
     {
-        public Login(ICommandProcessor commandProcessor, IItemSelector selector)
-            : base(commandProcessor, selector)
+        public Login(IItemSelector selector)
+            : base(selector)
         {
 
         }
 
-        public override void Execute(List<string> parameters)
+        public override IEnumerable<string> Execute(IEnumerable<string> input)
         {
+            var parameters = input.ToList();
             int offSetFromTop = int.Parse(parameters[parameters.Count - 2]);
             int startingRow = int.Parse(parameters[parameters.Count - 1]);
 			List<string> displayItems = new List<string>
@@ -47,7 +48,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 
                 if (selected == "Back" || selected == "Home")
                 {
-                    commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
+                    return parameters.Skip(1);
                 }
 
                 selector.PrintAtPosition(displayItems[0].ToUpper(), startingRow * 0 + offSetFromTop, false);
@@ -61,7 +62,7 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 
             parameters[0] = "AdminMenu";
 
-            commandProcessor.ExecuteCommand(parameters);
+            return parameters;
         }
     }
 }

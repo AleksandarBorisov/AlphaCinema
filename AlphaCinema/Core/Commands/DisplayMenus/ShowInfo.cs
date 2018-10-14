@@ -7,12 +7,13 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 {
     public class ShowInfo : DisplayBaseCommand
     {
-        public ShowInfo(ICommandProcessor commandProcessor, IItemSelector selector) : base(commandProcessor, selector)
+        public ShowInfo(IItemSelector selector) : base(selector)
         {
         }
 
-        public override void Execute(List<string> parameters)
+        public override IEnumerable<string> Execute(IEnumerable<string> input)
         {
+            var parameters = input.ToList();
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
 
@@ -28,12 +29,12 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 
             if (commandName == "Back" || commandName == "Home")
             {
-                commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
+                return parameters.Skip(1);
             }
             else
             {
                 parameters.Insert(0, commandName);
-                commandProcessor.ExecuteCommand(parameters);
+                return parameters;
             }
         }
     }

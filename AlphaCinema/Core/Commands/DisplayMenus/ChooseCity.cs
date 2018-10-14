@@ -10,14 +10,15 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
     {
 		private readonly ICityServices cityServices;
 
-		public ChooseCity(ICommandProcessor commandProcessor, IItemSelector selector, ICityServices cityServices)
-			: base(commandProcessor, selector)
+		public ChooseCity(IItemSelector selector, ICityServices cityServices)
+			: base(selector)
         {
 			this.cityServices = cityServices;
 		}
 
-		public override void Execute(List<string> parameters)
+		public override IEnumerable<string> Execute(IEnumerable<string> input)
 		{
+            var parameters = input.ToList();
             string offSetFromTop = parameters[parameters.Count - 2];
             string startingRow = parameters[parameters.Count - 1];
 
@@ -34,14 +35,14 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 
 			if (cityName == "Back" || cityName == "Home")
             {
-                commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
+                return parameters.Skip(1);
             }
 			else
             {
                 var cityID = this.cityServices.GetID(cityName);
                 parameters.Insert(0, cityID.ToString());
                 parameters.Insert(0, "ChooseGenre");
-                commandProcessor.ExecuteCommand(parameters);
+                return parameters;
             }
         }
     }

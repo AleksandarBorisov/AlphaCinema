@@ -9,25 +9,23 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 {
 	public class WatchedMoviesByUser : ICommand
 	{
-		private readonly ICommandProcessor commandProcessor;
 		private readonly IAlphaCinemaConsole cinemaConsole;
 		private readonly IWatchedMovieServices watchedMovieServices;
 		private readonly IUserServices userServices;
 		private readonly IPdfExporter pdfExporter;
 
-		public WatchedMoviesByUser(ICommandProcessor commandProcessor, IAlphaCinemaConsole cinemaConsole,
+		public WatchedMoviesByUser(IAlphaCinemaConsole cinemaConsole,
 			IWatchedMovieServices watchedMovieServices, IUserServices userServices, IPdfExporter pdfExporter)
 		{
-			this.commandProcessor = commandProcessor;
             this.cinemaConsole = cinemaConsole;
 			this.pdfExporter = pdfExporter;
-
             this.watchedMovieServices = watchedMovieServices;
 			this.userServices = userServices;
 		}
-		public void Execute(List<string> parameters)
+		public IEnumerable<string> Execute(IEnumerable<string> input)
 		{
-			cinemaConsole.Clear();
+            var parameters = input.ToList();
+            cinemaConsole.Clear();
 			cinemaConsole.WriteLineMiddle("Type a user name:\n");
 
             try
@@ -39,19 +37,18 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
                 pdfExporter.ExportUserWatchedMovies(movies, userName);
 				cinemaConsole.HandleOperation("\nSuccessfully exported data to PDF");
-			}
+                return parameters.Skip(1);
+            }
 			catch (InvalidClientInputException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-			}
+                return parameters.Skip(1);
+            }
 			catch (EntityDoesntExistException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-			}
-			finally
-			{
-				commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());
-			}
+                return parameters.Skip(1);
+            }
 		}
 
 		private void Validations(string userName)

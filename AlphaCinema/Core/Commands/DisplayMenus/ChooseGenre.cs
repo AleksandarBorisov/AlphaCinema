@@ -13,18 +13,19 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 		private readonly IGenreServices genreServices;
 		private readonly ICityServices cityServices;
 
-		public ChooseGenre(ICommandProcessor commandProcessor, IItemSelector selector,
+		public ChooseGenre(IItemSelector selector,
 			IGenreServices genreServices, ICityServices cityServices)
-			: base(commandProcessor, selector)
+			: base(selector)
 		{
 			this.genreServices = genreServices;
 			this.cityServices = cityServices;
 
 		}
 
-		public override void Execute(List<string> parameters)
+		public override IEnumerable<string> Execute(IEnumerable<string> input)
 		{
-			string offSetFromTop = parameters[parameters.Count - 2];
+            var parameters = input.ToList();
+            string offSetFromTop = parameters[parameters.Count - 2];
 			string startingRow = parameters[parameters.Count - 1];
 
             int cityID = int.Parse(parameters[1]);
@@ -43,19 +44,19 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 			string genreName = selector.DisplayItems(displayItems);
 			if (genreName == "Back")
 			{
-				commandProcessor.ExecuteCommand(parameters.Skip(2).ToList());
+                return parameters.Skip(2);
 			}
 			//Изтриваме командата ChoooseMovie и извикваме отново предното menu
 			else if (genreName == "Home")
 			{
-				commandProcessor.ExecuteCommand(parameters.Skip(3).ToList());
+                return parameters.Skip(3);
 			}
 			else
 			{
 				var genreID = this.genreServices.GetID(genreName);
 				parameters.Insert(0, genreID.ToString());
 				parameters.Insert(0, "ChooseMovie");
-				commandProcessor.ExecuteCommand(parameters);
+                return parameters;
 			}
 		}
 	}
