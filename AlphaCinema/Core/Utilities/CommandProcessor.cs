@@ -1,15 +1,21 @@
 ﻿using AlphaCinema.Core.Commands.Factory;
 using AlphaCinema.Core.Contracts;
 using System.Collections.Generic;
+using System;
 
 namespace AlphaCinema.Core.Utilities
 {
-    class CommandProcessor : ICommandProcessor
+    public class CommandProcessor : ICommandProcessor
     {
         private ICommandFactory commandFactory;
 
         public CommandProcessor(ICommandFactory commandFactory)
         {
+            if (commandFactory.Equals(null))
+            {
+                throw new NullReferenceException("CommandFactory can't be null!");
+            }
+
             this.commandFactory = commandFactory;
         }
 
@@ -17,11 +23,16 @@ namespace AlphaCinema.Core.Utilities
         {
             var commandName = parameters[0];
 
-            //Тук Resolve-аме командата и разбираме коя е
-            var resolvedCommand = commandFactory.GetCommand(commandName);
+            var command = ParseCommand(commandName);
 
             //Тук вкарваме параметрите и изпълняваме командата
-            resolvedCommand.Execute(parameters); 
+            command.Execute(parameters); 
+        }
+
+        public ICommand ParseCommand(string commandName)
+        {
+            //Тук Resolve-аме командата и разбираме коя е
+            return commandFactory.GetCommand(commandName);
         }
     }
 }

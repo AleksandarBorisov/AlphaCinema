@@ -71,7 +71,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 selector.PrintAtPosition(successfullyUpdated, startingRow * 1 + offSetFromTop, false);
                 Thread.Sleep(2000);
                 selector.PrintAtPosition(new string(' ', successfullyUpdated.Length), startingRow * 1 + offSetFromTop, false);
-
+                selector.PrintAtPosition(new string(' ', displayItems[0].Length), startingRow * 0 + offSetFromTop, false);//Затриваме заглавието
                 parameters[0] = "AdminMenu";
 
                 commandProcessor.ExecuteCommand(parameters.Skip(1).ToList());

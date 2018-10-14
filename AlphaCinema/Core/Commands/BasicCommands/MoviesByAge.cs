@@ -61,7 +61,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 selector.PrintAtPosition(new string(' ', enterAgeRange.Length), startingRow * 1 + offSetFromTop, false);//Затрива stringa enterAgeRange
 
                 var results = userServices.GetMoviesByUserAge(minAge, maxAge);
-                currentRow = startingRow * 2;
+                currentRow = offSetFromTop + 1;
                 foreach (var result in results)
                 {
                     selector.PrintAtPosition(result.ToString(), currentRow++, false);
@@ -72,7 +72,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
                 Console.ReadKey(true);
 
-                currentRow = startingRow * 2;
+                currentRow = offSetFromTop + 1;
                 foreach (var result in results)
                 {
                     selector.PrintAtPosition(new string(' ', result.ToString().Length), currentRow++, false);
