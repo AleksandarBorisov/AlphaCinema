@@ -16,8 +16,9 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		private readonly IPdfExporter pdfExporter;
 		private readonly SortedDictionary<string, HashSet<Movie>> watchedMovies = new SortedDictionary<string, HashSet<Movie>>();
 
-		public AllWatchedMoviesByUsers(ICommandProcessor commandProcessor, IAlphaCinemaConsole cinemaConsole,
-			IWatchedMovieServices watchedMovieServices, IUserServices userServices, IPdfExporter pdfExporter)
+		public AllWatchedMoviesByUsers(IAlphaCinemaConsole cinemaConsole,
+            IWatchedMovieServices watchedMovieServices, IUserServices userServices, 
+            IPdfExporter pdfExporter)
 		{
 			this.cinemaConsole = cinemaConsole;
 			this.watchedMovieServices = watchedMovieServices;
