@@ -7,7 +7,7 @@ using System.Text;
 using AlphaCinema.Core.Contracts;
 using AlphaCinema.Core.Commands.DisplayMenus;
 
-namespace AlphaCinemaTests.AlphaCinema.Core.Commands.DisplayMenusTests
+namespace AlphaCinemaTests.AlphaCinema.Core.Commands.DisplayMenusTests.MenuTests
 {
     [TestClass]
     public class Menu_Execute_Should
