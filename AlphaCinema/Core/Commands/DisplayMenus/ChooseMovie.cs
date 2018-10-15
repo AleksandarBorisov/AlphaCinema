@@ -8,14 +8,11 @@ namespace AlphaCinema.Core.Commands.DisplayMenus
 {
     public class ChooseMovie : DisplayBaseCommand
     {
-        private readonly IMovieGenreServices movieGenreServices;
         private readonly IMovieServices movieServices;
 
-        public ChooseMovie(IItemSelector selector,
-            IMovieGenreServices movieGenreServices, IMovieServices movieServices)
+        public ChooseMovie(IItemSelector selector, IMovieServices movieServices)
             : base(selector)
         {
-            this.movieGenreServices = movieGenreServices;
             this.movieServices = movieServices;
         }
 
