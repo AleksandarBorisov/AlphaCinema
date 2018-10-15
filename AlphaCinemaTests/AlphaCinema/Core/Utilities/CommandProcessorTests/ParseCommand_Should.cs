@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using AlphaCinema.Core.Contracts;
 
-namespace AlphaCinemaTests.Core.Utilities.CommandProcessorTests
+namespace AlphaCinemaTests.AlphaCinema.Core.Utilities.CommandProcessorTests
 {
     [TestClass]
     public class ParseCommand_Should

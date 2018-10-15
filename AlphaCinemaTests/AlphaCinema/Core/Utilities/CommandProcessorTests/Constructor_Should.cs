@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using AlphaCinema.Core.Utilities;
 
-namespace AlphaCinemaTests.Core.Utilities.CommandProcessorTests
+namespace AlphaCinemaTests.AlphaCinema.Core.Utilities.CommandProcessorTests
 {
     [TestClass]
     public class Constructor_Should
