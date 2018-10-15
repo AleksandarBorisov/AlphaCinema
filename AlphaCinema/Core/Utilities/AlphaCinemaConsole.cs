@@ -12,6 +12,11 @@ namespace AlphaCinema.Core.Utilities
 		{
 			return Console.ReadLine();
 		}
+
+        public ConsoleKeyInfo ReadKey(bool value)
+        {
+            return Console.ReadKey(value);
+        }
         
         public void Write(string message)
 		{

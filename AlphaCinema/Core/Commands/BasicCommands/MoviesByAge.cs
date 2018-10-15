@@ -10,10 +10,13 @@ namespace AlphaCinema.Core.Commands.BasicCommands
     public class MoviesByAge : DisplayBaseCommand
     {
         private IUserServices userServices;
+        private IAlphaCinemaConsole cinemaConsole;
 
-        public MoviesByAge(IItemSelector selector, IUserServices userServices) : base(selector)
+        public MoviesByAge(IItemSelector selector, IAlphaCinemaConsole cinemaConsole, 
+            IUserServices userServices) : base(selector)
         {
             this.userServices = userServices;
+            this.cinemaConsole = cinemaConsole;
         }
 
         public override IEnumerable<string> Execute(IEnumerable<string> input)
@@ -71,7 +74,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 string endOfResluts = "Press any key to return to Information";
                 selector.PrintAtPosition(endOfResluts, currentRow, false);
 
-                Console.ReadKey(true);
+                cinemaConsole.ReadKey(true);
 
                 currentRow = offSetFromTop + 1;
                 foreach (var result in results)
