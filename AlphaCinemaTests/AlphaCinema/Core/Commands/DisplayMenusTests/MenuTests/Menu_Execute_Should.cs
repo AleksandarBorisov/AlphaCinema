@@ -13,7 +13,7 @@ namespace AlphaCinemaTests.AlphaCinema.Core.Commands.DisplayMenusTests.MenuTests
     public class Menu_Execute_Should
     {
         [TestMethod]
-        [DataRow( "Menu BuyTickets LogAsAdmin ShowInfo PdfExport Exit",          "BuyTickets",          "ChooseCity")]
+        [DataRow( "Menu BuyTickets LogAsAdmin ShowInfo PdfExport Exit", "BuyTickets", "ChooseCity")]
         [DataRow( "Menu BuyTickets LogAsAdmin ShowInfo PdfExport Exit", "LogAsAdmin", "Login")]
         public void ReturnCorrectList_WhenParametersAreValid(string input, string selectorResult, string expected)
         {

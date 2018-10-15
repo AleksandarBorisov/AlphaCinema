@@ -8,7 +8,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AlphaCinemaServices.Exceptions;
 
 namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
@@ -16,17 +15,44 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
     [TestClass]
     public class AddNewMovie_Should
     {
-        [TestMethod]
-        [DataRow("TestMovie", "Test Description", 1990, 200)]
-        public void AddNewMovie_WhenParametersAreCorrect(string name, string description, int releaseYear, int duration)
-        {
-            var unitOfWork = new Mock<IUnitOfWork>();
-            var movieRepoMock = new Mock<IRepository<Movie>>();
+        private Movie movie;
+        private List<Movie> predifinedListOfMovies;
+        private Mock<IUnitOfWork> unitOfWork;
+        private Mock<IRepository<Movie>> movieRepoMock;
+        private int testMovieId = 1;
+        private string testMovieName = "TestMovie";
+        private string testMovieDescription = "It is a movie for testing";
+        private int testMovieReleaseYear = 2000;
+        private int testMovieDuration = 1990;
 
-            var predifinedListOfMovies = new List<Movie>();
+        [TestInitialize]
+        public void TestInitialize()//Този метод се изпълнява преди извикване на всеки един от другите методи в този клас
+        {
+            //Arrange 
+            movie = new Movie
+            {
+                Id = testMovieId,
+                Name = testMovieName,
+                Description = testMovieDescription,
+                Duration = testMovieDuration,
+                ReleaseYear = testMovieReleaseYear,
+                Projections = new List<Projection>(),
+                MovieGenres = new List<MovieGenre>(),
+                IsDeleted = false
+            };
+            predifinedListOfMovies = new List<Movie>() { movie };
+            unitOfWork = new Mock<IUnitOfWork>();
+            movieRepoMock = new Mock<IRepository<Movie>>();
+        }
+
+        [TestMethod]
+        public void AddNewMovie_WhenParametersAreCorrect()
+        {
+            //Arrange
             var movieMock = new Mock<Movie>();
 
             unitOfWork.Setup(x => x.Movies).Returns(movieRepoMock.Object);
+
             movieRepoMock
                 .Setup(repo => repo.Add(It.IsAny<Movie>()))
                 .Callback<Movie>((movie) =>
@@ -34,103 +60,100 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
                     predifinedListOfMovies.Add(movieMock.Object);
                 });
 
+            //Act
             var addMovieCommand = new MovieServices(unitOfWork.Object);
-            addMovieCommand.AddNewMovie(name, description, releaseYear, duration);
+            addMovieCommand.AddNewMovie(testMovieName, testMovieDescription,
+                testMovieReleaseYear, testMovieDuration);
 
             //Assert
-            Assert.AreEqual(1, predifinedListOfMovies.Count);
+            Assert.AreEqual(2, predifinedListOfMovies.Count);
         }
 
         [TestMethod]
-        public void ThrowArgumentException_WhenMovieLengthIsNotInRange()
+        public void ThrowArgumentException_WhenMovieNameLengthIsNotInRange()
         {
             //Arrange
             int maxMovieNameLength = 50;
-            var testMovieName = new string('m', maxMovieNameLength + 1);
-
-            var unitOfWork = new Mock<IUnitOfWork>();
+            var longMovieName = new string('m', maxMovieNameLength + 1);
 
             var movieService = new MovieServices(unitOfWork.Object);
+
             //Act and Assert
-            Assert.ThrowsException<ArgumentException>(() => movieService.AddNewMovie(testMovieName, "Test Description", 1990, 2000));
+            Assert.ThrowsException<ArgumentException>(() => movieService.AddNewMovie(longMovieName, testMovieDescription, 
+                testMovieReleaseYear, testMovieDuration));
         }
+
+        [TestMethod]
+        public void ThrowArgumentException_WhenMovieNameIsEmpty()
+        {
+            //Arrange
+            int maxMovieNameLength = 50;
+            var longMovieName = new string('m', maxMovieNameLength + 1);
+
+            var movieService = new MovieServices(unitOfWork.Object);
+
+            //Act and Assert
+            Assert.ThrowsException<NullReferenceException>(() => movieService.AddNewMovie("", testMovieDescription,
+                testMovieReleaseYear, testMovieDuration));
+        }
+
 
         [TestMethod]
         public void ThrowArgumentException_WhenMovieDescriptionIsNotInRange()
         {
             //Arrange
             int maxMovieNameLength = 150;
-            var testMovieDescription = new string('m', maxMovieNameLength + 1);
-
-            var unitOfWork = new Mock<IUnitOfWork>();
+            var longMovieDescription = new string('m', maxMovieNameLength + 1);
 
             var movieService = new MovieServices(unitOfWork.Object);
+
             //Act and Assert
-            Assert.ThrowsException<ArgumentException>(() => movieService.AddNewMovie("TestMovie", testMovieDescription, 1990, 2000));
+            Assert.ThrowsException<ArgumentException>(() => movieService.AddNewMovie(testMovieName, longMovieDescription,
+                testMovieReleaseYear, testMovieDuration));
         }
 
         [TestMethod]
-        [DataRow("TestMovie", "Test Description", 1990, 200)]
-        public void UnmarkMovieAsDeleted_WhenMovieExistButIsDeleted(string name, string description, int releaseYear, int duration)
+        public void ThrowArgumentException_WhenMovieDescriptionIsEmpty()
+        {
+            //Arrange
+            int maxMovieNameLength = 50;
+            var longMovieName = new string('m', maxMovieNameLength + 1);
+
+            var movieService = new MovieServices(unitOfWork.Object);
+
+            //Act and Assert
+            Assert.ThrowsException<NullReferenceException>(() => movieService.AddNewMovie(testMovieName, "",
+                testMovieReleaseYear, testMovieDuration));
+        }
+
+        [TestMethod]
+        public void UnmarkMovieAsDeleted_WhenMovieExistButIsDeleted()
         {
             //Arrange 
-            var movie = new Movie
-            {
-                Id = 1,
-                Name = name,
-                Description = description,
-                Duration = releaseYear,
-                ReleaseYear = duration,
-                Projections = new List<Projection>(),
-                MovieGenres = new List<MovieGenre>(),
-                IsDeleted = true
-            };
-
-            var resultFromMovieRepo = new List<Movie>() { movie };
-
-            var unitOfWork = new Mock<IUnitOfWork>();
-            var movieRepoMock = new Mock<IRepository<Movie>>();
+            movie.IsDeleted = true;
 
             unitOfWork.Setup(x => x.Movies).Returns(movieRepoMock.Object);
-            movieRepoMock.Setup(repo => repo.AllAndDeleted()).Returns(resultFromMovieRepo.AsQueryable());
+            movieRepoMock.Setup(repo => repo.AllAndDeleted()).Returns(predifinedListOfMovies.AsQueryable());
 
             //Act
             var addMovieCommand = new MovieServices(unitOfWork.Object);
-            addMovieCommand.AddNewMovie(name, description, releaseYear, duration);
+            addMovieCommand.AddNewMovie(testMovieName, testMovieDescription, testMovieReleaseYear, testMovieDuration);
 
             //Assert
             Assert.IsFalse(movie.IsDeleted);
         }
 
         [TestMethod]
-        [DataRow("TestMovie", "Test Description", 1990, 200)]
-        public void ThrowEntityAlreadyExistsException_WhenMovieExist(string name, string description, int releaseYear, int duration)
+        public void ThrowEntityAlreadyExistsException_WhenMovieExist()
         {
             //Arrange 
-            var movie = new Movie
-            {
-                Id = 1,
-                Name = name,
-                Description = description,
-                Duration = releaseYear,
-                ReleaseYear = duration,
-                Projections = new List<Projection>(),
-                MovieGenres = new List<MovieGenre>(),
-                IsDeleted = false
-            };
-
-            var resultFromMovieRepo = new List<Movie>() { movie };
-
-            var unitOfWork = new Mock<IUnitOfWork>();
-            var movieRepoMock = new Mock<IRepository<Movie>>();
-
             unitOfWork.Setup(x => x.Movies).Returns(movieRepoMock.Object);
-            movieRepoMock.Setup(repo => repo.AllAndDeleted()).Returns(resultFromMovieRepo.AsQueryable());
+            movieRepoMock.Setup(repo => repo.AllAndDeleted()).Returns(predifinedListOfMovies.AsQueryable());
 
             //Act and Assert
             var addMovieCommand = new MovieServices(unitOfWork.Object);
-            Assert.ThrowsException<EntityAlreadyExistsException>(() => addMovieCommand.AddNewMovie(name, description, releaseYear, duration));
-
+            Assert.ThrowsException<EntityAlreadyExistsException>(() => addMovieCommand.AddNewMovie(testMovieName, testMovieDescription,
+                testMovieReleaseYear, testMovieDuration));
         }
     }
 }

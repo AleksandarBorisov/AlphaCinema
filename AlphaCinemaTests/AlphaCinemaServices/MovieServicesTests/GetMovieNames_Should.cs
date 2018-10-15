@@ -14,20 +14,30 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
     [TestClass]
     public class GetMovieNames_Should
     {
+        private Mock<IUnitOfWork> unitOfWork;
+        private Mock<IRepository<Movie>> movieRepoMock;
+        private Mock<Movie> firstMovieMock;
+        private string firstMovieName = "TestMovieOne";
+        private Mock<Movie> secondMovieMock;
+        private string secondMovieName = "TestMovieTwo";
+
+        [TestInitialize]
+        public void TestInitialize()//Този метод се изпълнява преди извикване на всеки един от другите методи в този клас
+        {
+            unitOfWork = new Mock<IUnitOfWork>();
+            movieRepoMock = new Mock<IRepository<Movie>>();
+            firstMovieMock = new Mock<Movie>();
+            firstMovieMock.Object.Name = firstMovieName;
+            secondMovieMock = new Mock<Movie>();
+            secondMovieMock.Object.Name = secondMovieName;
+        }
+
         [TestMethod]
         public void ReturnCollectionOfMovies()
         {
             //Arrange
-            var firstMovieMock = new Mock<Movie>();
-            firstMovieMock.Object.Name = "TestMovieOne";
-            var secondMovieMock = new Mock<Movie>();
-            secondMovieMock.Object.Name = "TestMovieTwo";
-
             var resultFromMovieRepo = new List<Movie>() { firstMovieMock.Object, secondMovieMock.Object };
             var expectedList = new List<string>() { "TestMovieOne", "TestMovieTwo" };
-
-            var unitOfWork = new Mock<IUnitOfWork>();
-            var movieRepoMock = new Mock<IRepository<Movie>>();
 
             unitOfWork.Setup(x => x.Movies).Returns(movieRepoMock.Object);
             movieRepoMock.Setup(repo => repo.All()).Returns(resultFromMovieRepo.AsQueryable());

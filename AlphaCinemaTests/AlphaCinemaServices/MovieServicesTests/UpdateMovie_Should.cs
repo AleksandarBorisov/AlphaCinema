@@ -15,30 +15,42 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
     [TestClass]
     public class UpdateMovie_Should
     {
-        [TestMethod]
-        [DataRow("TestMovie", "Test Description", 1990, 200)]
-        public void UpdateMovie_WhenParametersAreCorrect(string name, string description, int releaseYear, int duration)
+        private Movie movie;
+        private Mock<IUnitOfWork> unitOfWork;
+        private List<Movie> predifinedListOfMovies;
+        private Mock<IRepository<Movie>> movieRepoMock;
+        private int testMovieId = 1;
+        private string testMovieName = "TestMovie";
+        private string testMovieDescription = "It is a movie for testing";
+        private int testMovieReleaseYear = 2000;
+        private int testMovieDuration = 1990;
+
+        [TestInitialize]
+        public void TestInitialize()//Този метод се изпълнява преди извикване на всеки един от другите методи в този клас
         {
-            var alreadyAddedMovie = new Movie
+            //Arrange 
+            movie = new Movie
             {
-                Id = 1,
-                Name = "TestMovie",
-                Description = "It is a movie for testing",
-                Duration = 100,
-                ReleaseYear = 2000,
+                Id = testMovieId,
+                Name = testMovieName,
+                Description = testMovieDescription,
+                Duration = testMovieDuration,
+                ReleaseYear = testMovieReleaseYear,
                 Projections = new List<Projection>(),
                 MovieGenres = new List<MovieGenre>(),
-                IsDeleted = true
+                IsDeleted = false
             };
+            predifinedListOfMovies = new List<Movie>() { movie };
+            unitOfWork = new Mock<IUnitOfWork>();
+            movieRepoMock = new Mock<IRepository<Movie>>();
+        }
+        [TestMethod]
+        public void UpdateMovie_WhenParametersAreCorrect()
+        {
             var updatedMovie = new Movie();
 
-            var unitOfWork = new Mock<IUnitOfWork>();
-            var movieRepoMock = new Mock<IRepository<Movie>>();
-
-            var predifinedListOfMovies = new List<Movie>() { alreadyAddedMovie };
-            var movieMock = new Mock<Movie>();
-
             unitOfWork.Setup(x => x.Movies).Returns(movieRepoMock.Object);
+
             movieRepoMock
                 .Setup(repo => repo.AllAndDeleted())
                 .Returns(predifinedListOfMovies.AsQueryable());
@@ -46,13 +58,13 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
                 .Setup(repo => repo.Update(It.IsAny<Movie>()))
                 .Callback<Movie>((movie) =>
                 {
-                    predifinedListOfMovies.Remove(alreadyAddedMovie);
+                    predifinedListOfMovies.Remove(movie);
                     predifinedListOfMovies.Add(updatedMovie);
                 });
 
             //Act
-            var addMovieCommand = new MovieServices(unitOfWork.Object);
-            addMovieCommand.UpdateMovie(name, description, releaseYear, duration);
+            var command = new MovieServices(unitOfWork.Object);
+            command.UpdateMovie(testMovieName, testMovieDescription, testMovieReleaseYear, testMovieDuration);
 
             //Assert
             Assert.AreEqual(1, predifinedListOfMovies.Count);
@@ -61,49 +73,30 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
         }
 
         [TestMethod]
-        [DataRow("TestMovie", "Test Description", 1990, 200)]
-        public void ThrowEntityDoesntExistException_WhenMovieDoesNotExist(string name, string description, int releaseYear, int duration)
+        public void ThrowEntityDoesntExistException_WhenMovieDoesNotExist()
         {
-            var alreadyAddedMovie = new Movie();
-            var updatedMovie = new Movie();
-
-            var unitOfWork = new Mock<IUnitOfWork>();
-            var movieRepoMock = new Mock<IRepository<Movie>>();
-
-            var predifinedListOfMovies = new List<Movie>() { alreadyAddedMovie };
-            var movieMock = new Mock<Movie>();
-
+            //Arrange
             unitOfWork.Setup(x => x.Movies).Returns(movieRepoMock.Object);
-            movieRepoMock
-                .Setup(repo => repo.AllAndDeleted())
-                .Returns(predifinedListOfMovies.AsQueryable());
-            movieRepoMock
-                .Setup(repo => repo.Update(It.IsAny<Movie>()))
-                .Callback<Movie>((movie) =>
-                {
-                    predifinedListOfMovies.Remove(alreadyAddedMovie);
-                    predifinedListOfMovies.Add(updatedMovie);
-                });
 
             //Act
-            var addMovieCommand = new MovieServices(unitOfWork.Object);
+            var command = new MovieServices(unitOfWork.Object);
 
             //Assert
-            Assert.ThrowsException<EntityDoesntExistException>(() => addMovieCommand.UpdateMovie(name, description, releaseYear, duration));
+            Assert.ThrowsException<EntityDoesntExistException>(() => command.UpdateMovie(testMovieName, testMovieDescription,
+                testMovieReleaseYear, testMovieDuration));
         }
 
         [TestMethod]
-        public void ThrowArgumentException_WhenMovieLengthIsNotInRange()
+        public void ThrowArgumentException_WhenMovieNameLengthIsNotInRange()
         {
             //Arrange
             int maxMovieNameLength = 50;
-            var testMovieName = new string('m', maxMovieNameLength + 1);
-
-            var unitOfWork = new Mock<IUnitOfWork>();
-
+            var longMovieName = new string('m', maxMovieNameLength + 1);
             var movieService = new MovieServices(unitOfWork.Object);
+
             //Act and Assert
-            Assert.ThrowsException<ArgumentException>(() => movieService.UpdateMovie(testMovieName, "Test Description", 1990, 2000));
+            Assert.ThrowsException<ArgumentException>(() => movieService.UpdateMovie(longMovieName, testMovieDescription, 
+                testMovieReleaseYear, testMovieDuration));
         }
 
         [TestMethod]
@@ -111,13 +104,14 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
         {
             //Arrange
             int maxMovieNameLength = 150;
-            var testMovieDescription = new string('m', maxMovieNameLength + 1);
+            var longMovieDescription = new string('m', maxMovieNameLength + 1);
 
             var unitOfWork = new Mock<IUnitOfWork>();
 
             var movieService = new MovieServices(unitOfWork.Object);
             //Act and Assert
-            Assert.ThrowsException<ArgumentException>(() => movieService.UpdateMovie("TestMovie", testMovieDescription, 1990, 2000));
+            Assert.ThrowsException<ArgumentException>(() => movieService.UpdateMovie(testMovieName, longMovieDescription, 
+                testMovieReleaseYear, testMovieDuration));
         }
     }
 }

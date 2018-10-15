@@ -2,6 +2,7 @@
 using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,7 +30,12 @@ namespace AlphaCinemaServices
 
 		public void AddNewCity(string cityName)
 		{
-			city = IfExist(cityName);
+            if (cityName.Length > 50)
+            {
+                throw new ArgumentException("City Name can't be more than 50 characters");
+            }
+
+            city = IfExist(cityName);
 			if (city != null)
 			{
 				if (city.IsDeleted)
