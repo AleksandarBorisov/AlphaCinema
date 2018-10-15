@@ -40,7 +40,17 @@ namespace AlphaCinemaServices
 
 		public void AddNewMovie(string name, string description, int releaseYear, int duration)
 		{
-			if (name.Length > 50)
+            if (name == "")
+            {
+                throw new NullReferenceException("Movie Name can't be empty");
+            }
+
+            if (description == "")
+            {
+                throw new NullReferenceException("Movie Description can't be empty");
+            }
+
+            if (name.Length > 50)
 			{
 				throw new ArgumentException("Movie Name can't be more than 50 characters");
 			}

@@ -6,69 +6,63 @@ using AlphaCinemaServices;
 using AlphaCinemaServices.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
 {
     [TestClass]
     public class GetID_Should
     {
-        [TestMethod]
-        public void ReturnCorrectMovie_WhenMovieExists()
+        private Movie movie;
+        private List<Movie> resultFromMovieRepo;
+        private Mock<IUnitOfWork> unitOfWork;
+        private Mock<IRepository<Movie>> movieRepoMock;
+        private int testMovieId = 1;
+        private string testMovieName = "TestMovie";
+        private string testMovieDescription = "It is a movie for testing";
+        private int testMovieReleaseYear = 2000;
+        private int testMovieDuration = 1990;
+
+
+        [TestInitialize]
+        public void TestInitialize()//Този метод се изпълнява преди извикване на всеки един от другите методи в този клас
         {
             //Arrange 
-            var movie = new Movie
+            movie = new Movie
             {
-                Id = 1,
-                Name = "TestMovie",
-                Description = "It is a movie for testing",
-                Duration = 100,
-                ReleaseYear = 2000,
+                Id = testMovieId,
+                Name = testMovieName,
+                Description = testMovieDescription,
+                Duration = testMovieDuration,
+                ReleaseYear = testMovieReleaseYear,
                 Projections = new List<Projection>(),
                 MovieGenres = new List<MovieGenre>(),
                 IsDeleted = false
             };
+            resultFromMovieRepo = new List<Movie>() { movie };
+            unitOfWork = new Mock<IUnitOfWork>();
+            movieRepoMock = new Mock<IRepository<Movie>>();
+        }
 
-            var resultFromMovieRepo = new List<Movie>() { movie };
-
-            var unitOfWork = new Mock<IUnitOfWork>();
-            var movieRepoMock = new Mock<IRepository<Movie>>();
-
+        [TestMethod]
+        public void ReturnCorrectMovieId_WhenMovieExists()
+        {
+            //Arrange 
             unitOfWork.Setup(x => x.Movies).Returns(movieRepoMock.Object);
             movieRepoMock.Setup(repo => repo.AllAndDeleted()).Returns(resultFromMovieRepo.AsQueryable());
 
             //Act 
             var movieService = new MovieServices(unitOfWork.Object);
-            var result = movieService.GetID("TestMovie");
+            var result = movieService.GetID(movie.Name);
 
             //Assert
-            Assert.AreEqual(1, result);//Очевидно си ги създава с ID-та които започват от 0
+            Assert.AreEqual(movie.Id, result);
         }
 
         [TestMethod]
         public void ThrowEntityDoesNotExistException_WhenMovieDoesNotExist()
         {
-            //Arrange
-            var movie = new Movie
-            {
-                Id = 1,
-                Name = "TestMovie",
-                Description = "It is a movie for testing",
-                Duration = 100,
-                ReleaseYear = 2000,
-                Projections = new List<Projection>(),
-                MovieGenres = new List<MovieGenre>(),
-                IsDeleted = false
-            };
-
-            var resultFromMovieRepo = new List<Movie>() { movie };
-
-            var unitOfWork = new Mock<IUnitOfWork>();
-            var movieRepoMock = new Mock<IRepository<Movie>>();
-
             //Act 
             var movieService = new MovieServices(unitOfWork.Object);
 
@@ -79,5 +73,19 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
             Assert.ThrowsException<EntityDoesntExistException>(() => movieService.GetID("NonExistingMovie"));
         }
 
+        [TestMethod]
+        public void ThrowEntityDoesNotExistException_WhenMovieIsDeleted()
+        {
+            //Arrange 
+            movie.IsDeleted = true;
+            unitOfWork.Setup(x => x.Movies).Returns(movieRepoMock.Object);
+            movieRepoMock.Setup(repo => repo.AllAndDeleted()).Returns(resultFromMovieRepo.AsQueryable());
+
+            //Act 
+            var movieService = new MovieServices(unitOfWork.Object);
+
+            //Assert
+            Assert.ThrowsException<EntityDoesntExistException>(() => movieService.GetID(movie.Name));
+        }
     }
 }
