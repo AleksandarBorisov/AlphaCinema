@@ -1,8 +1,11 @@
-﻿namespace AlphaCinema.Core.Contracts
+﻿using System;
+
+namespace AlphaCinema.Core.Contracts
 {
 	public interface IAlphaCinemaConsole
 	{
 		string ReadLine();
+        ConsoleKeyInfo ReadKey(bool value);
 
         void Write(string message);
 		void WriteLine(string message = null);
