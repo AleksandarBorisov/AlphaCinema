@@ -8,7 +8,7 @@ using Moq;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AlphaCinemaTests.AlphaCinema.Core.Commands.DisplayMenusTests.AllWatchedMoviesByUsersTests
+namespace AlphaCinemaTests.AlphaCinema.Core.Commands.BasicCommandsTests.AllWatchedMoviesByUsersTests
 {
     [TestClass]
     public class AllWatchedMoviesByUsers_Execute_Should

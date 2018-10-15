@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AlphaCinemaTests.AlphaCinema.Core.Commands.DisplayMenusTests.MoviesByAgeTests
+namespace AlphaCinemaTests.AlphaCinema.Core.Commands.BasicCommandsTests.MoviesByAgeTests
 {
     [TestClass]
     public class MoviesByAge_Execute_Should
