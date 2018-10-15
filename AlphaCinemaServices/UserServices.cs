@@ -13,28 +13,27 @@ namespace AlphaCinemaServices
 	public class UserServices : IUserServices
 	{
 		private readonly IUnitOfWork unitOfWork;
+		private User user;
 
 		public UserServices(IUnitOfWork unitOfWork)
 		{
 			this.unitOfWork = unitOfWork;
 		}
 
-		public int GetID(string userName)
+		public int GetID(string userName, int age)
 		{
-			if (!IfExist(userName))
-			{
-				throw new EntityDoesntExistException($"{userName} is not present in the database.");
-			}
-			var id = this.unitOfWork.Users.All()
-				.Where(user => user.Name == userName)
-				.Select(user => user.Id)
-				.FirstOrDefault();
+			user = IfExist(userName, age);
 
-			return id;
+			if (user == null || user.IsDeleted)
+			{//Ако няма такова или е изтрито
+				throw new EntityDoesntExistException($"StartHour {userName} is not present in the database.");
+			}
+			return user.Id;
 		}
 
 		public User AddNewUser(string name, int age)
 		{
+			user = IfExist(name, age);
 			if (name.Length > 50)
 			{
 				throw new ArgumentException("User Name can't be more than 50 characters");
@@ -45,24 +44,27 @@ namespace AlphaCinemaServices
 				throw new ArgumentException("Age can't be negative");
 			}
 
-			if (IfExist(name) && !IsDeleted(name))
+			if (user != null)
 			{
-				return GetUserByID(GetID(name));
+				if (user.IsDeleted)
+				{
+					user.IsDeleted = false;
+				}
+				return user;
 			}
-
-			var newUser = new User()
+			user = new User()
 			{
 				Name = name,
 				Age = age
 			};
 
-			this.unitOfWork.Users.Add(newUser);
+			this.unitOfWork.Users.Add(user);
 			this.unitOfWork.SaveChanges();
 
-            return newUser;
+            return user;
 		}
 
-		public List<ProjectionDetailsViewModel> GetProjectionsByUserID(int userID)
+		public ICollection<ProjectionDetailsViewModel> GetProjectionsByUserID(int userID)
 		{
             var projections = this.unitOfWork.Users.All()
                 .Where(us => us.Id == userID)
@@ -79,7 +81,7 @@ namespace AlphaCinemaServices
             return projections;
 		}
 
-        public List<ProjectionDetailsViewModel> GetMoviesByUserAge(int minAge, int maxAge)
+        public ICollection<ProjectionDetailsViewModel> GetMoviesByUserAge(int minAge, int maxAge)
         {
             if (minAge < 0)
             {
@@ -105,27 +107,12 @@ namespace AlphaCinemaServices
             return movieInfo;
         }
 
-		public User GetUserByID(int userID)
-		{
-			return this.unitOfWork.Users.All()
-				.Where(u => u.Id == userID)
-				.FirstOrDefault();
-		}
-
-		public bool IfExist(string userName)
+		public User IfExist(string userName, int age)
 		{
 			return this.unitOfWork.Users.AllAndDeleted()
 				.Where(user => user.Name == userName)
-				.FirstOrDefault() == null ? false : true;
-		}
-
-        public bool IsDeleted(string userName)
-		{
-			var result = this.unitOfWork.Users.AllAndDeleted()
-				.Where(u => u.Name == userName)
-				.FirstOrDefault()
-				.IsDeleted;
-			return result;
+				.Where(user => user.Age == age)
+				.FirstOrDefault();
 		}
 
 		public HashSet<User> GetUsers()

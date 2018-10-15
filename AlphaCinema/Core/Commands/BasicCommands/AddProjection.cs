@@ -79,7 +79,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 //Find openHourId by openHour
                 int openHourID = this.openHourServices.GetID(openHour);
 
-                this.projectionsServices.AddNewProjection(movieID, cityID, openHourID, date);
+                this.projectionsServices.AddNewProjection(movieID, cityID, openHourID);
 
                 string successfullyAdded = $"Projection {projectionDetails[0]} " +
                     $"sucessfully added to the database";

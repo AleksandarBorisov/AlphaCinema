@@ -6,9 +6,8 @@ using System.Linq;
 
 namespace AlphaCinema.Core.Commands.BasicCommands
 {
-	class AddCity : ICommand
+	public class AddCity : ICommand
 	{
-		private readonly ICommandProcessor commandProcessor;
 		private readonly ICityServices cityServices;
 		private readonly IAlphaCinemaConsole cinemaConsole;
 
@@ -34,7 +33,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			catch (InvalidClientInputException e)
 			{
 				cinemaConsole.HandleException(e.Message);
-                return parameters.Skip(1);
+				return parameters.Skip(1);
             }
 			catch (EntityAlreadyExistsException e)
 			{
@@ -49,7 +48,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			{
 				throw new InvalidClientInputException("\nInvalid city name");
 			}
-			if (cityName.All(c => char.IsDigit(c)))
+			if (cityName.Any(c => char.IsDigit(c)))
 			{
 				throw new InvalidClientInputException("\nCity cannot be only digits");
 			}

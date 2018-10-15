@@ -13,8 +13,8 @@ namespace AlphaCinemaData.Configurations
 				{
 					p.MovieId,
 					p.CityId,
-					p.OpenHourId,
-					p.Date
+					p.OpenHourId
+					//p.Date
 				})
 				.IsUnique(true);
 		}

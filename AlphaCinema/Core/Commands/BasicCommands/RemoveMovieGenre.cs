@@ -68,9 +68,9 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			{
 				throw new InvalidClientInputException("\nInvalid name");
 			}
-			if ((movieName.All(c => char.IsDigit(c))) || (genreName.All(c => char.IsDigit(c))))
+			if (genreName.Any(c => char.IsDigit(c)))
 			{
-				throw new InvalidClientInputException("\nInput cannot be only digits");
+				throw new InvalidClientInputException("\nGenre name cannot be only digits");
 			}
 		}
 	}

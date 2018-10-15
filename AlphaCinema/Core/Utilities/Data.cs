@@ -73,15 +73,14 @@ namespace AlphaCinema.Core.Utilities
             indexOfMovies = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3 };
             var indexOfCities = new List<int>() { 1, 2, 2, 2, 5, 2, 2, 1, 4, 5, 5, 5, 3, 3, 2, 1, 2, 3, 4, 5 };
             var indexOfOpenHours = new List<int>() { 1, 2, 3, 4, 5, 1, 5, 3, 4, 5, 2, 3, 4, 1, 2, 3, 5, 4, 3, 1 };
-            Random rnd = new Random();
+
             for (int i = 0; i < 20; i++)
             {
                 var projection = new Projection
                 {
                     MovieId = indexOfMovies[i],
                     CityId = indexOfCities[i],
-                    OpenHourId = indexOfOpenHours[i],
-                    Date = DateTime.Now.AddDays(-rnd.Next(2))
+                    OpenHourId = indexOfOpenHours[i]
                 };
                 context.Projections.Add(projection);
                 context.SaveChanges();

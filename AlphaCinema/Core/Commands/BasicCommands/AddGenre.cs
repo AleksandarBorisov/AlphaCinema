@@ -8,7 +8,6 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 {
 	public class AddGenre : ICommand
 	{
-		private readonly ICommandProcessor commandProcessor;
 		private readonly IGenreServices genreServices;
 		private readonly IAlphaCinemaConsole cinemaConsole;
 
@@ -51,7 +50,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			{
 				throw new InvalidClientInputException("\nInvalid genre name");
 			}
-			if (genreName.All(c => char.IsDigit(c)))
+			if (genreName.Any(c => char.IsDigit(c)))
 			{
 				throw new InvalidClientInputException("\nGenre cannot be only digits");
 			}

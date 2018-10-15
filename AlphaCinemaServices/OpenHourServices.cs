@@ -10,6 +10,7 @@ namespace AlphaCinemaServices
 	public class OpenHourServices : IOpenHourServices
 	{
 		private readonly IUnitOfWork unitOfWork;
+		private OpenHour openHour;
 
 		public OpenHourServices(IUnitOfWork unitOfWork)
 		{
@@ -27,25 +28,22 @@ namespace AlphaCinemaServices
         private OpenHour IfExist(string openHour)
         {
             return this.unitOfWork.OpenHours.AllAndDeleted()
-                .Where(opHour => opHour.StartHour.ToString() == openHour)
+                .Where(opHour => opHour.StartHour == openHour)
                 .FirstOrDefault();
         }
 
         public int GetID(string startHour)
 		{
-            if(IfExist(startHour) == null)
-            {
-                throw new EntityDoesntExistException($"StartHour {startHour} is not present in the database.");
-            }
+			openHour = IfExist(startHour);
 
-            var id = this.unitOfWork.OpenHours.All()
-				.Where(h => h.StartHour == startHour)
-				.Select(h => h.Id).FirstOrDefault();
-
-			return id;
+			if (openHour == null || openHour.IsDeleted)
+			{//Ако няма такова или е изтрито
+				throw new EntityDoesntExistException($"StartHour {startHour} is not present in the database.");
+			}
+			return openHour.Id;
 		}
 
-		public List<string> GetOpenHours()
+		public ICollection<string> GetOpenHours()
 		{
 			var hours = this.unitOfWork.OpenHours.All()
 				.Select(hour => hour.StartHour)

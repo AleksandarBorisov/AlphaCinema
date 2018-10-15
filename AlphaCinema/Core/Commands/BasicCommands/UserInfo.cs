@@ -39,24 +39,37 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 "Home"
             };
 
-            string enterUserName = "Type user name:";
+            string enterUserName = "Type user name | age:";
             int currentRow = startingRow * 0;
 
             selector.PrintAtPosition(displayItems[0].ToUpper(), currentRow++ + offSetFromTop, false);
             selector.PrintAtPosition(enterUserName, currentRow++ + offSetFromTop, false);
 
-            string userName = selector.ReadAtPosition(currentRow++ + offSetFromTop, enterUserName, false, 250);
-
-            displayItems.Add(offSetFromTop.ToString());
+            string inputDetails = selector.ReadAtPosition(currentRow++ + offSetFromTop, enterUserName, false, 250);
+			string[] userDetails = inputDetails.Split('|');
+			displayItems.Add(offSetFromTop.ToString());
             displayItems.Add(startingRow.ToString());
 
             try
             {
-                //Just clear enterUserName string from the console
-                selector.PrintAtPosition(new string(' ', enterUserName.Length), startingRow * 1 + offSetFromTop, false);
+				var userName = userDetails[0];
+				if (userDetails.Length != 2)
+				{
+					throw new ArgumentException("Please enter two arguments");
+				}
+				if (string.IsNullOrEmpty(userName))
+				{
+					throw new ArgumentException("User name cannot be empty");
+				}
+				if (!int.TryParse(userDetails[1].Trim(), out int age))
+				{
+					throw new ArgumentException("Age must be integer number");
+				}
+				//Just clear enterUserName string from the console
+				selector.PrintAtPosition(new string(' ', enterUserName.Length), startingRow * 1 + offSetFromTop, false);
 
                 //Find user by name
-                int userID = this.userServices.GetID(userName);
+                int userID = this.userServices.GetID(userName, age);
 
                 //Get projections that user has been on them
                 var projections = this.userServices.GetProjectionsByUserID(userID);

@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using AlphaCinemaData.Models;
+using System.Collections.Generic;
 
 namespace AlphaCinemaServices.Contracts
 {
 	public interface ICityServices
 	{
 		int GetID(string cityName);
-		List<string> GetCityNames();
+		ICollection<string> GetGenreNames(int cityID);
 
 		void AddNewCity(string cityName);
 		void DeleteCity(string cityName);
-		List<string> GetGenreNames(int cityID);
+		City IfExist(string name);
+		ICollection<string> GetCityNames();
 	}
 }

@@ -26,14 +26,19 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 		{
             var parameters = input.ToList();
             cinemaConsole.Clear();
-			cinemaConsole.WriteLineMiddle("Type a user name:\n");
+			cinemaConsole.WriteLineMiddle("Type a user name | age:\n");
 
             try
 			{
-				var userName = cinemaConsole.ReadLineMiddle().TrimEnd().TrimStart();
-				Validations(userName);
+				var clientInput = cinemaConsole.ReadLineMiddle().Split('|');
+				var userName = clientInput[0];
+				if (!int.TryParse(clientInput[1], out int userAge))
+				{
+					throw new InvalidClientInputException("Age must be integer number");
+				}
+				Validations(userName, userAge);
 
-                var movies = watchedMovieServices.GetWatchedMoviesByUserName(userName);
+                var movies = watchedMovieServices.GetWatchedMoviesByUserName(userName, userAge);
 
                 pdfExporter.ExportUserWatchedMovies(movies, userName);
 				cinemaConsole.HandleOperation("\nSuccessfully exported data to PDF");
@@ -51,16 +56,16 @@ namespace AlphaCinema.Core.Commands.BasicCommands
             }
 		}
 
-		private void Validations(string userName)
+		private void Validations(string userName, int userAge)
 		{
 			if (string.IsNullOrWhiteSpace(userName))
 			{
 				throw new InvalidClientInputException("\nInvalid user name");
 			}
-			if (!userServices.IfExist(userName) || userServices.IsDeleted(userName))
-			{
-				throw new EntityDoesntExistException("\nUser is not present in the database.");
-			}	
+			//if (!userServices.IfExist(userName) || userServices.IsDeleted(userName))
+			//{
+			//	throw new EntityDoesntExistException("\nUser is not present in the database.");
+			//}	
 			if (userName.All(c => char.IsDigit(c)))
 			{
 				throw new InvalidClientInputException("\nUser cannot be only digits");

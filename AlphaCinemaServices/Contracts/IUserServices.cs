@@ -6,16 +6,14 @@ namespace AlphaCinemaServices.Contracts
 {
     public interface IUserServices
     {
-		int GetID(string userName);
+		int GetID(string userName, int age);
 
         User AddNewUser(string name, int age);
 
-        List<ProjectionDetailsViewModel> GetProjectionsByUserID(int userID);
+		ICollection<ProjectionDetailsViewModel> GetProjectionsByUserID(int userID);
 
-        List<ProjectionDetailsViewModel> GetMoviesByUserAge(int minAge, int maxAge);
-		bool IfExist(string userName);
-		bool IsDeleted(string userName);
-		User GetUserByID(int userID);
+		ICollection<ProjectionDetailsViewModel> GetMoviesByUserAge(int minAge, int maxAge);
+		User IfExist(string userName, int age);
 		HashSet<User> GetUsers();
 
 	}

@@ -28,7 +28,6 @@ namespace AlphaCinema.Core.Commands.BasicCommands
             {
                 string movieName = cinemaConsole.ReadLineMiddle().TrimEnd().TrimStart();
                 Validations(movieName);
-
                 movieServices.DeleteMovie(movieName);
                 cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
                 return parameters.Skip(1);

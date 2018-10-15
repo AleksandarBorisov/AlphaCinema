@@ -1,6 +1,7 @@
 ﻿using AlphaCinema.Core.Contracts;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,9 +39,10 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 var movieID = movieServices.GetID(input[0].TrimEnd().TrimStart());
                 var cityID = cityServices.GetID(input[1].TrimEnd().TrimStart());
                 var openHourID = openHourServices.GetID(input[2].TrimEnd().TrimStart());
-                var date = projectionsServices.GetDate(movieID, cityID, openHourID);
+				var date = DateTime.Parse(input[3]);
 
-                projectionsServices.Delete(movieID, cityID, openHourID, date);
+
+                projectionsServices.Delete(cityID, movieID, openHourID);
                 cinemaConsole.HandleOperation("\nSuccessfully deleted from database");
                 return parameters.Skip(1);
             }
@@ -68,12 +70,15 @@ namespace AlphaCinema.Core.Commands.BasicCommands
             }
             var movieName = input[0];
             var genreName = input[1];
+			var openHour = input[2];
+			var date = input[3];
 
-            if (string.IsNullOrWhiteSpace(movieName) || string.IsNullOrWhiteSpace(genreName))
+            if (string.IsNullOrWhiteSpace(movieName) || string.IsNullOrWhiteSpace(genreName)
+				|| string.IsNullOrWhiteSpace(openHour) || string.IsNullOrWhiteSpace(date))
             {
-                throw new InvalidClientInputException("\nInvalid name");
+                throw new InvalidClientInputException("\nInvalid input");
             }
-            if ((movieName.All(c => char.IsDigit(c))) || (genreName.All(c => char.IsDigit(c))))
+            if ((genreName.Any(c => char.IsDigit(c))))
             {
                 throw new InvalidClientInputException("\nInput cannot be only digits");
             }

@@ -9,6 +9,7 @@ namespace AlphaCinemaServices
     public class MovieGenreServices : IMovieGenreServices
     {
 		private readonly IUnitOfWork unitOfWork;
+		private MovieGenre movieGenre;
         
         public MovieGenreServices(IUnitOfWork unitOfWork)
         {
@@ -17,59 +18,51 @@ namespace AlphaCinemaServices
 
 		public void AddNew(int movieID, int genreID)
 		{
-			 // TODO: трябва да се добави добавяне на нов жанр и филм, малко по-късно ще го оправя
-			if (IfExist(movieID, genreID) && IsDeleted(movieID, genreID))
+			movieGenre = IfExist(movieID, genreID);
+			// TODO: трябва да се добави добавяне на нов жанр и филм, малко по-късно ще го оправя
+			if (movieGenre != null)
 			{
-				var movieGenreObj = this.unitOfWork.MovieGenres.AllAndDeleted()
-					.FirstOrDefault(mg => mg.MovieId == movieID && mg.GenreId == genreID);
-				movieGenreObj.IsDeleted = false;
-				this.unitOfWork.SaveChanges();
-			}
-			else if (IfExist(movieID, genreID) && !IsDeleted(movieID, genreID))
-			{
-				throw new EntityAlreadyExistsException("That link is already added.");
+				if (movieGenre.IsDeleted)
+				{
+					movieGenre.IsDeleted = false;
+
+					this.unitOfWork.SaveChanges();
+					return;
+				}
+				throw new EntityAlreadyExistsException($"Movie Genre combination is already present in database.");
 			}
 			else
 			{
-				var movieGenreObj = new MovieGenre()
+				movieGenre = new MovieGenre()
 				{
 					MovieId = movieID,
 					GenreId = genreID
 				};
-				this.unitOfWork.MovieGenres.Add(movieGenreObj);
+				this.unitOfWork.MovieGenres.Add(movieGenre);
 				this.unitOfWork.SaveChanges();
 			}
 		}
 
 		public void Delete(int movieID, int genreID)
 		{
-			if (IfExist(movieID, genreID) && IsDeleted(movieID, genreID))
+			movieGenre = IfExist(movieID, genreID);
+
+			if (movieGenre == null || movieGenre.IsDeleted)
 			{
-				throw new EntityDoesntExistException("\n Link is not present in the database.");
+				throw new EntityDoesntExistException("\nProjection is not present in the database.");
 			}
-			else if (IfExist(movieID, genreID) && !IsDeleted(movieID, genreID))
+			else if (!movieGenre.IsDeleted)
 			{
-				var movieGenreObject = this.unitOfWork.MovieGenres.All()
-					.Where(mg => mg.MovieId == movieID && mg.GenreId == genreID)
-					.FirstOrDefault();
-				this.unitOfWork.MovieGenres.Delete(movieGenreObject);
+				this.unitOfWork.MovieGenres.Delete(movieGenre);
 			}
 			this.unitOfWork.Cities.Save();
 		}
 
-		private bool IfExist(int movieID, int genreID)
+		public MovieGenre IfExist(int movieID, int genreID)
 		{
 			return this.unitOfWork.MovieGenres.AllAndDeleted()
 				.Where(mg => mg.Movie.Id == movieID && mg.Genre.Id == genreID)
-				.FirstOrDefault() == null ? false : true;
-		}
-
-		private bool IsDeleted(int movieId, int genreID)
-		{
-			return this.unitOfWork.MovieGenres.AllAndDeleted()
-				.Where(mg => mg.MovieId == movieId && mg.GenreId == genreID)
-				.FirstOrDefault()
-				.IsDeleted;
+				.FirstOrDefault();
 		}
     }
 }

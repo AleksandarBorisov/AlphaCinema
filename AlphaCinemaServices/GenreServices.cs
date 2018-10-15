@@ -9,6 +9,7 @@ namespace AlphaCinemaServices
 	public class GenreServices : IGenreServices
 	{
 		private readonly IUnitOfWork unitOfWork;
+		private Genre genre;
 
 		public GenreServices(IUnitOfWork unitOfWork)
 		{
@@ -17,36 +18,33 @@ namespace AlphaCinemaServices
 
 		public int GetID(string genreName)
 		{
-			if (!IfExist(genreName) || IsDeleted(genreName))
+			genre = IfExist(genreName);
+			if (genre == null || genre.IsDeleted)
 			{
-				throw new EntityDoesntExistException($"\n{genreName} is not present in the database.");
+				throw new EntityDoesntExistException($"\n{genre.Name} is not present in the database.");
 			}
-			var id = this.unitOfWork.Genres.All()
-				.Where(genre => genre.Name == genreName)
-				.Select(genre => genre.Id)
-				.FirstOrDefault();
-
-			return id;
+			return genre.Id;
 		}
 
 		public void AddNewGenre(string genreName)
 		{
-            if (IfExist(genreName) && IsDeleted(genreName))
+			genre = IfExist(genreName);
+			if (genre != null)
 			{
-				var genre = this.unitOfWork.Genres.AllAndDeleted()
-					.FirstOrDefault(g => g.Name == genreName);
-				genre.IsDeleted = false;
-				this.unitOfWork.Genres.Save();
-
-				return;
-			}
-			else if (IfExist(genreName) && !IsDeleted(genreName))
-			{
-				throw new EntityAlreadyExistsException($"Genre {genreName} is already present in the database.");
+				if (genre.IsDeleted)
+				{
+					genre.IsDeleted = false;
+					this.unitOfWork.Genres.Save();
+					return;
+				}
+				else
+				{
+					throw new EntityAlreadyExistsException("\nGenre is already present in the database.");
+				}
 			}
 			else
 			{
-				var genre = new Genre()
+				genre = new Genre()
 				{
 					Name = genreName
 				};
@@ -57,36 +55,21 @@ namespace AlphaCinemaServices
 
 		public void DeleteGenre(string genreName)
 		{
-			if (!IfExist(genreName))
+			genre = IfExist(genreName);
+			if (genre == null || genre.IsDeleted)
 			{
 				throw new EntityDoesntExistException("\nGenre is not present in the database.");
 			}
-			else if (IfExist(genreName) && IsDeleted(genreName))
-			{
-				throw new EntityDoesntExistException($"Genre {genreName} is not present in the database.");
-			}
-			var entity = this.unitOfWork.Genres.All()
-				.Where(g => g.Name == genreName)
-				.FirstOrDefault();
 
-			this.unitOfWork.Genres.Delete(entity);
+			this.unitOfWork.Genres.Delete(genre);
 			this.unitOfWork.Genres.Save();
 		}
 
-        private bool IfExist(string name)
+        public  Genre IfExist(string genreName)
 		{
 			return this.unitOfWork.Genres.AllAndDeleted()
-				.Where(g => g.Name == name)
-				.FirstOrDefault() == null ? false : true;
-		}
-
-		private bool IsDeleted(string genreName)
-		{
-			var result = this.unitOfWork.Genres.AllAndDeleted()
 				.Where(g => g.Name == genreName)
-				.FirstOrDefault()
-				.IsDeleted;
-			return result;
+				.FirstOrDefault();
 		}
 	}
 }

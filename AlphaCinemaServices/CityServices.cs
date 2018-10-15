@@ -10,6 +10,7 @@ namespace AlphaCinemaServices
 	public class CityServices : ICityServices
 	{
 		private readonly IUnitOfWork unitOfWork;
+		private City city;
 
 		public CityServices(IUnitOfWork unitOfWork)
 		{
@@ -18,45 +19,33 @@ namespace AlphaCinemaServices
 
 		public int GetID(string cityName)
 		{
-			if (!IfExist(cityName) && IsDeleted(cityName))
+			city = IfExist(cityName);
+			if (city == null || city.IsDeleted)
 			{
 				throw new EntityDoesntExistException($"\n{cityName} is not present in the database.");
 			}
-			var id = this.unitOfWork.Cities.All()
-				.Where(c => c.Name == cityName)
-				.Select(c => c.Id)
-				.FirstOrDefault();
-
-			return id;
-		}
-
-		public List<string> GetCityNames()
-		{
-            var cityNames = this.unitOfWork.Cities.All()
-                .Select(city => city.Name)
-                .ToList();
-            
-			return cityNames;
+			return city.Id;
 		}
 
 		public void AddNewCity(string cityName)
 		{
-			if (IfExist(cityName) && IsDeleted(cityName))
+			city = IfExist(cityName);
+			if (city != null)
 			{
-				var city = this.unitOfWork.Cities.AllAndDeleted()
-					.FirstOrDefault(c => c.Name == cityName);
-				city.IsDeleted = false;
-				this.unitOfWork.Cities.Save();
-
-				return;
-			}
-			else if (IfExist(cityName) && !IsDeleted(cityName))
-			{
-				throw new EntityAlreadyExistsException("\nCity is already present in the database.");
+				if (city.IsDeleted)
+				{
+					city.IsDeleted = false;
+					this.unitOfWork.Cities.Save();
+					return;
+				}
+				else
+				{
+					throw new EntityAlreadyExistsException("\nCity is already present in the database.");
+				}
 			}
 			else
 			{
-				var city = new City()
+				city = new City()
 				{
 					Name = cityName
 				};
@@ -67,23 +56,17 @@ namespace AlphaCinemaServices
 
 		public void DeleteCity(string cityName)
 		{
-			if (!IfExist(cityName))
+			city = IfExist(cityName);
+			if (city == null || city.IsDeleted)
 			{
 				throw new EntityDoesntExistException("\nCity is not present in the database.");
 			}
-			else if (IfExist(cityName) && IsDeleted(cityName))
-			{
-				throw new EntityDoesntExistException("\nCity is not present in the database.");
-			}
-			var entity = this.unitOfWork.Cities.All()
-				.Where(c => c.Name == cityName)
-				.FirstOrDefault();
 
-			this.unitOfWork.Cities.Delete(entity);
+			this.unitOfWork.Cities.Delete(city);
 			this.unitOfWork.Cities.Save();
 		}
 
-		public List<string> GetGenreNames(int cityID)
+		public ICollection<string> GetGenreNames(int cityID)
 		{
 			var genreNames = this.unitOfWork.Cities.All()
 				.Where(city => city.Id == cityID)
@@ -96,20 +79,20 @@ namespace AlphaCinemaServices
 			return genreNames;
 		}
 
-		private bool IfExist(string name)
+		public ICollection<string> GetCityNames()
+		{
+			var cityNames = this.unitOfWork.Cities.All()
+				.Select(city => city.Name)
+				.ToList();
+
+			return cityNames;
+		}
+
+		public City IfExist(string name)
 		{
 			return this.unitOfWork.Cities.AllAndDeleted()
 				.Where(c => c.Name == name)
-				.FirstOrDefault() == null ? false : true;
-		}
-
-		private bool IsDeleted(string cityName)
-		{
-			var result = this.unitOfWork.Cities.AllAndDeleted()
-				.Where(c => c.Name == cityName)
-				.FirstOrDefault()
-				.IsDeleted;
-			return result;
+				.FirstOrDefault();
 		}
 	}
 }

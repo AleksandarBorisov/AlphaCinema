@@ -6,13 +6,11 @@ namespace AlphaCinemaServices.Contracts
 {
 	public interface IProjectionsServices
 	{
-        void AddNewProjection(int movieID, int cityID, int openHourID, DateTime date);
+        void AddNewProjection(int movieID, int cityID, int openHourID);
 		int GetID(int cityID, int movieID, int openHourID);
-		DateTime GetDate(int movieID, int cityID, int openHourID);
-		void Delete(int movieID, int cityID, int openHourID, DateTime date);
+		void Delete(int movieID, int cityID, int openHourID);
 
-		Projection GetProjectionByID(int id);
-		List<string> GetOpenHoursByMovieIDCityID(int movieID, int cityID);
-		Projection GetProjection(int cityID, int movieID, int openHourID);
+		ICollection<string> GetOpenHoursByMovieIDCityID(int movieID, int cityID);
+		Projection IfExist(int cityID, int movieID, int openHourID);
 	}
 }

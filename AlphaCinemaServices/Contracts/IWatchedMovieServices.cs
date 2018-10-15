@@ -6,7 +6,7 @@ namespace AlphaCinemaServices.Contracts
     public interface IWatchedMovieServices
     {
 		void AddNewWatchedMovie(int userID, int resevationID);
-		IEnumerable<Movie> GetWatchedMoviesByUserName(string userName);
+		IEnumerable<Movie> GetWatchedMoviesByUserName(string userName, int age);
 
 	}
 }

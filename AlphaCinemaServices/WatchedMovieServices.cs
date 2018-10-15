@@ -11,6 +11,7 @@ namespace AlphaCinemaServices
     public class WatchedMovieServices : IWatchedMovieServices
     {
 		private readonly IUnitOfWork unitOfWork;
+		private WatchedMovie watchedMovie;
 
 		public WatchedMovieServices(IUnitOfWork unitOfWork)
         {
@@ -19,13 +20,14 @@ namespace AlphaCinemaServices
 
 		public void AddNewWatchedMovie(int userID, int resevationID)
 		{
-			if (IfExist(userID, resevationID) != null)
+			watchedMovie = IfExist(userID, resevationID);
+			if (watchedMovie != null)
 			{
 				throw new EntityAlreadyExistsException("You have already booked this projection");
 			}
 			else
 			{
-				var watchedMovie = new WatchedMovie()
+				watchedMovie = new WatchedMovie()
 				{
 					UserId = userID,
 					ProjectionId = resevationID
@@ -35,12 +37,13 @@ namespace AlphaCinemaServices
 			}
 		}
 
-		public IEnumerable<Movie> GetWatchedMoviesByUserName(string userName)
+		public IEnumerable<Movie> GetWatchedMoviesByUserName(string userName, int age)
 		{
 			var movies = this.unitOfWork.Movies.All()
 				.SelectMany(m => m.Projections)
 				.SelectMany(wm => wm.WatchedMovies)
 				.Where(u => u.User.Name == userName)
+				.Where(u => u.User.Age == age)
 				.Select(m => m.Projection.Movie)
 				.ToList();
 			return movies;

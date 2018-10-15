@@ -55,7 +55,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
 			foreach (var user in users)
 			{
-				var moviesByUser = watchedMovieServices.GetWatchedMoviesByUserName(user.Name);
+				var moviesByUser = watchedMovieServices.GetWatchedMoviesByUserName(user.Name, user.Age);
 				foreach (var movie in moviesByUser)
 				{
 					if (!watchedMovies.ContainsKey(user.Name))

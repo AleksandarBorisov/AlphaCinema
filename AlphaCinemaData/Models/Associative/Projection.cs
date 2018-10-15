@@ -14,7 +14,7 @@ namespace AlphaCinemaData.Models.Associative
 
         public int OpenHourId { get; set; }
 
-        public DateTime Date { get; set; }
+       //public DateTime Date { get; set; }
 
         public Movie Movie { get; set; }
 
@@ -25,11 +25,5 @@ namespace AlphaCinemaData.Models.Associative
         public ICollection<WatchedMovie> WatchedMovies { get; set; }
 
 		public bool IsDeleted { get; set; }
-
-		public override string ToString()
-		{
-			return $"{Movie.Name},{City.Name},{OpenHour.StartHour},{Date.ToString()}";
-		}
-
 	}
 }

@@ -48,7 +48,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 			{
 				throw new InvalidClientInputException("\nInvalid city name");
 			}
-			if (cityName.All(c => char.IsDigit(c)))
+			if (cityName.Any(c => char.IsDigit(c)))
 			{
 				throw new InvalidClientInputException("\nCity cannot be only digits");
 			}
