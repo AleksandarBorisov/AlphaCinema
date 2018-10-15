@@ -31,8 +31,12 @@ namespace AlphaCinema.Core.Commands.BasicCommands
             cinemaConsole.Clear();
 			try
 			{
+                //Fill watchedMovies with data
 				FillCollectionWithData();
+
+                //Export watchedMovies by users in pdf file
 				pdfExporter.ExportWatchedMoviesByUsers(watchedMovies);
+
 				cinemaConsole.HandleOperation("\nSuccessfully exported data to PDF");
                 return parameters.Skip(1);
             }
@@ -50,12 +54,12 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
 		private void FillCollectionWithData()
 		{
-			var users = userServices.GetUsers();
+			var users = this.userServices.GetUsers();
 			Validations(users);
 
 			foreach (var user in users)
 			{
-				var moviesByUser = watchedMovieServices.GetWatchedMoviesByUserName(user.Name, user.Age);
+				var moviesByUser = this.watchedMovieServices.GetWatchedMoviesByUserName(user.Name, user.Age);
 				foreach (var movie in moviesByUser)
 				{
 					if (!watchedMovies.ContainsKey(user.Name))

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AlphaCinemaTests.AlphaCinema.Core.Commands.DisplayMenusTests
+namespace AlphaCinemaTests.AlphaCinema.Core.Commands.DisplayMenusTests.ChooseMovieTests
 {
     [TestClass]
     public class ChooseMovie_Execute_Should
