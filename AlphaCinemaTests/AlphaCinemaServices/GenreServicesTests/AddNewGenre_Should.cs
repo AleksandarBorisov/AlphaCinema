@@ -2,6 +2,7 @@
 using AlphaCinemaData.Repository;
 using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices;
+using AlphaCinemaServices.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -42,6 +43,32 @@ namespace AlphaCinemaTests.AlphaCinemaServices.GenreServicesTests
             Assert.AreEqual(1, predifinedListOfGenres.Count);
         }
 
+        [TestMethod]
+        [DataRow("Comedy")]
+        public void ThrowsEntityAlreadyExistsException_WhenGenreExist(string genreName)
+        {
+            ////Arrange
+            //var unitOfWorkMock = new Mock<IUnitOfWork>();
+            //var genreRepoMock = new Mock<IRepository<Genre>>();
+            //
+            //var predifinedListOfGenres = new List<Genre>();
+            //var genreMock = new Mock<Genre>();
+            //
+            ////Setup
+            //unitOfWorkMock.Setup(unitOfWork => unitOfWork.Genres)
+            //    .Returns(genreRepoMock.Object);
+            //
+            //genreMock.Setup(genre => genre.IsDeleted)
+            //    .Returns(false);
+            //
+            ////Act
+            //var genreServices = new GenreServices(unitOfWorkMock.Object);
+            //genreServices.AddNewGenre(genreName);
+            //
+            ////Assert
+            //Assert.ThrowsException<EntityAlreadyExistsException>(() =>
+            //genreServices.AddNewGenre(genreName));
+        }
 
 
     }

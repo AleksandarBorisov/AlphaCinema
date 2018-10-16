@@ -21,7 +21,7 @@ namespace AlphaCinemaServices
 			genre = IfExist(genreName);
 			if (genre == null || genre.IsDeleted)
 			{
-				throw new EntityDoesntExistException($"\n{genre.Name} is not present in the database.");
+				throw new EntityDoesntExistException($"\n{genreName} is not present in the database.");
 			}
 			return genre.Id;
 		}
@@ -65,7 +65,7 @@ namespace AlphaCinemaServices
 			this.unitOfWork.Genres.Save();
 		}
 
-        public  Genre IfExist(string genreName)
+        public Genre IfExist(string genreName)
 		{
 			return this.unitOfWork.Genres.AllAndDeleted()
 				.Where(g => g.Name == genreName)
