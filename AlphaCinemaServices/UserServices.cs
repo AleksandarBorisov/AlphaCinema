@@ -19,9 +19,9 @@ namespace AlphaCinemaServices
 			this.unitOfWork = unitOfWork;
 		}
 
-		public int GetID(string userName, int age)
+		public int GetID(string userName)
 		{
-			user = IfExist(userName, age);
+			user = IfExist(userName);
 
 			if (user == null || user.IsDeleted)
 			{//Ако няма такова или е изтрито
@@ -32,7 +32,7 @@ namespace AlphaCinemaServices
 
 		public User AddNewUser(string name, int age)
 		{
-			user = IfExist(name, age);
+			user = IfExist(name);
 			if (name.Length > 50)
 			{
 				throw new ArgumentException("User Name can't be more than 50 characters");
@@ -106,7 +106,7 @@ namespace AlphaCinemaServices
             return movieInfo;
         }
 
-		private User IfExist(string userName, int age)
+		private User IfExist(string userName)
 		{
 			return this.unitOfWork.Users.AllAndDeleted()
 				.Where(user => user.Name == userName)
@@ -118,5 +118,10 @@ namespace AlphaCinemaServices
 			return this.unitOfWork.Users.All()
 				.ToHashSet();
 		}
+
+        public User GetUser(string userName)
+        {
+            return IfExist(userName);
+        }
 	}
 }

@@ -6,24 +6,22 @@ namespace AlphaCinemaData.Models.Associative
 {
     public class Projection : IDeletable
     {
-        public int Id { get; set; }
+		virtual public int Id { get; set; }
 
-        public int MovieId { get; set; }
+		virtual public int MovieId { get; set; }
 
-        public int CityId { get; set; }
+		virtual public int CityId { get; set; }
 
-        public int OpenHourId { get; set; }
+		virtual public int OpenHourId { get; set; }
 
-       //public DateTime Date { get; set; }
 
-        public Movie Movie { get; set; }
+		virtual public Movie Movie { get; set; }
 
-        public City City { get; set; }
+		virtual public City City { get; set; }
 
-        public OpenHour OpenHour { get; set; }
+		virtual public OpenHour OpenHour { get; set; }	
+		virtual public ICollection<WatchedMovie> WatchedMovies { get; set; }
 
-        public ICollection<WatchedMovie> WatchedMovies { get; set; }
-
-		public bool IsDeleted { get; set; }
+		virtual public bool IsDeleted { get; set; }
 	}
 }

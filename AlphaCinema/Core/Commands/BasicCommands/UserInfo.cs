@@ -68,7 +68,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 				selector.PrintAtPosition(new string(' ', enterUserName.Length), startingRow * 1 + offSetFromTop, false);
 
                 //Find user by name
-                int userID = this.userServices.GetID(userName, age);
+                int userID = this.userServices.GetID(userName);
 
                 //Get projections that user has been on them
                 var projections = this.userServices.GetProjectionsByUserID(userID);

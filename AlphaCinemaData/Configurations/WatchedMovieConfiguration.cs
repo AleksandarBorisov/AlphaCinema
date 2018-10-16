@@ -14,6 +14,16 @@ namespace AlphaCinemaData.Configurations
                     wm.UserId,
                     wm.ProjectionId
                 });
+
+			builder
+				.HasOne(u => u.User)
+				.WithMany(wm => wm.WatchedMovies)
+				.HasForeignKey(wm => wm.UserId);
+
+			builder
+				.HasOne(p => p.Projection)
+				.WithMany(pr => pr.WatchedMovies)
+				.HasForeignKey(p => p.ProjectionId);
         }
     }
 }

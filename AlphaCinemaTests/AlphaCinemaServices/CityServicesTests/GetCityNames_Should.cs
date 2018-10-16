@@ -25,10 +25,15 @@ namespace AlphaCinemaTests.AlphaCinemaServices.CityServicesTests
             unitOfWork = new Mock<IUnitOfWork>();
             cityRepoMock = new Mock<IRepository<City>>();
             firstCityMock = new Mock<City>();
-            firstCityMock.Object.Name = this.firstCityName;
-            secondCityMock = new Mock<City>();
-            secondCityMock.Object.Name = this.secondCityName;
-        }
+			firstCityMock
+				.Setup(c => c.Name)
+				.Returns("TestCityOne");
+
+			secondCityMock = new Mock<City>();
+			secondCityMock
+				.Setup(c => c.Name)
+				.Returns("TestCityTwo");
+		}
 
         [TestMethod]
         public void ReturnCollectionOfCities()

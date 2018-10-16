@@ -4,15 +4,15 @@ namespace AlphaCinemaData.Models.Associative
 {
     public class MovieGenre : IDeletable
     {
-		public int MovieId { get; set; }
-        
-        public int GenreId { get; set; }
+		virtual public int MovieId { get; set; }
 
-        public Movie Movie { get; set; }
+		virtual public int GenreId { get; set; }
 
-        public Genre Genre { get; set; }
+		virtual public Movie Movie { get; set; }
 
-		public bool IsDeleted { get; set; }
+		virtual public Genre Genre { get; set; }
+
+		virtual public bool IsDeleted { get; set; }
 
 	}
 }

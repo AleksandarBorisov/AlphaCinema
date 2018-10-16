@@ -36,7 +36,7 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 				{
 					throw new InvalidClientInputException("Age must be integer number");
 				}
-				Validations(userName, userAge);
+				Validations(userName);
 
                 var movies = watchedMovieServices.GetWatchedMoviesByUserName(userName, userAge);
 
@@ -56,16 +56,17 @@ namespace AlphaCinema.Core.Commands.BasicCommands
             }
 		}
 
-		private void Validations(string userName, int userAge)
+		private void Validations(string userName)
 		{
+			var user = userServices.GetUser(userName);
 			if (string.IsNullOrWhiteSpace(userName))
 			{
 				throw new InvalidClientInputException("\nInvalid user name");
 			}
-			//if (!userServices.IfExist(userName) || userServices.IsDeleted(userName))
-			//{
-			//	throw new EntityDoesntExistException("\nUser is not present in the database.");
-			//}	
+			if (user == null || user.IsDeleted)
+			{
+				throw new EntityDoesntExistException("\nUser is not present in the database.");
+			}
 			if (userName.All(c => char.IsDigit(c)))
 			{
 				throw new InvalidClientInputException("\nUser cannot be only digits");
