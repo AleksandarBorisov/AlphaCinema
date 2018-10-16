@@ -10,7 +10,6 @@ namespace AlphaCinemaServices.Contracts
 
 		void AddNewCity(string cityName);
 		void DeleteCity(string cityName);
-		City IfExist(string name);
 		ICollection<string> GetCityNames();
 	}
 }

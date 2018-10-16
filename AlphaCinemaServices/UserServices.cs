@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AlphaCinemaServices.Exceptions;
 using AlphaCinemaData.ViewModels;
-using System.Data.SqlClient;
 
 namespace AlphaCinemaServices
 {
@@ -107,11 +106,10 @@ namespace AlphaCinemaServices
             return movieInfo;
         }
 
-		public User IfExist(string userName, int age)
+		private User IfExist(string userName, int age)
 		{
 			return this.unitOfWork.Users.AllAndDeleted()
 				.Where(user => user.Name == userName)
-				.Where(user => user.Age == age)
 				.FirstOrDefault();
 		}
 

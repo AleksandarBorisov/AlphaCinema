@@ -2,7 +2,6 @@
 using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;
 using AlphaCinemaServices.Exceptions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -75,7 +74,7 @@ namespace AlphaCinemaServices
 			this.unitOfWork.SaveChanges();
 		}
 
-		public Projection IfExist(int cityID, int movieID, int openHourID)
+		private Projection IfExist(int cityID, int movieID, int openHourID)
 		{
 			return this.unitOfWork.Projections.AllAndDeleted()
 				.Where(pr => pr.MovieId == movieID)
@@ -83,13 +82,6 @@ namespace AlphaCinemaServices
 				.Where(pr => pr.OpenHourId == openHourID)
 				.FirstOrDefault();
 		}
-
-		//private bool CompareDates(DateTime firstDate, DateTime secondDate)
-		//{
-		//	return firstDate.Year == secondDate.Year
-		//		&& firstDate.Day == secondDate.Day
-		//		&& firstDate.Month == secondDate.Month;
-		//}
 
 		public ICollection<string> GetOpenHoursByMovieIDCityID(int movieID, int cityID)
 		{
@@ -100,6 +92,5 @@ namespace AlphaCinemaServices
 
 			return openHours;
 		}
-
 	}
 }

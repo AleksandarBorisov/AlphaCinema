@@ -94,7 +94,7 @@ namespace AlphaCinemaServices
 			return cityNames;
 		}
 
-		public City IfExist(string name)
+		private City IfExist(string name)
 		{
 			return this.unitOfWork.Cities.AllAndDeleted()
 				.Where(c => c.Name == name)

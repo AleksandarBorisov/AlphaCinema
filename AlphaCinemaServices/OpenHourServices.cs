@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using AlphaCinemaData.Models;
 using AlphaCinemaData.UnitOfWork;
 using AlphaCinemaServices.Contracts;

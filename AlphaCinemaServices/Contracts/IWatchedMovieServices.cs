@@ -7,6 +7,5 @@ namespace AlphaCinemaServices.Contracts
     {
 		void AddNewWatchedMovie(int userID, int resevationID);
 		IEnumerable<Movie> GetWatchedMoviesByUserName(string userName, int age);
-
 	}
 }

@@ -199,7 +199,7 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
         {
             // Arrange
             var contextOptions = new DbContextOptionsBuilder<AlphaCinemaContext>()
-                .UseInMemoryDatabase(databaseName: "AddAllPreviousProjections_WhenMovieIsRestored")
+                .UseInMemoryDatabase(databaseName: "AddAllPreviousMovieGenres_WhenMovieIsRestored")
                 .Options;
 
             movie.IsDeleted = true;

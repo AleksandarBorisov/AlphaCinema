@@ -65,7 +65,7 @@ namespace AlphaCinemaServices
 			this.unitOfWork.Genres.Save();
 		}
 
-        public Genre IfExist(string genreName)
+        private Genre IfExist(string genreName)
 		{
 			return this.unitOfWork.Genres.AllAndDeleted()
 				.Where(g => g.Name == genreName)

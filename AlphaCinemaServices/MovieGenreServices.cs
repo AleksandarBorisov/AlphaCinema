@@ -58,7 +58,7 @@ namespace AlphaCinemaServices
 			this.unitOfWork.Cities.Save();
 		}
 
-		public MovieGenre IfExist(int movieID, int genreID)
+		private MovieGenre IfExist(int movieID, int genreID)
 		{
 			return this.unitOfWork.MovieGenres.AllAndDeleted()
 				.Where(mg => mg.Movie.Id == movieID && mg.Genre.Id == genreID)
