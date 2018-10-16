@@ -16,23 +16,23 @@ namespace AlphaCinemaTests.AlphaCinemaServices.CityServicesTests
 		private string testCityName = "TestCityOne";
 		private City testCity;
 
-		[TestInitialize]
-		public void TestInitialize()//Този метод се изпълнява преди извикване на всеки един от другите методи в този клас
-		{
-			unitOfWork = new Mock<IUnitOfWork>();
-			cityRepoMock = new Mock<IRepository<City>>();
-			testCity = new City
-			{
-				Name = testCityName,
+        [TestInitialize]
+        public void TestInitialize()//Този метод се изпълнява преди извикване на всеки един от другите методи в този клас
+        {
+            unitOfWork = new Mock<IUnitOfWork>();
+            cityRepoMock = new Mock<IRepository<City>>();
+            testCity = new City
+            {
+                Name = testCityName,
 
-			};
-			//TODO GetGenreNamesByCityID Test
-		}
+            };
+            //TODO GetGenreNamesByCityID Test
+        }
 
-		[TestMethod]
-		public void ReturnCollectionOfGenreNames_WhenTheyExist()
-		{
+        //[TestMethod]
+        //public void ReturnCollectionOfGenreNames_WhenTheyExist()
+        //{
 
-		}
-	}
+        //}
+    }
 }
