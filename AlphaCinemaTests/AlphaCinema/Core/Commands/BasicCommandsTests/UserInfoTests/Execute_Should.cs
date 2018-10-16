@@ -37,6 +37,7 @@ namespace AlphaCinemaTests.AlphaCinema.Core.Commands.BasicCommandsTests.UserInfo
 			var selectorMock = new Mock<IItemSelector>();
 			var projectionServicesMock = new Mock<IProjectionsServices>();
 			var userServicesMock = new Mock<IUserServices>();
+            var cinemaConsoleMock = new Mock<IAlphaCinemaConsole>();
 
 			selectorMock
 				.Setup(s => s.DisplayItems(It.IsAny<List<string>>()))
@@ -54,8 +55,11 @@ namespace AlphaCinemaTests.AlphaCinema.Core.Commands.BasicCommandsTests.UserInfo
 				.Setup(us => us.GetProjectionsByUserID(1))
 				.Returns(new List<ProjectionDetailsViewModel> { projections });
 
+            cinemaConsoleMock
+                .Setup(console => console.ReadKey(It.IsAny<bool>()));
+            
 			// Act
-			var sut = new UserInfo(selectorMock.Object, userServicesMock.Object,
+			var sut = new UserInfo(selectorMock.Object, cinemaConsoleMock.Object, userServicesMock.Object,
 				projectionServicesMock.Object);
 			var result = sut.Execute(parameters);
 
@@ -77,17 +81,23 @@ namespace AlphaCinemaTests.AlphaCinema.Core.Commands.BasicCommandsTests.UserInfo
 			var selectorMock = new Mock<IItemSelector>();
 			var userServicesMock = new Mock<IUserServices>();
 			var projectionServicesMock = new Mock<IProjectionsServices>();
+            var cinemaConsoleMock = new Mock<IAlphaCinemaConsole>();
 
-			selectorMock
-				.Setup(s => s.DisplayItems(It.IsAny<List<string>>()))
+
+            selectorMock
+                .Setup(s => s.DisplayItems(It.IsAny<List<string>>()))
 				.Returns(selectorResult);
 
 			selectorMock
 				.Setup(s => s.ReadAtPosition(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<int>()))
 				.Returns(readFromSelector);
 
-			// Act
-			var sut = new UserInfo(selectorMock.Object, userServicesMock.Object,
+            cinemaConsoleMock
+                .Setup(console => console.ReadKey(It.IsAny<bool>()));
+
+
+            // Act
+            var sut = new UserInfo(selectorMock.Object,cinemaConsoleMock.Object,userServicesMock.Object,
 				projectionServicesMock.Object);
 			var result = sut.Execute(parameters);
 
@@ -109,9 +119,10 @@ namespace AlphaCinemaTests.AlphaCinema.Core.Commands.BasicCommandsTests.UserInfo
 			var selectorMock = new Mock<IItemSelector>();
 			var userServicesMock = new Mock<IUserServices>();
 			var projectionServicesMock = new Mock<IProjectionsServices>();
-
-			selectorMock
-				.Setup(s => s.DisplayItems(It.IsAny<List<string>>()))
+            var cinemaConsoleMock = new Mock<IAlphaCinemaConsole>();
+            
+            selectorMock
+                .Setup(s => s.DisplayItems(It.IsAny<List<string>>()))
 				.Returns(selectorResult);
 
 			selectorMock
@@ -122,8 +133,12 @@ namespace AlphaCinemaTests.AlphaCinema.Core.Commands.BasicCommandsTests.UserInfo
 				.Setup(us => us.GetID(name, age))
 				.Returns(1);
 
-			// Act
-			var sut = new UserInfo(selectorMock.Object, userServicesMock.Object,
+            cinemaConsoleMock
+                .Setup(console => console.ReadKey(It.IsAny<bool>()));
+            
+
+            // Act
+            var sut = new UserInfo(selectorMock.Object,cinemaConsoleMock.Object, userServicesMock.Object,
 				projectionServicesMock.Object);
 			var result = sut.Execute(parameters);
 
@@ -145,17 +160,23 @@ namespace AlphaCinemaTests.AlphaCinema.Core.Commands.BasicCommandsTests.UserInfo
 			var selectorMock = new Mock<IItemSelector>();
 			var userServicesMock = new Mock<IUserServices>();
 			var projectionServicesMock = new Mock<IProjectionsServices>();
+            var cinemaConsoleMock = new Mock<IAlphaCinemaConsole>();
 
-			selectorMock
-				.Setup(s => s.DisplayItems(It.IsAny<List<string>>()))
+
+            selectorMock
+                .Setup(s => s.DisplayItems(It.IsAny<List<string>>()))
 				.Returns(selectorResult);
 
 			selectorMock
 				.Setup(s => s.ReadAtPosition(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<int>()))
 				.Returns(readFromSelector);
 
-			// Act
-			var sut = new UserInfo(selectorMock.Object, userServicesMock.Object,
+            cinemaConsoleMock
+                .Setup(console => console.ReadKey(It.IsAny<bool>()));
+
+
+            // Act
+            var sut = new UserInfo(selectorMock.Object,cinemaConsoleMock.Object,userServicesMock.Object,
 				projectionServicesMock.Object);
 			var result = sut.Execute(parameters);
 
@@ -177,17 +198,21 @@ namespace AlphaCinemaTests.AlphaCinema.Core.Commands.BasicCommandsTests.UserInfo
 			var selectorMock = new Mock<IItemSelector>();
 			var userServicesMock = new Mock<IUserServices>();
 			var projectionServicesMock = new Mock<IProjectionsServices>();
+            var cinemaConsoleMock = new Mock<IAlphaCinemaConsole>();
 
-			selectorMock
-				.Setup(s => s.DisplayItems(It.IsAny<List<string>>()))
+            selectorMock
+                .Setup(s => s.DisplayItems(It.IsAny<List<string>>()))
 				.Returns(selectorResult);
 
 			selectorMock
 				.Setup(s => s.ReadAtPosition(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<int>()))
 				.Returns(readFromSelector);
 
-			// Act
-			var sut = new UserInfo(selectorMock.Object, userServicesMock.Object,
+            cinemaConsoleMock
+                .Setup(console => console.ReadKey(It.IsAny<bool>()));
+
+            // Act
+            var sut = new UserInfo(selectorMock.Object, cinemaConsoleMock.Object, userServicesMock.Object,
 				projectionServicesMock.Object);
 			var result = sut.Execute(parameters);
 
@@ -209,17 +234,21 @@ namespace AlphaCinemaTests.AlphaCinema.Core.Commands.BasicCommandsTests.UserInfo
 			var selectorMock = new Mock<IItemSelector>();
 			var userServicesMock = new Mock<IUserServices>();
 			var projectionServicesMock = new Mock<IProjectionsServices>();
+            var cinemaConsoleMock = new Mock<IAlphaCinemaConsole>();
 
-			selectorMock
-				.Setup(s => s.DisplayItems(It.IsAny<List<string>>()))
+            selectorMock
+                .Setup(s => s.DisplayItems(It.IsAny<List<string>>()))
 				.Returns(selectorResult);
 
 			selectorMock
 				.Setup(s => s.ReadAtPosition(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<int>()))
 				.Returns(readFromSelector);
 
-			// Act
-			var sut = new UserInfo(selectorMock.Object, userServicesMock.Object,
+            cinemaConsoleMock
+                .Setup(console => console.ReadKey(It.IsAny<bool>()));
+            
+            // Act
+            var sut = new UserInfo(selectorMock.Object,cinemaConsoleMock.Object, userServicesMock.Object,
 				projectionServicesMock.Object);
 			var result = sut.Execute(parameters);
 

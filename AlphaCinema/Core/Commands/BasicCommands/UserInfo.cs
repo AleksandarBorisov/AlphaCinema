@@ -12,13 +12,15 @@ namespace AlphaCinema.Core.Commands.BasicCommands
     {
         private readonly IUserServices userServices;
         private readonly IProjectionsServices projectionsServices;
+        private readonly IAlphaCinemaConsole cinemaConsole;
 
-        public UserInfo(IItemSelector selector,
+        public UserInfo(IItemSelector selector, IAlphaCinemaConsole cinemaConsole,
             IUserServices userServices, IProjectionsServices projectionsServices)
             : base(selector)
         {
             this.userServices = userServices;
             this.projectionsServices = projectionsServices;
+            this.cinemaConsole = cinemaConsole;
         }
         public override IEnumerable<string> Execute(IEnumerable<string> input)
         {
@@ -81,8 +83,8 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 string endOfResluts = "Press any key to return";
 
                 selector.PrintAtPosition(endOfResluts, currentRow, false);
-				// TODO - HELP
-                Console.ReadKey(true);
+                // TODO - HELP
+                cinemaConsole.ReadKey(true);
 
                 currentRow = offSetFromTop + 1;
                 foreach (var projection in projections)
