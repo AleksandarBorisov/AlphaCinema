@@ -42,14 +42,5 @@ namespace AlphaCinemaServices
 			}
 			return openHour.Id;
 		}
-
-		public ICollection<string> GetOpenHours()
-		{
-			var hours = this.unitOfWork.OpenHours.All()
-				.Select(hour => hour.StartHour)
-				.ToList();
-
-			return hours;
-		}
 	}
 }
