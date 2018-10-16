@@ -24,14 +24,15 @@ namespace AlphaCinemaTests.AlphaCinemaServices.CityServicesTests
             testCity = new City
             {
                 Name = testCityName,
-                
+
             };
             //TODO GetGenreNamesByCityID Test
         }
 
-        [TestMethod]
-        public void ReturnCollectionOfGenreNames_WhenTheyExist()
-        {
+        //[TestMethod]
+        //public void ReturnCollectionOfGenreNames_WhenTheyExist()
+        //{
 
-        }
+        //}
+    }
 }
