@@ -39,7 +39,6 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 var movieID = movieServices.GetID(input[0].TrimEnd().TrimStart());
                 var cityID = cityServices.GetID(input[1].TrimEnd().TrimStart());
                 var openHourID = openHourServices.GetID(input[2].TrimEnd().TrimStart());
-				var date = DateTime.Parse(input[3]);
 
 
                 projectionsServices.Delete(cityID, movieID, openHourID);
@@ -64,17 +63,16 @@ namespace AlphaCinema.Core.Commands.BasicCommands
         }
         private void Validations(string[] input)
         {
-            if (input.Length != 4)
+            if (input.Length != 3)
             {
                 throw new InvalidClientInputException("Invalid parameters input");
             }
             var movieName = input[0];
             var genreName = input[1];
 			var openHour = input[2];
-			var date = input[3];
 
             if (string.IsNullOrWhiteSpace(movieName) || string.IsNullOrWhiteSpace(genreName)
-				|| string.IsNullOrWhiteSpace(openHour) || string.IsNullOrWhiteSpace(date))
+				|| string.IsNullOrWhiteSpace(openHour))
             {
                 throw new InvalidClientInputException("\nInvalid input");
             }
