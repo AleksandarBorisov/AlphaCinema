@@ -40,8 +40,11 @@ namespace AlphaCinemaTests.AlphaCinemaServices.CityServicesTests
         public void ReturnCorrectCityId_WhenCityExists()
         {
             //Arrange 
-            unitOfWork.Setup(x => x.Cities).Returns(cityRepoMock.Object);
-            cityRepoMock.Setup(repo => repo.AllAndDeleted()).Returns(resultFromCityRepo.AsQueryable());
+            unitOfWork.Setup(x => x.Cities)
+				.Returns(cityRepoMock.Object);
+
+            cityRepoMock.Setup(repo => repo.AllAndDeleted())
+				.Returns(resultFromCityRepo.AsQueryable());
 
             //Act 
             var cityService = new CityServices(unitOfWork.Object);

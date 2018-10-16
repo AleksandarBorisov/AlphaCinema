@@ -40,7 +40,7 @@ namespace AlphaCinemaTests.AlphaCinemaServices.CityServicesTests
         }
 
         [TestMethod]
-        public void AddNewCity_WhenParametersAreCorrect()
+        public void CallAddMethodOnCities_WhenParametersAreCorrect()
         {
             //Arrange
             var cityMock = new Mock<City>();
