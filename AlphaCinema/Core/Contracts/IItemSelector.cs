@@ -4,7 +4,7 @@ namespace AlphaCinema.Core.Contracts
 {
     public interface IItemSelector
     {
-        string DisplayItems(List<string> selection);
+        string DisplayItems(IEnumerable<string> selection);
 
         void PrintAtPosition(string item, int currentRow, bool selected);
 

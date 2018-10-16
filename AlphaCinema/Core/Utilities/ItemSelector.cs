@@ -1,13 +1,23 @@
 ﻿using AlphaCinema.Core.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AlphaCinema.Core.Utilities
 {
     public class ItemSelector : IItemSelector
     {
-        public string DisplayItems(List<string> selection)
+        private IAlphaCinemaConsole alphaConsole;
+
+        public ItemSelector(IAlphaCinemaConsole alphaConsole)
         {
+            this.alphaConsole = alphaConsole;
+        }
+
+        public string DisplayItems(IEnumerable<string> input)
+        {
+            var selection = input.ToList();
+
             int currentIndex = 1;
 
             int offSetFromTop = int.Parse(selection[selection.Count - 2]);
@@ -22,7 +32,7 @@ namespace AlphaCinema.Core.Utilities
             }
 
             //Тук проверяваме дали индекса ни е равен на настоящия селектиран елемент
-            ConsoleKeyInfo key = Console.ReadKey(true);
+            ConsoleKeyInfo key = alphaConsole.ReadKey(true);
 
             while (key.Key != ConsoleKey.Enter)
             {
@@ -43,7 +53,7 @@ namespace AlphaCinema.Core.Utilities
                         currentIndex * startingRow + offSetFromTop, true);
                 }
 
-                key = Console.ReadKey(true);
+                key = alphaConsole.ReadKey(true);
             }
 
             //Принтим просто "празно място", за по-бързо триене от конзолата
@@ -57,35 +67,35 @@ namespace AlphaCinema.Core.Utilities
 
         public void PrintAtPosition(string item, int currentRow, bool selected)
         {
-            Console.CursorVisible = false;
+            alphaConsole.CursorVisible = false;
 
             if (selected)
             {
-                Console.BackgroundColor = ConsoleColor.DarkCyan;
-                Console.ForegroundColor = ConsoleColor.Cyan;
+                alphaConsole.BackgroundColor = ConsoleColor.DarkCyan;
+                alphaConsole.ForegroundColor = ConsoleColor.Cyan;
             }
 
-            Console.SetCursorPosition(Console.WindowWidth / 2 - item.Length / 2, currentRow);
-            Console.Write(item);
+            alphaConsole.SetCursorPosition(alphaConsole.WindowWidth / 2 - item.Length / 2, currentRow);
+            alphaConsole.Write(item);
 
             if (selected)
             {
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.Gray;
+                alphaConsole.BackgroundColor = ConsoleColor.Black;
+                alphaConsole.ForegroundColor = ConsoleColor.Gray;
             }
         }
 
         public string ReadAtPosition(int currentRow, string caption, bool hideCharacters, int maxLength)
         {
-            Console.CursorVisible = true;
-            Console.SetCursorPosition(Console.WindowWidth / 2 - caption.Length / 2, currentRow);
+            alphaConsole.CursorVisible = true;
+            alphaConsole.SetCursorPosition(alphaConsole.WindowWidth / 2 - caption.Length / 2, currentRow);
 
             string message = HideCharacters(hideCharacters, maxLength);
 
-            Console.SetCursorPosition(Console.WindowWidth / 2 - caption.Length / 2, currentRow);
-            Console.Write(new string(' ', message.Length));
+            alphaConsole.SetCursorPosition(alphaConsole.WindowWidth / 2 - caption.Length / 2, currentRow);
+            alphaConsole.Write(new string(' ', message.Length));
 
-            Console.CursorVisible = false;
+            alphaConsole.CursorVisible = false;
 
             return message;
         }
@@ -96,23 +106,23 @@ namespace AlphaCinema.Core.Utilities
             ConsoleKeyInfo key;
             do
             {
-                key = Console.ReadKey(true);
+                key = alphaConsole.ReadKey(true);
                 if (!char.IsControl(key.KeyChar) && password.Length < stringMaxLength)
                 {//(key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
                     password += key.KeyChar;
                     if (hideCharacters)
                     {
-                        Console.Write('*');
+                        alphaConsole.Write('*');
                     }
                     else
                     {
-                        Console.Write(key.KeyChar);
+                        alphaConsole.Write(key.KeyChar);
                     }
                 }
                 else if (key.Key == ConsoleKey.Backspace && password.Length > 0)
                 {
                     password = password.Substring(0, password.Length - 1);
-                    Console.Write("\b \b");//'\b' е backspace символът който ни връща назад, след това спейса ни изтрива от конзолата
+                    alphaConsole.Write("\b \b");//'\b' е backspace символът който ни връща назад, след това спейса ни изтрива от конзолата
                     //предишната написана звездичка и ни мести напред, накрая второто '\b' пак ни мести едно назад върху спейса
                     //Цялото това действие се извършва изцяло върху конзолата и няма нищо общо със стринга pass
                 }
