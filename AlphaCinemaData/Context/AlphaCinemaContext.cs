@@ -16,6 +16,18 @@ namespace AlphaCinemaData.Context
         public DbSet<User> Users { get; set; }
         public DbSet<OpenHour> OpenHours { get; set; }
         public DbSet<WatchedMovie> WatchedMovies { get; set; }
+        private DbContextOptions<AlphaCinemaContext> options;
+
+        public AlphaCinemaContext()
+        {
+
+        }
+
+        public AlphaCinemaContext(DbContextOptions<AlphaCinemaContext> options) : base(options)
+        {
+            this.options = options;
+        }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
