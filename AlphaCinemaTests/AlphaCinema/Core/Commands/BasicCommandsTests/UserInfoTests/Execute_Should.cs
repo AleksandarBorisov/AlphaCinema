@@ -48,7 +48,7 @@ namespace AlphaCinemaTests.AlphaCinema.Core.Commands.BasicCommandsTests.UserInfo
 				.Returns(readFromSelector);
 
 			userServicesMock
-				.Setup(us => us.GetID(name, age))
+				.Setup(us => us.GetID(name))
 				.Returns(1);
 
 			userServicesMock
@@ -102,7 +102,7 @@ namespace AlphaCinemaTests.AlphaCinema.Core.Commands.BasicCommandsTests.UserInfo
 			var result = sut.Execute(parameters);
 
 			// Assert
-			userServicesMock.Verify(us => us.GetID(It.IsAny<string>(), It.IsAny<int>()), Times.Once);
+			userServicesMock.Verify(us => us.GetID(It.IsAny<string>()), Times.Once);
 		}
 
 		[TestMethod]
@@ -130,7 +130,7 @@ namespace AlphaCinemaTests.AlphaCinema.Core.Commands.BasicCommandsTests.UserInfo
 				.Returns(readFromSelector);
 
 			userServicesMock
-				.Setup(us => us.GetID(name, age))
+				.Setup(us => us.GetID(name))
 				.Returns(1);
 
             cinemaConsoleMock
