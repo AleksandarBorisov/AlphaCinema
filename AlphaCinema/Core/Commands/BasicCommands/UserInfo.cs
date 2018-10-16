@@ -14,9 +14,8 @@ namespace AlphaCinema.Core.Commands.BasicCommands
         private readonly IProjectionsServices projectionsServices;
         private readonly IAlphaCinemaConsole cinemaConsole;
 
-        public UserInfo(ICommandProcessor commandProcessor, IItemSelector selector,
-            IUserServices userServices, IProjectionsServices projectionsServices,
-            IAlphaCinemaConsole cinemaConsole)
+        public UserInfo(IItemSelector selector, IAlphaCinemaConsole cinemaConsole,
+            IUserServices userServices, IProjectionsServices projectionsServices)
             : base(selector)
         {
             this.userServices = userServices;
@@ -84,8 +83,8 @@ namespace AlphaCinema.Core.Commands.BasicCommands
                 string endOfResluts = "Press any key to return";
 
                 selector.PrintAtPosition(endOfResluts, currentRow, false);
-
-                Console.ReadKey(true);
+                // TODO - HELP
+                cinemaConsole.ReadKey(true);
 
                 currentRow = offSetFromTop + 1;
                 foreach (var projection in projections)
