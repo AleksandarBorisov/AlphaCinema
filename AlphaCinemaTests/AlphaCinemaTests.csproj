@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AlphaCinemaDataTest\AlphaCinemaDataTest.csproj" />
     <ProjectReference Include="..\AlphaCinemaData\AlphaCinemaData.csproj" />
     <ProjectReference Include="..\AlphaCinema\AlphaCinema.csproj" />
   </ItemGroup>

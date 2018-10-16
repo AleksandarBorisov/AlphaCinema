@@ -6,8 +6,8 @@ namespace AlphaCinemaData.Models
 {
     public class OpenHour : Entity
     {
-        public string StartHour { get; set; }
-        public ICollection<Projection> Projections { get; set; }
+		virtual public string StartHour { get; set; }
+		virtual public ICollection<Projection> Projections { get; set; }
 
     }
 }

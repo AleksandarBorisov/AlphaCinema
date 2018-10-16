@@ -9,6 +9,9 @@ namespace AlphaCinemaData.Configurations
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
 			builder
+				.HasKey(u => u.Id);
+
+			builder
 				.Property(u => u.Name)
 				.HasMaxLength(50);
 
@@ -18,6 +21,11 @@ namespace AlphaCinemaData.Configurations
 
 			builder
 				.Property(u => u.Age);
+
+			builder
+				.HasMany(u => u.WatchedMovies)
+				.WithOne(wm => wm.User)
+				.HasForeignKey(wm => wm.UserId);
 		}
 	}
 }

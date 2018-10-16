@@ -27,10 +27,14 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
             unitOfWork = new Mock<IUnitOfWork>();
             movieRepoMock = new Mock<IRepository<Movie>>();
             firstMovieMock = new Mock<Movie>();
-            firstMovieMock.Object.Name = firstMovieName;
+			firstMovieMock
+				.Setup(m => m.Name)
+				.Returns("TestMovieOne");
             secondMovieMock = new Mock<Movie>();
-            secondMovieMock.Object.Name = secondMovieName;
-        }
+			secondMovieMock
+				.Setup(m => m.Name)
+				.Returns("TestMovieTwo");
+		}
 
         [TestMethod]
         public void ReturnCollectionOfMovies()

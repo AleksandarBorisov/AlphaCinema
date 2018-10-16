@@ -4,15 +4,15 @@ namespace AlphaCinemaData.Models.Associative
 {
     public class WatchedMovie : IDeletable
 	{
-        public int UserId { get; set; }
+		virtual public int UserId { get; set; }
 
-        public int ProjectionId { get; set; }
+		virtual public int ProjectionId { get; set; }
 
-        public User User { get; set; }
+		virtual public User User { get; set; }
 
-        public Projection Projection { get; set; }
+		virtual public Projection Projection { get; set; }
 
-		public bool IsDeleted { get; set; }
+		virtual public bool IsDeleted { get; set; }
 
 	}
 }

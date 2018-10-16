@@ -12,6 +12,9 @@ namespace AlphaCinemaData.Configurations
 				.ToTable("Cities");
 
 			builder
+				.HasKey(c => c.Id);
+
+			builder
 				.HasIndex(c => c.Name)
 				.IsUnique(true);
 
@@ -19,6 +22,11 @@ namespace AlphaCinemaData.Configurations
 				.Property(c => c.Name)
 				.IsRequired(true)
 				.HasMaxLength(50);
+
+			builder
+				.HasMany(p => p.Projections)
+				.WithOne(c => c.City)
+				.HasForeignKey(p => p.CityId);
 		}
 	}
 }

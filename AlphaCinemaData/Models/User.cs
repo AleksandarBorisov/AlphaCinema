@@ -6,8 +6,8 @@ namespace AlphaCinemaData.Models
 {
     public class User : Entity
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public ICollection<WatchedMovie> WatchedMovies { get; set; }
+		virtual public string Name { get; set; }
+		virtual public int Age { get; set; }
+		virtual public ICollection<WatchedMovie> WatchedMovies { get; set; }
     }
 }

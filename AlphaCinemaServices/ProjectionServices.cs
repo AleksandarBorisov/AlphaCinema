@@ -83,14 +83,6 @@ namespace AlphaCinemaServices
 				.Where(pr => pr.OpenHourId == openHourID)
 				.FirstOrDefault();
 		}
-
-		//private bool CompareDates(DateTime firstDate, DateTime secondDate)
-		//{
-		//	return firstDate.Year == secondDate.Year
-		//		&& firstDate.Day == secondDate.Day
-		//		&& firstDate.Month == secondDate.Month;
-		//}
-
 		public ICollection<string> GetOpenHoursByMovieIDCityID(int movieID, int cityID)
 		{
 			var openHours = this.unitOfWork.Projections.All()

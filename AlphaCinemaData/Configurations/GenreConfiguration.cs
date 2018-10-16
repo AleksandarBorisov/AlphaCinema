@@ -10,6 +10,8 @@ namespace AlphaCinemaData.Configurations
 		{
 			builder
 				.ToTable("Genres");
+			builder
+				.HasKey(g => g.Id);
 
 			builder
 				.HasIndex(g => g.Name)
@@ -19,6 +21,11 @@ namespace AlphaCinemaData.Configurations
 				.Property(g => g.Name)
 				.IsRequired(true)
 				.HasMaxLength(50);
+
+			builder
+				.HasMany(mg => mg.MoviesGenres)
+				.WithOne(g => g.Genre)
+				.HasForeignKey(mg => mg.GenreId);
 		}
 	}
 }

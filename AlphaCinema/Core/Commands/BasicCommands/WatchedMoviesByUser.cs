@@ -58,14 +58,15 @@ namespace AlphaCinema.Core.Commands.BasicCommands
 
 		private void Validations(string userName, int userAge)
 		{
+			var user = userServices.IfExist(userName, userAge);
 			if (string.IsNullOrWhiteSpace(userName))
 			{
 				throw new InvalidClientInputException("\nInvalid user name");
 			}
-			//if (!userServices.IfExist(userName) || userServices.IsDeleted(userName))
-			//{
-			//	throw new EntityDoesntExistException("\nUser is not present in the database.");
-			//}	
+			if (user == null || user.IsDeleted)
+			{
+				throw new EntityDoesntExistException("\nUser is not present in the database.");
+			}
 			if (userName.All(c => char.IsDigit(c)))
 			{
 				throw new InvalidClientInputException("\nUser cannot be only digits");
