@@ -14,7 +14,7 @@ using System.Text;
 namespace AlphaCinemaTests.AlphaCinemaServices.GenreServicesTests
 {
     [TestClass]
-    public class GetID_Should
+    public class DeleteGenre_Should
     {
         private Genre genre;
         private List<Genre> resultFromGenreRepo;
@@ -22,6 +22,8 @@ namespace AlphaCinemaTests.AlphaCinemaServices.GenreServicesTests
         private Mock<IRepository<Genre>> genreRepoMock;
         private int testGenreId = 1;
         private string testGenreName = "Comedy";
+        private List<Genre> predifinedListOfGenres;
+
 
         [TestInitialize]
         public void TestInitialize()
@@ -38,30 +40,11 @@ namespace AlphaCinemaTests.AlphaCinemaServices.GenreServicesTests
             resultFromGenreRepo = new List<Genre>() { genre };
             unitOfWork = new Mock<IUnitOfWork>();
             genreRepoMock = new Mock<IRepository<Genre>>();
-        }
-
-        
-        [TestMethod]
-        public void ReturnCorrectGenreId_WhenGenreExists()
-        {
-            //Arrange 
-            unitOfWork.Setup(x => x.Genres)
-                .Returns(genreRepoMock.Object);
-
-            genreRepoMock.Setup(repo => repo.AllAndDeleted())
-                .Returns(resultFromGenreRepo.AsQueryable());
-            
-            //Act 
-            var genreServices = new GenreServices(unitOfWork.Object);
-            int result = genreServices.GetID(testGenreName);
-
-            //Assert
-            Assert.AreEqual(genre.Id, result);
-
+            predifinedListOfGenres = new List<Genre>() { genre };
         }
 
         [TestMethod]
-        public void ThrowEntityDoesNotExistException_WhenGenreDoesNotExist()
+        public void ThrowEntityDoesntExistException_WhenGenreDoesNotExist()
         {
             //Act 
             var genreServices = new GenreServices(unitOfWork.Object);
@@ -73,8 +56,9 @@ namespace AlphaCinemaTests.AlphaCinemaServices.GenreServicesTests
                 .Returns(resultFromGenreRepo.AsQueryable());
 
             //Assert
-            Assert.ThrowsException<EntityDoesntExistException>(() 
+            Assert.ThrowsException<EntityDoesntExistException>(()
                 => genreServices.GetID("NonExistingGenre"));
+
         }
 
         [TestMethod]
@@ -89,14 +73,42 @@ namespace AlphaCinemaTests.AlphaCinemaServices.GenreServicesTests
             genreRepoMock.Setup(repo => repo.AllAndDeleted())
                 .Returns(resultFromGenreRepo.AsQueryable());
 
-            
+
             //Act 
             var genreServices = new GenreServices(unitOfWork.Object);
 
-            
+
             //Assert
             Assert.ThrowsException<EntityDoesntExistException>(()
                 => genreServices.GetID(genre.Name));
+        }
+
+
+        [TestMethod]
+        public void DeleteGenre_WhenObjectExists()
+        {
+            //Arrange
+            genre.IsDeleted = false;
+
+            genreRepoMock
+                .Setup(repo => repo.Delete(It.IsAny<Genre>()))
+                .Callback<Genre>((genre) =>
+                {
+                    predifinedListOfGenres.Remove(genre);
+                });
+
+            unitOfWork.Setup(x => x.Genres)
+                .Returns(genreRepoMock.Object);
+
+            genreRepoMock.Setup(repo => repo.AllAndDeleted())
+                .Returns(predifinedListOfGenres.AsQueryable());
+
+            //Act
+            var command = new GenreServices(unitOfWork.Object);
+            command.DeleteGenre(genre.Name);
+
+            //Assert
+            Assert.AreEqual(0, predifinedListOfGenres.Count);
         }
 
 
