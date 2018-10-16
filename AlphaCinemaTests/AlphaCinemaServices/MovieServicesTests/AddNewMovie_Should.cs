@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AlphaCinemaServices.Exceptions;
+using AlphaCinemaData.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
 {
@@ -24,6 +26,8 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
         private string testMovieDescription = "It is a movie for testing";
         private int testMovieReleaseYear = 2000;
         private int testMovieDuration = 1990;
+        private Projection projection;
+        private MovieGenre movieGenre;
 
         [TestInitialize]
         public void TestInitialize()//Този метод се изпълнява преди извикване на всеки един от другите методи в този клас
@@ -43,10 +47,12 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
             predifinedListOfMovies = new List<Movie>() { movie };
             unitOfWork = new Mock<IUnitOfWork>();
             movieRepoMock = new Mock<IRepository<Movie>>();
+            projection = new Projection();
+            movieGenre = new MovieGenre();
         }
 
         [TestMethod]
-        public void AddNewMovie_WhenParametersAreCorrect()
+        public void CallAddMethodOnMovie_WhenParametersAreCorrect()
         {
             //Arrange
             var movieMock = new Mock<Movie>();
@@ -133,6 +139,8 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
             movie.IsDeleted = true;
 
             unitOfWork.Setup(x => x.Movies).Returns(movieRepoMock.Object);
+            unitOfWork.Setup(p => p.Projections.AllAndDeleted()).Returns(new List<Projection>().AsQueryable());
+            unitOfWork.Setup(mg => mg.MovieGenres.AllAndDeleted()).Returns(new List<MovieGenre>().AsQueryable());
             movieRepoMock.Setup(repo => repo.AllAndDeleted()).Returns(predifinedListOfMovies.AsQueryable());
 
             //Act
@@ -154,6 +162,66 @@ namespace AlphaCinemaTests.AlphaCinemaServices.MovieServicesTests
             var addMovieCommand = new MovieServices(unitOfWork.Object);
             Assert.ThrowsException<EntityAlreadyExistsException>(() => addMovieCommand.AddNewMovie(testMovieName, testMovieDescription,
                 testMovieReleaseYear, testMovieDuration));
+        }
+
+        [TestMethod]
+        public void AddAllPreviousProjections_WhenMovieIsRestored()
+        {
+            // Arrange
+            var contextOptions = new DbContextOptionsBuilder<AlphaCinemaContext>()
+                .UseInMemoryDatabase(databaseName: "AddAllPreviousProjections_WhenMovieIsRestored")
+                .Options;
+
+            movie.IsDeleted = true;
+            projection.IsDeleted = true;
+            movie.Projections.Add(projection);
+
+            //Act
+            using (var actContext = new AlphaCinemaContext(contextOptions))
+            {
+                actContext.Movies.Add(movie);
+                actContext.SaveChanges();
+                var unitOfWork = new UnitOfWork(actContext);
+                var addMovieCommand = new MovieServices(unitOfWork);
+                addMovieCommand.AddNewMovie(testMovieName, testMovieDescription,
+                    testMovieReleaseYear, testMovieDuration);
+            }
+
+            //Assert
+            using (var assertContext = new AlphaCinemaContext(contextOptions))
+            {
+                Assert.IsFalse(movie.Projections.First().IsDeleted);
+            }
+        }
+
+        [TestMethod]
+        public void AddAllPreviousMovieGenres_WhenMovieIsRestored()
+        {
+            // Arrange
+            var contextOptions = new DbContextOptionsBuilder<AlphaCinemaContext>()
+                .UseInMemoryDatabase(databaseName: "AddAllPreviousProjections_WhenMovieIsRestored")
+                .Options;
+
+            movie.IsDeleted = true;
+            movieGenre.IsDeleted = true;
+            movie.MovieGenres.Add(movieGenre);
+
+            //Act
+            using (var actContext = new AlphaCinemaContext(contextOptions))
+            {
+                actContext.Movies.Add(movie);
+                actContext.SaveChanges();
+                var unitOfWork = new UnitOfWork(actContext);
+                var addMovieCommand = new MovieServices(unitOfWork);
+                addMovieCommand.AddNewMovie(testMovieName, testMovieDescription,
+                    testMovieReleaseYear, testMovieDuration);
+            }
+
+            //Assert
+            using (var assertContext = new AlphaCinemaContext(contextOptions))
+            {
+                Assert.IsFalse(movie.MovieGenres.First().IsDeleted);
+            }
         }
     }
 }
