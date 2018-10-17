@@ -27,7 +27,7 @@ After that he/she can book tickets and manipulate the database.
 
 ## Quick information
 
-Unit tests code coverage: **60%**
+Unit tests code coverage: **62%**
 
 Used NuGet packages:
 - Autofac(4.8.1) => DI Container
